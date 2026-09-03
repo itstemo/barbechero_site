@@ -1,0 +1,49 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+
+# build output
+dist/
+.astro/
+.output/
+.vercel/
+.netlify/
+
+# environment
+.env
+.env.*
+!.env.example
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# editors
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+
+# os
+.DS_Store
+**/.DS_Store
+Thumbs.db
+
+# claude code
+.claude/worktrees/
+
+# design handoff: source files are tracked (see design/README.md), but the
+# uploads/ folder is 4.4MB of orphaned design-process screenshots that nothing
+# references. Kept on disk, excluded from git to keep the repo small.
+design/uploads/
+
+# playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
