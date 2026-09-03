@@ -60,6 +60,19 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin);
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical.href} />
+
+    {/*
+      Icons. The artwork is the logo mark on a paper tile, generated from the
+      same path set as <Logo>. The tile is deliberate: an ink mark on a
+      transparent ground disappears against a dark browser chrome.
+      SVG is preferred by modern browsers; the .ico is the bare-/favicon.ico
+      fallback older clients request without being told to.
+    */}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#f7f5ee" />
+
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Barbechero" />
     <meta property="og:locale" content="es_MX" />
