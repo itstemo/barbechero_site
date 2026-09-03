@@ -1,0 +1,8 @@
+# Barbechero — https://barbechero.com
+# Four static pages and their Open Graph cards. Nothing is private, nothing is
+# generated per visitor, so everything is crawlable.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://barbechero.com/sitemap-index.xml

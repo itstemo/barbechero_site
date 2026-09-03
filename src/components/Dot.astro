@@ -1,0 +1,31 @@
+---
+/**
+ * The accent dot: 7px in the nav, 9px on lot rows and lot-page eyebrows.
+ * Purely decorative — the adjacent text always carries the meaning.
+ */
+interface Props {
+  size?: number;
+  /** Any CSS colour; defaults to the current accent. */
+  color?: string;
+  class?: string;
+}
+
+const { size = 9, color = 'var(--accent)', class: className } = Astro.props;
+---
+
+<span
+  class:list={['dot', className]}
+  aria-hidden="true"
+  style={`--dot-size:${size}px;--dot-color:${color}`}
+></span>
+
+<style>
+  .dot {
+    display: inline-block;
+    flex: none;
+    width: var(--dot-size);
+    height: var(--dot-size);
+    border-radius: 50%;
+    background: var(--dot-color);
+  }
+</style>

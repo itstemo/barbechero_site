@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style data-omelette-print-defaults>
+@media print {
+  @page { margin: 0.5in; }
+  h1, h2, h3, h4, h5, h6 { break-after: avoid; }
+  figure, table, pre, blockquote, img, svg, tr, [class~="card" i] { break-inside: avoid; }
+  img, svg { max-width: 100%; }
+  p { orphans: 3; widows: 3; }
+}
+</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Archivo:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#e9e6de;font-family:system-ui,sans-serif}
+.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 8px}
+.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}
+.dv-tname{font:600 13px/1.2 system-ui,sans-serif;color:#1a1a1a}
+.dv-intro{max-width:760px;font:400 12px/1.6 system-ui,sans-serif;color:rgba(0,0,0,.6);margin:0 0 30px}
+.dv-opts{display:flex;flex-direction:column;gap:44px;align-items:flex-start}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:10px;scroll-margin-top:16px}
+.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}
+.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11.5px/1.3 system-ui,sans-serif;color:rgba(0,0,0,.6)}
+.dv-olabel b{color:#1a1a1a;font-weight:600}
+.dv-row{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start}
+.dv-cell{display:flex;flex-direction:column;gap:7px}
+.dv-cap{font:400 9.5px/1.3 ui-monospace,Menlo,monospace;color:rgba(0,0,0,.45);letter-spacing:.04em}
+.dv-card{background:#fff;border:1px solid rgba(0,0,0,.1);box-shadow:0 2px 10px rgba(0,0,0,.09);overflow:hidden}
+.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}
+.dv-next{margin:26px 0 0;font:12px/1.5 system-ui,sans-serif;color:rgba(0,0,0,.5)}
+</style>
+</helmet>
+
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#f7f5ee"></rect><text x="50" y="63" font-family="Georgia,serif" font-size="36" text-anchor="middle" fill="#211d17">B</text><rect x="30" y="72" width="40" height="3" fill="oklch(0.52 0.11 115)"></rect></svg></template>
+
+<section class="dv-turn" id="t3">
+  <div class="dv-thd"><a class="dv-tid" href="#t3">3</a><span class="dv-tname">Par para llenar a mano — frente estilo <a class="dv-oid" href="#2a">2a</a> con espacio en blanco, reverso estilo <a class="dv-oid" href="#2g">2g</a> (sin QR, sin URL, sin legales)</span></div>
+  <div class="dv-row">
+
+    <!-- 3a blank-agave front, 2a composition -->
+    <div class="dv-opt" id="3a">
+      <div class="dv-olabel"><a class="dv-oid" href="#3a">3a</a>Frente — logo + destilado de agave, agave a mano</div>
+      <div class="dv-card" data-document-role="page" style="width:320px;height:432px;background:#f7f5ee;color:#211d17;display:flex;flex-direction:column;align-items:center;box-sizing:border-box;padding:18px 24px 16px;font-family:'Spectral',serif">
+        <div style="align-self:stretch;display:flex;justify-content:flex-end;border-top:1px solid #211d17;border-bottom:1px solid rgba(33,29,23,.35);padding:4px 0;font:500 7px/1 'IBM Plex Mono',monospace;letter-spacing:.14em"><span style="display:flex;align-items:baseline">VOL. ALC.<span style="display:inline-block;width:38px"></span>%</span></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px">
+          <img src="assets/logo-mark.svg" alt="" style="height:96px">
+          <img src="assets/logo-word.svg" alt="BARBECHERO" style="width:188px">
+          <div style="font:italic 400 10.5px/1 'Spectral',serif;color:rgba(33,29,23,.65)">Destilado de agave</div>
+        </div>
+        <div style="align-self:stretch;display:flex;flex-direction:column;gap:6px;padding:0 10px 8px">
+          <div style="border-bottom:1px solid rgba(33,29,23,.55);height:34px"></div>
+          <div style="display:flex;justify-content:flex-end;font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.18em;color:rgba(33,29,23,.6)"><span>COSECHA</span></div>
+        </div>
+        <div style="align-self:stretch;border-top:1px solid rgba(33,29,23,.35)"></div>
+      </div>
+    </div>
+
+    <!-- 3b blank back, no QR/URL/legal -->
+    <div class="dv-opt" id="3b">
+      <div class="dv-olabel"><a class="dv-oid" href="#3b">3b</a>Reverso — ficha en blanco, limpia</div>
+      <div class="dv-card" data-document-role="page" style="width:320px;height:432px;background:#f7f5ee;color:#211d17;display:flex;flex-direction:column;box-sizing:border-box;padding:18px 22px 16px;font-family:'Spectral',serif">
+        <div style="display:flex;justify-content:center;border-bottom:1px solid #211d17;padding-bottom:9px"><img src="assets/logo-word.svg" alt="BARBECHERO" style="width:134px"></div>
+        <div style="text-align:center;font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.22em;color:rgba(33,29,23,.55);margin:10px 0 6px">FICHA DE CAMPO — MICROLOTE</div>
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:17px;padding:0 2px">
+          <div style="display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6);padding-bottom:2px;min-width:86px">AGAVE</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:16px"></span></div>
+          <div style="display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6);padding-bottom:2px;min-width:86px">MAESTRO MEZCALERO</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:16px"></span></div>
+          <div style="display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6);padding-bottom:2px;min-width:86px">COMUNIDAD</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:16px"></span></div>
+          <div style="display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6);padding-bottom:2px;min-width:86px">AÑO DE COSECHA</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:16px"></span></div>
+          <div style="display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6);padding-bottom:2px;min-width:86px">HORNO</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:16px"></span></div>
+          <div style="display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6);padding-bottom:2px;min-width:86px">MOLIENDA</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:16px"></span></div>
+          <div style="display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6);padding-bottom:2px;min-width:86px">FERMENTACIÓN</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:16px"></span></div>
+          <div style="display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6);padding-bottom:2px;min-width:86px">DESTILACIÓN</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:16px"></span></div>
+          <div style="display:flex;gap:16px">
+            <div style="flex:1;display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6);padding-bottom:2px">LITROS</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:16px"></span></div>
+            <div style="flex:1;display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6);padding-bottom:2px">VOL. ALC.</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:16px"></span></div>
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6);padding-bottom:2px;min-width:86px">LOTE</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:16px"></span></div>
+        </div>
+        <div style="border-top:1px solid rgba(33,29,23,.35);margin-top:10px"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="dv-turn" id="t2">
+  <div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Riffs on <a class="dv-oid" href="#1a">1a</a> “Ficha de campo” — wordmark now always the logo lettering (SVG), agave legible at distance, year on front</span></div>
+  <p class="dv-intro">
+    Agave names are set ~34&nbsp;px on label (≈9&nbsp;mm caps on an 85&nbsp;mm label) — readable across a bar. <b>2a/2c</b>: maestro stays on the back. <b>2b/2d</b>: agave + year + maestro all on the front. <b>2e</b>: reworked back — larger type, maestro featured, website + QR sketch (agave mark set into the code). <b>2f/2g</b>: blank hand-fill versions. Process data (horno, molienda, destilación, lote) lives only on backs.
+  </p>
+  <div class="dv-row">
+
+    <!-- 2a clean front, big agave, maestro back only -->
+    <div class="dv-opt" id="2a">
+      <div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a>B frente — agave grande, maestro solo atrás</div>
+      <div class="dv-card" data-document-role="page" style="width:320px;height:432px;background:#f7f5ee;color:#211d17;display:flex;flex-direction:column;align-items:center;box-sizing:border-box;padding:18px 24px 16px;font-family:'Spectral',serif">
+        <div style="align-self:stretch;display:flex;justify-content:space-between;border-top:1px solid #211d17;border-bottom:1px solid rgba(33,29,23,.35);padding:4px 0;font:500 7px/1 'IBM Plex Mono',monospace;letter-spacing:.14em"><span>MEZCAL ARTESANAL</span><span>47% ALC. VOL. — 750 ML</span></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px">
+          <img src="assets/logo-mark.svg" alt="" style="height:96px">
+          <img src="assets/logo-word.svg" alt="BARBECHERO" style="width:188px">
+          <div style="font:italic 400 10.5px/1 'Spectral',serif;color:rgba(33,29,23,.65)">Destilado de agave — hecho en México</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding-bottom:8px">
+          <div style="font:italic 300 36px/1 'Spectral',serif;color:oklch(0.52 0.11 115)">Coyote</div>
+          <div style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.18em;color:rgba(33,29,23,.6)">MIAHUATLÁN, OAXACA — COSECHA 2026</div>
+        </div>
+        <div style="align-self:stretch;border-top:1px solid rgba(33,29,23,.35)"></div>
+      </div>
+    </div>
+
+    <!-- 2b everything on front -->
+    <div class="dv-opt" id="2b">
+      <div class="dv-olabel"><a class="dv-oid" href="#2b">2b</a>A frente — agave + año + maestro al frente</div>
+      <div class="dv-card" data-document-role="page" style="width:320px;height:432px;background:#f7f5ee;color:#211d17;display:flex;flex-direction:column;align-items:center;box-sizing:border-box;padding:18px 24px 16px;font-family:'Spectral',serif">
+        <div style="align-self:stretch;display:flex;justify-content:space-between;border-top:1px solid #211d17;border-bottom:1px solid rgba(33,29,23,.35);padding:4px 0;font:500 7px/1 'IBM Plex Mono',monospace;letter-spacing:.14em"><span>MEZCAL ARTESANAL</span><span>46% ALC. VOL. — 750 ML</span></div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:16px">
+          <img src="assets/logo-mark.svg" alt="" style="height:66px">
+          <img src="assets/logo-word.svg" alt="BARBECHERO" style="width:168px">
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px">
+          <div style="font:italic 300 33px/1.08 'Spectral',serif;color:oklch(0.52 0.11 40);text-align:center">Espadín —<br>Mexicano</div>
+          <div style="font:500 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.32em;margin-top:2px">COSECHA 2026</div>
+          <div style="font:italic 400 12px/1 'Spectral',serif;margin-top:6px">destilado por J. Morales</div>
+          <div style="font:400 10px/1 'Spectral',serif;color:rgba(33,29,23,.6)">Pachivia, Guerrero</div>
+        </div>
+        <div style="align-self:stretch;display:flex;justify-content:space-between;border-top:1px solid rgba(33,29,23,.35);padding-top:5px;font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.12em"><span style="color:oklch(0.52 0.11 40);font-weight:500">GRO·EM·26</span><span style="color:rgba(33,29,23,.6)">HECHO EN MÉXICO</span></div>
+      </div>
+    </div>
+
+    <!-- 2c color footer band -->
+    <div class="dv-opt" id="2c">
+      <div class="dv-olabel"><a class="dv-oid" href="#2c">2c</a>B frente — faja de color abajo, maestro solo atrás</div>
+      <div class="dv-card" data-document-role="page" style="width:320px;height:432px;background:#f7f5ee;color:#211d17;display:flex;flex-direction:column;box-sizing:border-box;font-family:'Spectral',serif">
+        <div style="display:flex;justify-content:center;margin:18px 24px 0;border-top:1px solid #211d17;border-bottom:1px solid rgba(33,29,23,.35);padding:4px 0;font:500 7px/1 'IBM Plex Mono',monospace;letter-spacing:.18em">MEZCAL ARTESANAL — 750 ML · 46% ALC. VOL.</div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px">
+          <img src="assets/logo-mark.svg" alt="" style="height:92px">
+          <img src="assets/logo-word.svg" alt="BARBECHERO" style="width:186px">
+          <div style="font:italic 400 10.5px/1 'Spectral',serif;color:rgba(33,29,23,.65)">Destilado de agave — hecho en México</div>
+        </div>
+        <div style="background:oklch(0.52 0.11 250);color:#f7f5ee;padding:16px 22px 14px;display:flex;justify-content:space-between;align-items:center">
+          <div style="font:italic 300 30px/1 'Spectral',serif">Tobalá</div>
+          <div style="text-align:right"><div style="font:500 13px/1 'IBM Plex Mono',monospace">2026</div><div style="font:400 6.5px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;opacity:.85;margin-top:5px">SAN LUIS AMATLÁN, OAX.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2d big year corner -->
+    <div class="dv-opt" id="2d">
+      <div class="dv-olabel"><a class="dv-oid" href="#2d">2d</a>A frente — año grande, composición editorial</div>
+      <div class="dv-card" data-document-role="page" style="width:320px;height:432px;background:#f7f5ee;color:#211d17;display:flex;flex-direction:column;box-sizing:border-box;padding:18px 22px 14px;font-family:'Spectral',serif">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <img src="assets/logo-mark.svg" alt="" style="height:52px">
+          <div style="font:400 7px/1.6 'IBM Plex Mono',monospace;letter-spacing:.12em;text-align:right;color:rgba(33,29,23,.6)">MEZCAL ARTESANAL<br>750 ML — 47% ALC. VOL.</div>
+        </div>
+        <img src="assets/logo-word.svg" alt="BARBECHERO" style="width:200px;align-self:flex-start;margin-top:14px">
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:end;gap:4px;padding-bottom:10px">
+          <div style="font:300 62px/1 'Spectral',serif;letter-spacing:.03em;color:rgba(33,29,23,.9)">2026</div>
+          <div style="font:italic 300 38px/1 'Spectral',serif;color:oklch(0.52 0.11 330);margin-top:4px">Cuishe</div>
+          <div style="font:italic 400 12px/1 'Spectral',serif;margin-top:9px">Mtro. R. Santiago</div>
+          <div style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:rgba(33,29,23,.6);margin-top:5px">EJUTLA, OAXACA</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;border-top:1px solid rgba(33,29,23,.35);padding-top:6px;font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.12em"><span style="color:oklch(0.52 0.11 330);font-weight:500">OAX·CU·26</span><span style="color:rgba(33,29,23,.6)">HECHO EN MÉXICO</span></div>
+      </div>
+    </div>
+
+    <!-- 2e reworked back -->
+    <div class="dv-opt" id="2e">
+      <div class="dv-olabel"><a class="dv-oid" href="#2e">2e</a>B reverso — tipografía mayor, maestro destacado, web + QR</div>
+      <div class="dv-card" data-document-role="page" style="width:320px;height:432px;background:#f7f5ee;color:#211d17;display:flex;flex-direction:column;box-sizing:border-box;padding:18px 22px 13px;font-family:'Spectral',serif">
+        <div style="display:flex;justify-content:center;border-bottom:1px solid #211d17;padding-bottom:9px"><img src="assets/logo-word.svg" alt="BARBECHERO" style="width:142px"></div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:5px;margin:13px 0 11px">
+          <div style="font:italic 300 28px/1 'Spectral',serif;color:oklch(0.52 0.11 115)">Coyote</div>
+          <div style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:rgba(33,29,23,.6)">MICROLOTE 02 — COSECHA 2026</div>
+          <div style="font:italic 400 10.5px/1 'Spectral',serif;color:rgba(33,29,23,.7)">Miahuatlán de Porfirio Díaz, Oaxaca</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:3px;border-top:1px solid rgba(33,29,23,.25);border-bottom:1px solid rgba(33,29,23,.25);padding:8px 0;margin-bottom:11px">
+          <div style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.2em;color:rgba(33,29,23,.55)">MAESTRO MEZCALERO</div>
+          <div style="font:italic 400 15px/1 'Spectral',serif">F. Cortés</div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:7.5px">
+          <div style="display:flex;align-items:baseline;gap:7px"><span style="font:400 8px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">MAGUEY</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 11px/1 'Spectral',serif">A. americana var. oaxacensis</span></div>
+          <div style="display:flex;align-items:baseline;gap:7px"><span style="font:400 8px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">HORNO</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 11px/1 'Spectral',serif">Cónico de tierra</span></div>
+          <div style="display:flex;align-items:baseline;gap:7px"><span style="font:400 8px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">MOLIENDA</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 11px/1 'Spectral',serif">Molino de piedra</span></div>
+          <div style="display:flex;align-items:baseline;gap:7px"><span style="font:400 8px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">FERMENTACIÓN</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 11px/1 'Spectral',serif">Levaduras nativas, sabino</span></div>
+          <div style="display:flex;align-items:baseline;gap:7px"><span style="font:400 8px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">DESTILACIÓN</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 11px/1 'Spectral',serif">2× alambique de cobre</span></div>
+          <div style="display:flex;align-items:baseline;gap:7px"><span style="font:400 8px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">LITROS — ALC. VOL.</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 11px/1 'Spectral',serif">320 — 47%</span></div>
+          <div style="display:flex;align-items:baseline;gap:7px"><span style="font:400 8px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">LOTE</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:500 11px/1 'IBM Plex Mono',monospace;color:oklch(0.52 0.11 115)">OAX·CY·26</span></div>
+        </div>
+        <div style="border-top:1px solid rgba(33,29,23,.35)"></div>
+      </div>
+    </div>
+      </div>
+    </div>
+
+    <!-- 2f blank front -->
+    <div class="dv-opt" id="2f">
+      <div class="dv-olabel"><a class="dv-oid" href="#2f">2f</a>Frente en blanco — para llenar a mano</div>
+      <div class="dv-card" data-document-role="page" style="width:320px;height:432px;background:#f7f5ee;color:#211d17;display:flex;flex-direction:column;align-items:center;box-sizing:border-box;padding:18px 24px 16px;font-family:'Spectral',serif">
+        <div style="align-self:stretch;display:flex;justify-content:space-between;border-top:1px solid #211d17;border-bottom:1px solid rgba(33,29,23,.35);padding:4px 0;font:500 7px/1 'IBM Plex Mono',monospace;letter-spacing:.14em"><span>MEZCAL ARTESANAL</span><span>750 ML — ALC. VOL. ____%</span></div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin:18px 0 6px">
+          <img src="assets/logo-mark.svg" alt="" style="height:80px">
+          <img src="assets/logo-word.svg" alt="BARBECHERO" style="width:178px">
+          <div style="font:italic 400 10px/1 'Spectral',serif;color:rgba(33,29,23,.65)">Destilado de agave — hecho en México</div>
+        </div>
+        <div style="align-self:stretch;flex:1;display:flex;flex-direction:column;justify-content:center;gap:19px;padding:0 4px">
+          <div style="display:flex;align-items:flex-end;gap:8px"><span style="width:11px;height:11px;border-radius:50%;border:1px solid #211d17;box-sizing:border-box;margin-bottom:2px"></span><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:rgba(33,29,23,.6);padding-bottom:2px">AGAVE</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:24px"></span></div>
+          <div style="display:flex;gap:16px">
+            <div style="flex:1;display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:rgba(33,29,23,.6);padding-bottom:2px">COSECHA</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:18px"></span></div>
+            <div style="flex:1.4;display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:rgba(33,29,23,.6);padding-bottom:2px">MAESTRO</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:18px"></span></div>
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:rgba(33,29,23,.6);padding-bottom:2px">COMUNIDAD</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:18px"></span></div>
+        </div>
+        <div style="align-self:stretch;display:flex;border-top:1px solid rgba(33,29,23,.35);padding-top:5px;font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6)"><span style="display:flex;align-items:flex-end;gap:6px;flex:1">LOTE<span style="display:inline-block;width:70px;border-bottom:1px solid rgba(33,29,23,.55);height:11px"></span></span></div>
+      </div>
+    </div>
+
+    <!-- 2g blank back -->
+    <div class="dv-opt" id="2g">
+      <div class="dv-olabel"><a class="dv-oid" href="#2g">2g</a>Reverso en blanco — ficha para llenar a mano</div>
+      <div class="dv-card" data-document-role="page" style="width:320px;height:432px;background:#f7f5ee;color:#211d17;display:flex;flex-direction:column;box-sizing:border-box;padding:18px 22px 13px;font-family:'Spectral',serif">
+        <div style="display:flex;justify-content:center;border-bottom:1px solid #211d17;padding-bottom:9px"><img src="assets/logo-word.svg" alt="BARBECHERO" style="width:134px"></div>
+        <div style="text-align:center;font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.22em;color:rgba(33,29,23,.55);margin:10px 0 6px">FICHA DE CAMPO — MICROLOTE</div>
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:15.5px;padding:0 2px">
+          <div style="display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6);padding-bottom:2px;min-width:86px">AGAVE</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:16px"></span></div>
+          <div style="display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6);padding-bottom:2px;min-width:86px">MAESTRO MEZCALERO</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:16px"></span></div>
+          <div style="display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6);padding-bottom:2px;min-width:86px">COMUNIDAD</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:16px"></span></div>
+          <div style="display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6);padding-bottom:2px;min-width:86px">AÑO DE COSECHA</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:16px"></span></div>
+          <div style="display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6);padding-bottom:2px;min-width:86px">HORNO</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:16px"></span></div>
+          <div style="display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6);padding-bottom:2px;min-width:86px">MOLIENDA</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:16px"></span></div>
+          <div style="display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6);padding-bottom:2px;min-width:86px">FERMENTACIÓN</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:16px"></span></div>
+          <div style="display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6);padding-bottom:2px;min-width:86px">DESTILACIÓN</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:16px"></span></div>
+          <div style="display:flex;gap:16px">
+            <div style="flex:1;display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6);padding-bottom:2px">LITROS</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:16px"></span></div>
+            <div style="flex:1;display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6);padding-bottom:2px">ALC. VOL.</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:16px"></span></div>
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:8px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6);padding-bottom:2px;min-width:86px">LOTE</span><span style="flex:1;border-bottom:1px solid rgba(33,29,23,.55);height:16px"></span></div>
+        </div>
+        <div style="border-top:1px solid rgba(33,29,23,.35)"></div>
+      </div>
+    </div>
+
+  </div>
+  <p class="dv-next">Try next: "pair <a class="dv-oid" href="#2a">2a</a> front with <a class="dv-oid" href="#2e">2e</a> back in all 4 colors" · "print sheet with crop marks"</p>
+</section>
+
+<section class="dv-turn" id="t1">
+  <div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Barbechero — sistema de etiquetas · 4 direcciones</span></div>
+  <p class="dv-intro">
+    Assumptions: 750&nbsp;ml bottle, ~85×115&nbsp;mm label, Spanish copy, mezcal joven. Batch system: each microlot gets a <b>lot code</b> (REGIÓN·AGAVE·AÑO, e.g. GRO·EM·26) plus an <b>identifying color</b> — the code carries the vintage, so colors can be re-assigned each year. Every direction shows: <b>Version A</b> (all info on the front) and <b>Version B</b> (clean front + info back), across two different batches so the system is visible. Maestro names and liters are placeholders.
+  </p>
+  <div class="dv-opts">
+
+    <!-- ============ 1a FICHA DE CAMPO ============ -->
+    <div class="dv-opt" id="1a">
+      <div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a><b>Ficha de campo</b> — specimen-sheet table with dotted leaders · Spectral + IBM Plex Mono · batch = colored dot + lot code</div>
+      <div class="dv-row">
+        <div class="dv-cell"><span class="dv-cap">A — frente · lote 01 Espadín–Mexicano</span>
+          <div class="dv-card" data-document-role="page" style="width:320px;height:432px;background:#f7f5ee;color:#211d17;display:flex;flex-direction:column;box-sizing:border-box;padding:18px 22px 16px;font-family:'Spectral',serif">
+            <div style="display:flex;justify-content:space-between;border-top:1px solid #211d17;border-bottom:1px solid rgba(33,29,23,.35);padding:4px 0;font:500 7px/1 'IBM Plex Mono',monospace;letter-spacing:.14em"><span>MEZCAL ARTESANAL</span><span>46% ALC. VOL. — 750 ML</span></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:16px">
+              <img src="assets/logo-mark.svg" alt="Barbechero" style="height:72px">
+              <img src="assets/logo-word.svg" alt="BARBECHERO" style="width:170px;margin-top:2px">
+              <div style="font:italic 400 10.5px/1 'Spectral',serif;color:rgba(33,29,23,.65)">Destilado de agave — hecho en México</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;margin:15px 0 13px">
+              <div style="display:flex;align-items:center;gap:7px"><span style="width:7px;height:7px;border-radius:50%;background:oklch(0.52 0.11 40)"></span><span style="font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.22em;color:oklch(0.52 0.11 40)">ESPADÍN — MEXICANO</span></div>
+              <div style="font:italic 400 10px/1 'Spectral',serif;color:rgba(33,29,23,.6)">Pachivia, Guerrero · Cosecha 2026</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;flex:1">
+              <div style="display:flex;align-items:baseline;gap:6px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">MAGUEY</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 10px/1 'Spectral',serif">A. angustifolia · A. rhodacantha</span></div>
+              <div style="display:flex;align-items:baseline;gap:6px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">MAESTRO MEZCALERO</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 10px/1 'Spectral',serif">J. Morales</span></div>
+              <div style="display:flex;align-items:baseline;gap:6px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">HORNO</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 10px/1 'Spectral',serif">Cónico de tierra</span></div>
+              <div style="display:flex;align-items:baseline;gap:6px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">DESTILACIÓN</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 10px/1 'Spectral',serif">2× alambique de cobre</span></div>
+              <div style="display:flex;align-items:baseline;gap:6px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">LITROS PRODUCIDOS</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 10px/1 'Spectral',serif">480</span></div>
+              <div style="display:flex;align-items:baseline;gap:6px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">LOTE</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:500 10px/1 'IBM Plex Mono',monospace;color:oklch(0.52 0.11 40)">GRO·EM·26</span></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;border-top:1px solid rgba(33,29,23,.35);padding-top:5px;font:400 6.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.6)"><span>HECHO EN MÉXICO</span><span>MEZCAL JOVEN — 100% AGAVE</span></div>
+          </div>
+        </div>
+        <div class="dv-cell"><span class="dv-cap">B — frente limpio · lote 02 Coyote</span>
+          <div class="dv-card" data-document-role="page" style="width:320px;height:432px;background:#f7f5ee;color:#211d17;display:flex;flex-direction:column;align-items:center;box-sizing:border-box;padding:20px 24px 16px;font-family:'Spectral',serif">
+            <div style="align-self:stretch;display:flex;justify-content:center;border-top:1px solid #211d17;border-bottom:1px solid rgba(33,29,23,.35);padding:4px 0;font:500 7px/1 'IBM Plex Mono',monospace;letter-spacing:.18em">MEZCAL ARTESANAL — HECHO EN MÉXICO</div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
+              <img src="assets/logo-mark.svg" alt="Barbechero" style="height:120px">
+              <img src="assets/logo-word.svg" alt="BARBECHERO" style="width:196px">
+              <div style="font:italic 400 11px/1 'Spectral',serif;color:rgba(33,29,23,.65)">Destilado de agave · 750 ml · 47% alc. vol.</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:5px;padding-bottom:10px">
+              <div style="display:flex;align-items:center;gap:7px"><span style="width:7px;height:7px;border-radius:50%;background:oklch(0.52 0.11 115)"></span><span style="font:500 9.5px/1 'IBM Plex Mono',monospace;letter-spacing:.24em;color:oklch(0.52 0.11 115)">COYOTE</span></div>
+              <div style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:rgba(33,29,23,.55)">MIAHUATLÁN, OAXACA — OAX·CY·26</div>
+            </div>
+            <div style="align-self:stretch;border-top:1px solid rgba(33,29,23,.35)"></div>
+          </div>
+        </div>
+        <div class="dv-cell"><span class="dv-cap">B — reverso · lote 02 Coyote</span>
+          <div class="dv-card" data-document-role="page" style="width:320px;height:432px;background:#f7f5ee;color:#211d17;display:flex;flex-direction:column;box-sizing:border-box;padding:18px 22px 14px;font-family:'Spectral',serif">
+            <div style="display:flex;justify-content:center;border-bottom:1px solid #211d17;padding-bottom:8px"><img src="assets/logo-word.svg" alt="BARBECHERO" style="width:118px"></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;margin:12px 0 12px">
+              <div style="display:flex;align-items:center;gap:7px"><span style="width:7px;height:7px;border-radius:50%;background:oklch(0.52 0.11 115)"></span><span style="font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.22em;color:oklch(0.52 0.11 115)">COYOTE</span></div>
+              <div style="font:italic 400 10px/1 'Spectral',serif;color:rgba(33,29,23,.6)">Miahuatlán de Porfirio Díaz, Oaxaca</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5.5px;flex:1">
+              <div style="display:flex;align-items:baseline;gap:6px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">MAGUEY</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 9.5px/1 'Spectral',serif">Coyote — A. americana var. oaxacensis</span></div>
+              <div style="display:flex;align-items:baseline;gap:6px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">MAESTRO MEZCALERO</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 9.5px/1 'Spectral',serif">F. Cortés</span></div>
+              <div style="display:flex;align-items:baseline;gap:6px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">COMUNIDAD</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 9.5px/1 'Spectral',serif">Miahuatlán, Oaxaca</span></div>
+              <div style="display:flex;align-items:baseline;gap:6px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">AÑO DE COSECHA</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 9.5px/1 'Spectral',serif">2026</span></div>
+              <div style="display:flex;align-items:baseline;gap:6px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">HORNO</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 9.5px/1 'Spectral',serif">Cónico de tierra</span></div>
+              <div style="display:flex;align-items:baseline;gap:6px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">MOLIENDA</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 9.5px/1 'Spectral',serif">Molino de piedra</span></div>
+              <div style="display:flex;align-items:baseline;gap:6px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">FERMENTACIÓN</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 9.5px/1 'Spectral',serif">Levaduras nativas, tinas de sabino</span></div>
+              <div style="display:flex;align-items:baseline;gap:6px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">DESTILACIÓN</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 9.5px/1 'Spectral',serif">2× alambique de cobre</span></div>
+              <div style="display:flex;align-items:baseline;gap:6px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">LITROS PRODUCIDOS</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 9.5px/1 'Spectral',serif">320</span></div>
+              <div style="display:flex;align-items:baseline;gap:6px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">ALC. VOL.</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 9.5px/1 'Spectral',serif">47%</span></div>
+              <div style="display:flex;align-items:baseline;gap:6px"><span style="font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.6)">LOTE</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:500 9.5px/1 'IBM Plex Mono',monospace;color:oklch(0.52 0.11 115)">OAX·CY·26</span></div>
+            </div>
+            <div style="border-top:1px solid rgba(33,29,23,.35);padding-top:5px;font:400 6px/1.5 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.55)">HECHO EN MÉXICO · ENVASADO DE ORIGEN · EL ABUSO EN EL CONSUMO DE ESTE PRODUCTO ES NOCIVO PARA LA SALUD</div>
+          </div>
+        </div>
+        <div class="dv-cell"><span class="dv-cap">sistema de lotes — el color identifica el microlote; el código lleva la añada</span>
+          <div style="display:flex;flex-direction:column;gap:8px;background:#f7f5ee;border:1px solid rgba(0,0,0,.1);padding:16px 18px;width:200px;box-sizing:border-box">
+            <div style="display:flex;align-items:center;gap:8px"><span style="width:9px;height:9px;border-radius:50%;background:oklch(0.52 0.11 40)"></span><span style="font:400 8px/1.4 'IBM Plex Mono',monospace;color:#211d17">01 ESPADÍN–MEXICANO<br><span style="color:rgba(33,29,23,.5)">GRO·EM·26 — Pachivia</span></span></div>
+            <div style="display:flex;align-items:center;gap:8px"><span style="width:9px;height:9px;border-radius:50%;background:oklch(0.52 0.11 115)"></span><span style="font:400 8px/1.4 'IBM Plex Mono',monospace;color:#211d17">02 COYOTE<br><span style="color:rgba(33,29,23,.5)">OAX·CY·26 — Miahuatlán</span></span></div>
+            <div style="display:flex;align-items:center;gap:8px"><span style="width:9px;height:9px;border-radius:50%;background:oklch(0.52 0.11 250)"></span><span style="font:400 8px/1.4 'IBM Plex Mono',monospace;color:#211d17">03 TOBALÁ (ejemplo)<br><span style="color:rgba(33,29,23,.5)">OAX·TB·26 — S. L. Amatlán</span></span></div>
+            <div style="display:flex;align-items:center;gap:8px"><span style="width:9px;height:9px;border-radius:50%;background:oklch(0.52 0.11 330)"></span><span style="font:400 8px/1.4 'IBM Plex Mono',monospace;color:#211d17">04 CUISHE (ejemplo)<br><span style="color:rgba(33,29,23,.5)">OAX·CU·26 — Ejutla</span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 1b MUESTRA / CHIP ============ -->
+    <div class="dv-opt" id="1b">
+      <div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a><b>Muestra de suelo</b> — Swiss lab grid, batch = solid color chip block · Archivo + IBM Plex Mono</div>
+      <div class="dv-row">
+        <div class="dv-cell"><span class="dv-cap">A — frente · lote 01 Espadín–Mexicano</span>
+          <div class="dv-card" data-document-role="page" style="width:320px;height:432px;background:#fbfaf6;color:#1c1a16;display:flex;flex-direction:column;box-sizing:border-box;font-family:'Archivo',sans-serif">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid rgba(28,26,22,.25)">
+              <img src="assets/logo-mark.svg" alt="" style="height:42px">
+              <div style="font:400 7.5px/1.5 'IBM Plex Mono',monospace;letter-spacing:.1em;text-align:right;color:rgba(28,26,22,.65)">MEZCAL DE AGAVE<br>750 ML — 46% VOL.</div>
+            </div>
+            <div style="padding:18px 18px 12px">
+              <div style="font:700 27px/1 'Archivo',sans-serif;letter-spacing:.04em">BARBECHERO</div>
+              <div style="font:400 8px/1 'IBM Plex Mono',monospace;letter-spacing:.26em;color:rgba(28,26,22,.55);margin-top:7px">MEZCAL ARTESANAL — JOVEN</div>
+            </div>
+            <div style="margin:0 18px;background:oklch(0.52 0.11 40);color:#fbfaf6;padding:10px 12px;display:flex;justify-content:space-between;align-items:flex-end">
+              <div><div style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;opacity:.8">MICROLOTE 01</div><div style="font:700 15px/1 'Archivo',sans-serif;letter-spacing:.03em;margin-top:5px">ESPADÍN–MEXICANO</div></div>
+              <div style="font:500 8.5px/1 'IBM Plex Mono',monospace">GRO·EM·26</div>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;padding:12px 18px 0">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;padding:5.5px 0;border-bottom:1px solid rgba(28,26,22,.18)"><span style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:rgba(28,26,22,.55)">MAGUEY</span><span style="font:500 9.5px/1 'Archivo',sans-serif">A. angustifolia · A. rhodacantha</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;padding:5.5px 0;border-bottom:1px solid rgba(28,26,22,.18)"><span style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:rgba(28,26,22,.55)">ORIGEN</span><span style="font:500 9.5px/1 'Archivo',sans-serif">Pachivia, Guerrero</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;padding:5.5px 0;border-bottom:1px solid rgba(28,26,22,.18)"><span style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:rgba(28,26,22,.55)">MAESTRO</span><span style="font:500 9.5px/1 'Archivo',sans-serif">J. Morales</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;padding:5.5px 0;border-bottom:1px solid rgba(28,26,22,.18)"><span style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:rgba(28,26,22,.55)">DESTILACIÓN</span><span style="font:500 9.5px/1 'Archivo',sans-serif">2× alambique de cobre</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;padding:5.5px 0"><span style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:rgba(28,26,22,.55)">COSECHA</span><span style="font:500 9.5px/1 'Archivo',sans-serif">2026 — 480 L</span></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:8px 18px 12px;border-top:1px solid rgba(28,26,22,.25);font:400 6.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(28,26,22,.55)"><span>HECHO EN MÉXICO</span><span>100% AGAVE</span></div>
+          </div>
+        </div>
+        <div class="dv-cell"><span class="dv-cap">B — frente limpio · lote 02 Coyote (lockup original)</span>
+          <div class="dv-card" data-document-role="page" style="width:320px;height:432px;background:#fbfaf6;color:#1c1a16;display:flex;flex-direction:column;box-sizing:border-box;font-family:'Archivo',sans-serif">
+            <div style="display:flex;justify-content:space-between;padding:14px 18px;font:400 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(28,26,22,.65);border-bottom:1px solid rgba(28,26,22,.25)"><span>MEZCAL ARTESANAL</span><span>750 ML — 47% VOL.</span></div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px">
+              <img src="assets/logo-lockup.svg" alt="Barbechero" style="height:150px">
+              <div style="font:400 8px/1 'IBM Plex Mono',monospace;letter-spacing:.26em;color:rgba(28,26,22,.55)">MEZCAL ARTESANAL — JOVEN</div>
+            </div>
+            <div style="margin:0 18px 18px;background:oklch(0.52 0.11 115);color:#fbfaf6;padding:9px 12px;display:flex;justify-content:space-between;align-items:center">
+              <span style="font:700 12px/1 'Archivo',sans-serif;letter-spacing:.06em">COYOTE</span>
+              <span style="font:500 8px/1 'IBM Plex Mono',monospace">OAX·CY·26</span>
+            </div>
+          </div>
+        </div>
+        <div class="dv-cell"><span class="dv-cap">B — reverso · lote 02 Coyote</span>
+          <div class="dv-card" data-document-role="page" style="width:320px;height:432px;background:#fbfaf6;color:#1c1a16;display:flex;flex-direction:column;box-sizing:border-box;font-family:'Archivo',sans-serif;padding:16px 18px 12px">
+            <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #1c1a16;padding-bottom:9px">
+              <span style="font:700 13px/1 'Archivo',sans-serif;letter-spacing:.06em">BARBECHERO</span>
+              <span style="display:flex;align-items:center;gap:6px"><span style="width:13px;height:13px;background:oklch(0.52 0.11 115)"></span><span style="font:500 8px/1 'IBM Plex Mono',monospace">OAX·CY·26</span></span>
+            </div>
+            <div style="padding:10px 0 8px;border-bottom:1px solid rgba(28,26,22,.18)">
+              <div style="font:700 15px/1 'Archivo',sans-serif">COYOTE</div>
+              <div style="font:400 8px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:rgba(28,26,22,.55);margin-top:5px">MICROLOTE 02 — MIAHUATLÁN, OAXACA</div>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:5.5px 0;border-bottom:1px solid rgba(28,26,22,.18)"><span style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:rgba(28,26,22,.55)">MAGUEY</span><span style="font:500 9.5px/1.3 'Archivo',sans-serif;text-align:right">Coyote — A. americana var. oaxacensis</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:5.5px 0;border-bottom:1px solid rgba(28,26,22,.18)"><span style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:rgba(28,26,22,.55)">MAESTRO MEZCALERO</span><span style="font:500 9.5px/1.3 'Archivo',sans-serif;text-align:right">F. Cortés</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:5.5px 0;border-bottom:1px solid rgba(28,26,22,.18)"><span style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:rgba(28,26,22,.55)">COMUNIDAD</span><span style="font:500 9.5px/1.3 'Archivo',sans-serif;text-align:right">Miahuatlán de Porfirio Díaz</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:5.5px 0;border-bottom:1px solid rgba(28,26,22,.18)"><span style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:rgba(28,26,22,.55)">AÑO DE COSECHA</span><span style="font:500 9.5px/1.3 'Archivo',sans-serif;text-align:right">2026</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:5.5px 0;border-bottom:1px solid rgba(28,26,22,.18)"><span style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:rgba(28,26,22,.55)">HORNO</span><span style="font:500 9.5px/1.3 'Archivo',sans-serif;text-align:right">Cónico de tierra</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:5.5px 0;border-bottom:1px solid rgba(28,26,22,.18)"><span style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:rgba(28,26,22,.55)">FERMENTACIÓN</span><span style="font:500 9.5px/1.3 'Archivo',sans-serif;text-align:right">Levaduras nativas, sabino</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:5.5px 0;border-bottom:1px solid rgba(28,26,22,.18)"><span style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:rgba(28,26,22,.55)">DESTILACIÓN</span><span style="font:500 9.5px/1.3 'Archivo',sans-serif;text-align:right">2× alambique de cobre</span></div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:5.5px 0;border-bottom:1px solid rgba(28,26,22,.18)"><span style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:rgba(28,26,22,.55)">LITROS — ALC. VOL.</span><span style="font:500 9.5px/1.3 'Archivo',sans-serif;text-align:right">320 L — 47%</span></div>
+            </div>
+            <div style="font:400 6px/1.5 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(28,26,22,.5);padding-top:6px">HECHO EN MÉXICO · ENVASADO DE ORIGEN · EL ABUSO EN EL CONSUMO DE ESTE PRODUCTO ES NOCIVO PARA LA SALUD</div>
+          </div>
+        </div>
+        <div class="dv-cell"><span class="dv-cap">sistema — chips por microlote</span>
+          <div style="display:flex;flex-direction:column;gap:6px;width:190px">
+            <div style="background:oklch(0.52 0.11 40);color:#fbfaf6;padding:8px 10px;display:flex;justify-content:space-between;font:500 8px/1 'IBM Plex Mono',monospace"><span>01 ESPADÍN–MEX.</span><span>GRO·EM·26</span></div>
+            <div style="background:oklch(0.52 0.11 115);color:#fbfaf6;padding:8px 10px;display:flex;justify-content:space-between;font:500 8px/1 'IBM Plex Mono',monospace"><span>02 COYOTE</span><span>OAX·CY·26</span></div>
+            <div style="background:oklch(0.52 0.11 250);color:#fbfaf6;padding:8px 10px;display:flex;justify-content:space-between;font:500 8px/1 'IBM Plex Mono',monospace"><span>03 TOBALÁ</span><span>OAX·TB·26</span></div>
+            <div style="background:oklch(0.52 0.11 330);color:#fbfaf6;padding:8px 10px;display:flex;justify-content:space-between;font:500 8px/1 'IBM Plex Mono',monospace"><span>04 CUISHE</span><span>OAX·CU·26</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 1c FRANJA ============ -->
+    <div class="dv-opt" id="1c">
+      <div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a><b>Franja lateral</b> — editorial asymmetric, batch = vertical color spine you can read in the shelf lineup · Spectral + IBM Plex Mono</div>
+      <div class="dv-row">
+        <div class="dv-cell"><span class="dv-cap">A — frente · lote 01 Espadín–Mexicano</span>
+          <div class="dv-card" data-document-role="page" style="width:320px;height:432px;background:#f7f5ee;color:#211d17;position:relative;box-sizing:border-box;font-family:'Spectral',serif">
+            <div style="position:absolute;left:0;top:0;bottom:0;width:26px;background:oklch(0.52 0.11 40);display:flex;align-items:center;justify-content:center"><span style="writing-mode:vertical-rl;transform:rotate(180deg);font:500 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#f7f5ee;white-space:nowrap">ESPADÍN—MEXICANO · PACHIVIA, GUERRERO · COSECHA 2026</span></div>
+            <div style="position:absolute;left:26px;top:0;right:0;bottom:0;display:flex;flex-direction:column;padding:20px 20px 14px;box-sizing:border-box">
+              <div style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:rgba(33,29,23,.6)">MEZCAL ARTESANAL — 750 ML · 46% ALC. VOL.</div>
+              <img src="assets/logo-mark.svg" alt="" style="height:62px;align-self:flex-start;margin:16px 0 8px">
+              <div style="font:600 20px/1 'Spectral',serif;letter-spacing:.14em">BARBECHERO</div>
+              <div style="font:italic 300 23px/1.15 'Spectral',serif;margin-top:14px">Espadín —<br>Mexicano</div>
+              <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:11px 14px;align-content:end;padding-bottom:12px;margin-top:14px">
+                <div><div style="font:400 6.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">MAGUEY</div><div style="font:italic 400 10px/1.3 'Spectral',serif;margin-top:3px">A. angustifolia ·<br>A. rhodacantha</div></div>
+                <div><div style="font:400 6.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">MAESTRO MEZCALERO</div><div style="font:italic 400 10px/1.3 'Spectral',serif;margin-top:3px">J. Morales</div></div>
+                <div><div style="font:400 6.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">HORNO</div><div style="font:italic 400 10px/1.3 'Spectral',serif;margin-top:3px">Cónico de tierra</div></div>
+                <div><div style="font:400 6.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">DESTILACIÓN</div><div style="font:italic 400 10px/1.3 'Spectral',serif;margin-top:3px">2× alambique de cobre</div></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;border-top:1px solid rgba(33,29,23,.35);padding-top:6px;font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.1em"><span style="color:oklch(0.52 0.11 40);font-weight:500">GRO·EM·26</span><span style="color:rgba(33,29,23,.55)">HECHO EN MÉXICO</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="dv-cell"><span class="dv-cap">B — frente limpio · lote 02 Coyote</span>
+          <div class="dv-card" data-document-role="page" style="width:320px;height:432px;background:#f7f5ee;color:#211d17;position:relative;box-sizing:border-box;font-family:'Spectral',serif">
+            <div style="position:absolute;left:0;top:0;bottom:0;width:26px;background:oklch(0.52 0.11 115);display:flex;align-items:center;justify-content:center"><span style="writing-mode:vertical-rl;transform:rotate(180deg);font:500 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#f7f5ee;white-space:nowrap">COYOTE · MIAHUATLÁN, OAXACA · COSECHA 2026 · OAX·CY·26</span></div>
+            <div style="position:absolute;left:26px;top:0;right:0;bottom:0;display:flex;flex-direction:column;padding:20px 20px 14px;box-sizing:border-box">
+              <div style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:rgba(33,29,23,.6)">MEZCAL ARTESANAL — 750 ML · 47% ALC. VOL.</div>
+              <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px">
+                <img src="assets/logo-mark.svg" alt="" style="height:104px;align-self:flex-start">
+                <div style="font:600 22px/1 'Spectral',serif;letter-spacing:.14em">BARBECHERO</div>
+                <div style="font:italic 400 11px/1 'Spectral',serif;color:rgba(33,29,23,.65)">Destilado de agave — hecho en México</div>
+              </div>
+              <div style="border-top:1px solid rgba(33,29,23,.35);padding-top:6px;font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:rgba(33,29,23,.55)">MEZCAL JOVEN — 100% AGAVE</div>
+            </div>
+          </div>
+        </div>
+        <div class="dv-cell"><span class="dv-cap">B — reverso · lote 02 Coyote</span>
+          <div class="dv-card" data-document-role="page" style="width:320px;height:432px;background:#f7f5ee;color:#211d17;position:relative;box-sizing:border-box;font-family:'Spectral',serif">
+            <div style="position:absolute;left:0;top:0;bottom:0;width:26px;background:oklch(0.52 0.11 115);display:flex;align-items:center;justify-content:center"><span style="writing-mode:vertical-rl;transform:rotate(180deg);font:500 7.5px/1 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#f7f5ee;white-space:nowrap">BARBECHERO · MEZCAL ARTESANAL · HECHO EN MÉXICO</span></div>
+            <div style="position:absolute;left:26px;top:0;right:0;bottom:0;display:flex;flex-direction:column;padding:20px 20px 14px;box-sizing:border-box">
+              <div style="font:italic 300 26px/1.1 'Spectral',serif">Coyote</div>
+              <div style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:rgba(33,29,23,.6);margin-top:7px">MICROLOTE 02 — MIAHUATLÁN, OAXACA</div>
+              <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:8.5px;margin-top:8px">
+                <div style="border-top:1px solid rgba(33,29,23,.22);padding-top:5px"><span style="font:400 6.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">MAGUEY&nbsp;&nbsp;</span><span style="font:italic 400 10.5px/1.3 'Spectral',serif">Coyote — A. americana var. oaxacensis</span></div>
+                <div style="border-top:1px solid rgba(33,29,23,.22);padding-top:5px"><span style="font:400 6.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">MAESTRO MEZCALERO&nbsp;&nbsp;</span><span style="font:italic 400 10.5px/1.3 'Spectral',serif">F. Cortés</span></div>
+                <div style="border-top:1px solid rgba(33,29,23,.22);padding-top:5px"><span style="font:400 6.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">COMUNIDAD&nbsp;&nbsp;</span><span style="font:italic 400 10.5px/1.3 'Spectral',serif">Miahuatlán de Porfirio Díaz</span></div>
+                <div style="border-top:1px solid rgba(33,29,23,.22);padding-top:5px"><span style="font:400 6.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">COSECHA&nbsp;&nbsp;</span><span style="font:italic 400 10.5px/1.3 'Spectral',serif">2026 — 320 litros</span></div>
+                <div style="border-top:1px solid rgba(33,29,23,.22);padding-top:5px"><span style="font:400 6.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">HORNO · MOLIENDA&nbsp;&nbsp;</span><span style="font:italic 400 10.5px/1.3 'Spectral',serif">Cónico de tierra · molino de piedra</span></div>
+                <div style="border-top:1px solid rgba(33,29,23,.22);padding-top:5px"><span style="font:400 6.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">FERMENTACIÓN&nbsp;&nbsp;</span><span style="font:italic 400 10.5px/1.3 'Spectral',serif">Levaduras nativas, tinas de sabino</span></div>
+                <div style="border-top:1px solid rgba(33,29,23,.22);padding-top:5px"><span style="font:400 6.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">DESTILACIÓN&nbsp;&nbsp;</span><span style="font:italic 400 10.5px/1.3 'Spectral',serif">2× alambique de cobre — 47% alc. vol.</span></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid rgba(33,29,23,.35);padding-top:6px"><span style="font:500 11px/1 'IBM Plex Mono',monospace;color:oklch(0.52 0.11 115)">OAX·CY·26</span><span style="font:400 5.5px/1.4 'IBM Plex Mono',monospace;color:rgba(33,29,23,.5);text-align:right;max-width:170px">EL ABUSO EN EL CONSUMO DE ESTE PRODUCTO ES NOCIVO PARA LA SALUD</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="dv-cell"><span class="dv-cap">sistema — lomos en anaquel (vista de lineup)</span>
+          <div style="display:flex;gap:10px">
+            <div style="width:26px;height:180px;background:oklch(0.52 0.11 40);display:flex;align-items:center;justify-content:center"><span style="writing-mode:vertical-rl;transform:rotate(180deg);font:500 6.5px/1 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#f7f5ee">ESPADÍN—MEXICANO</span></div>
+            <div style="width:26px;height:180px;background:oklch(0.52 0.11 115);display:flex;align-items:center;justify-content:center"><span style="writing-mode:vertical-rl;transform:rotate(180deg);font:500 6.5px/1 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#f7f5ee">COYOTE</span></div>
+            <div style="width:26px;height:180px;background:oklch(0.52 0.11 250);display:flex;align-items:center;justify-content:center"><span style="writing-mode:vertical-rl;transform:rotate(180deg);font:500 6.5px/1 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#f7f5ee">TOBALÁ</span></div>
+            <div style="width:26px;height:180px;background:oklch(0.52 0.11 330);display:flex;align-items:center;justify-content:center"><span style="writing-mode:vertical-rl;transform:rotate(180deg);font:500 6.5px/1 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#f7f5ee">CUISHE</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 1d ALMANAQUE ============ -->
+    <div class="dv-opt" id="1d">
+      <div class="dv-olabel"><a class="dv-oid" href="#1d">1d</a><b>Almanaque agrícola</b> — the year and the land-rest cycle as the hero; batch = colored node on the cycle · Spectral light + IBM Plex Mono</div>
+      <div class="dv-row">
+        <div class="dv-cell"><span class="dv-cap">A — frente · lote 01 Espadín–Mexicano</span>
+          <div class="dv-card" data-document-role="page" style="width:320px;height:432px;background:#f7f5ee;color:#211d17;display:flex;flex-direction:column;align-items:center;box-sizing:border-box;padding:22px 24px 14px;font-family:'Spectral',serif">
+            <div style="font:600 14px/1 'Spectral',serif;letter-spacing:.26em">BARBECHERO</div>
+            <div style="font:400 6.5px/1 'IBM Plex Mono',monospace;letter-spacing:.22em;color:rgba(33,29,23,.55);margin-top:6px">MEZCAL ARTESANAL — HECHO EN MÉXICO</div>
+            <div style="font:300 78px/1 'Spectral',serif;letter-spacing:.04em;margin:20px 0 4px">2026</div>
+            <div style="align-self:stretch;margin:12px 6px 6px">
+              <div style="position:relative;height:1px;background:rgba(33,29,23,.35)">
+                <span style="position:absolute;left:0;top:-3.5px;width:8px;height:8px;border-radius:50%;border:1px solid #211d17;background:#f7f5ee;box-sizing:border-box"></span>
+                <span style="position:absolute;left:33%;top:-3.5px;width:8px;height:8px;border-radius:50%;border:1px solid #211d17;background:#f7f5ee;box-sizing:border-box"></span>
+                <span style="position:absolute;left:66%;top:-3.5px;width:8px;height:8px;border-radius:50%;border:1px solid #211d17;background:#f7f5ee;box-sizing:border-box"></span>
+                <span style="position:absolute;right:0;top:-3.5px;width:8px;height:8px;border-radius:50%;background:oklch(0.52 0.11 40)"></span>
+              </div>
+              <div style="display:flex;justify-content:space-between;margin-top:8px;font:400 6px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:rgba(33,29,23,.6)"><span>BARBECHO</span><span>COSECHA</span><span>HORNEADO</span><span style="color:oklch(0.52 0.11 40);font-weight:500">DESTILADO</span></div>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px">
+              <div style="font:italic 300 21px/1 'Spectral',serif">Espadín — Mexicano</div>
+              <div style="font:400 10px/1.5 'Spectral',serif;color:rgba(33,29,23,.7);text-align:center">Pachivia, Guerrero — Mtro. J. Morales</div>
+              <div style="font:400 7px/1.6 'IBM Plex Mono',monospace;letter-spacing:.1em;color:rgba(33,29,23,.55);text-align:center">HORNO CÓNICO DE TIERRA<br>2× ALAMBIQUE DE COBRE — 480 L</div>
+            </div>
+            <div style="align-self:stretch;display:flex;justify-content:space-between;border-top:1px solid rgba(33,29,23,.35);padding-top:6px;font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.1em"><span style="color:oklch(0.52 0.11 40);font-weight:500">GRO·EM·26</span><span style="color:rgba(33,29,23,.55)">750 ML — 46% ALC. VOL.</span></div>
+          </div>
+        </div>
+        <div class="dv-cell"><span class="dv-cap">B — frente limpio · lote 02 Coyote</span>
+          <div class="dv-card" data-document-role="page" style="width:320px;height:432px;background:#f7f5ee;color:#211d17;display:flex;flex-direction:column;align-items:center;box-sizing:border-box;padding:26px 24px 14px;font-family:'Spectral',serif">
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px">
+              <img src="assets/logo-mark.svg" alt="Barbechero" style="height:110px">
+              <div style="font:600 22px/1 'Spectral',serif;letter-spacing:.22em">BARBECHERO</div>
+              <div style="font:italic 400 10.5px/1 'Spectral',serif;color:rgba(33,29,23,.65)">Mezcal artesanal</div>
+              <div style="width:44px;height:3px;background:oklch(0.52 0.11 115);margin-top:8px"></div>
+              <div style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.26em;color:oklch(0.52 0.11 115)">COYOTE — 2026</div>
+            </div>
+            <div style="align-self:stretch;display:flex;justify-content:space-between;border-top:1px solid rgba(33,29,23,.35);padding-top:6px;font:400 6.5px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)"><span>MIAHUATLÁN, OAXACA</span><span>750 ML — 47% ALC. VOL.</span></div>
+          </div>
+        </div>
+        <div class="dv-cell"><span class="dv-cap">B — reverso · lote 02 Coyote (editorial, prosa + ficha)</span>
+          <div class="dv-card" data-document-role="page" style="width:320px;height:432px;background:#f7f5ee;color:#211d17;display:flex;flex-direction:column;box-sizing:border-box;padding:20px 24px 14px;font-family:'Spectral',serif">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #211d17;padding-bottom:7px"><span style="font:500 8.5px/1 'IBM Plex Mono',monospace;letter-spacing:.3em">BARBECHERO</span><span style="font:500 8.5px/1 'IBM Plex Mono',monospace;color:oklch(0.52 0.11 115)">OAX·CY·26</span></div>
+            <div style="font:italic 300 24px/1.1 'Spectral',serif;margin:16px 0 10px">Coyote, 2026</div>
+            <div style="font:400 11px/1.75 'Spectral',serif;color:rgba(33,29,23,.85)">Agave coyote cosechado en los cerros de Miahuatlán, Oaxaca. Horneado en horno cónico de tierra, molido en molino de piedra, fermentado con levaduras nativas en tinas de sabino y destilado dos veces en alambique de cobre por la familia de F.&nbsp;Cortés.</div>
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:end;gap:5px;margin-top:14px">
+              <div style="display:flex;align-items:baseline;gap:6px"><span style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:rgba(33,29,23,.55)">MAGUEY</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 10px/1 'Spectral',serif">A. americana var. oaxacensis</span></div>
+              <div style="display:flex;align-items:baseline;gap:6px"><span style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:rgba(33,29,23,.55)">COMUNIDAD</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 10px/1 'Spectral',serif">Miahuatlán, Oaxaca</span></div>
+              <div style="display:flex;align-items:baseline;gap:6px"><span style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:rgba(33,29,23,.55)">LITROS</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 10px/1 'Spectral',serif">320</span></div>
+              <div style="display:flex;align-items:baseline;gap:6px"><span style="font:400 7px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:rgba(33,29,23,.55)">ALC. VOL.</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 10px/1 'Spectral',serif">47%</span></div>
+            </div>
+            <div style="border-top:1px solid rgba(33,29,23,.35);margin-top:10px;padding-top:5px;font:400 6px/1.5 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(33,29,23,.5)">HECHO EN MÉXICO · ENVASADO DE ORIGEN · EL ABUSO EN EL CONSUMO DE ESTE PRODUCTO ES NOCIVO PARA LA SALUD</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <p class="dv-next">Try next: "combine the clean front of <a class="dv-oid" href="#1a">1a</a> with the spine of <a class="dv-oid" href="#1c">1c</a>" · "show <a class="dv-oid" href="#1b">1b</a> in all four batch colors" · "mock the chosen one on a bottle photo"</p>
+</section>
+
+</x-dc>
+<script>
+(async () => {
+  if (!document.title || !document.title.trim()) document.title = "Barbechero Label Proposals";
+  // Prepend so page-supplied @page / break rules (deck-stage's margin:0,
+  // author CSS) keep source-order precedence over the baseline.
+  const baseCss = document.createElement('style');
+  baseCss.textContent = "@media print {\n  figure, table { break-inside: avoid; }\n  *, *::before, *::after {\n    print-color-adjust: exact; -webkit-print-color-adjust: exact;\n    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;\n    animation-delay: -99s !important; animation-duration: .001s !important;\n    animation-iteration-count: 1 !important; animation-fill-mode: both !important;\n    animation-play-state: running !important; transition-duration: 0s !important;\n  }\n}";
+  document.head.prepend(baseCss);
+  if (document.readyState === 'loading') {
+    await new Promise((r) => document.addEventListener('DOMContentLoaded', r, { once: true }));
+  }
+  let ds = document.querySelector('deck-stage');
+  // whenDefined never resolves when nothing registers the element, so only
+  // await it when a <deck-stage> tag exists (and race a timeout regardless).
+  if (ds && !customElements.get('deck-stage')) {
+    try {
+      await Promise.race([
+        customElements.whenDefined('deck-stage'),
+        new Promise((r) => setTimeout(r, 3000)),
+      ]);
+    } catch (e) {}
+    ds = document.querySelector('deck-stage');
+  }
+  // dc-runtime assigns window.DCLogic at init and mounts into #dc-root on
+  // DOMContentLoaded; settle on that subtree so React has rendered before
+  // print(). Non-DC pages fall through to weighing body.
+  const isDc = !ds && 'DCLogic' in window;
+  const settleRoot = ds || (isDc ? document.getElementById('dc-root') : null) || document.body;
+  if (settleRoot) {
+    // Weigh only content children — skip script/style/template so inline
+    // Babel/CSS doesn't register as stable "content" before the framework
+    // has mounted anything.
+    const MEDIA = 'img,svg,canvas,video,picture,iframe,embed,object';
+    const weigh = () => {
+      let text = 0, media = 0;
+      for (const c of settleRoot.children) {
+        const t = c.tagName;
+        if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+        text += (c.textContent || '').trim().length;
+        media += c.querySelectorAll(MEDIA).length + (c.matches(MEDIA) ? 1 : 0);
+      }
+      return text + media * 100;
+    };
+    // "Non-zero and stable" alone is not sufficient to mean rendered: generic
+    // body can carry a static shell while async main content is pending, and
+    // #dc-root can carry the root DC's static text while child refs are still
+    // .sc-placeholder boxes. Gate generic on readyState 'complete', and never
+    // accept stability while a dc-runtime placeholder is present.
+    const isGeneric = settleRoot === document.body;
+    const deadline = Date.now() + 15000;
+    let last = -1, stable = 0;
+    while (Date.now() < deadline) {
+      const n = weigh();
+      const ready =
+        (!isGeneric || document.readyState === 'complete') &&
+        !settleRoot.querySelector('.sc-placeholder');
+      if (n > 0 && n === last && ready) { if (++stable >= 2) break; } else { stable = 0; }
+      last = n;
+      await new Promise((r) => setTimeout(r, 250));
+    }
+  }
+  // Project support.js may predate runtime default-seeding; push via bridge.
+  if (isDc && window.__dcSetProps && window.__dcRootName) {
+    try {
+      const dpEl = document.querySelector('script[data-dc-script]');
+      const meta = JSON.parse((dpEl && dpEl.getAttribute('data-props')) || '{}');
+      const bag = {};
+      for (const k in meta)
+        if (k[0] !== '$' && meta[k] && meta[k].default !== undefined)
+          bag[k] = meta[k].default;
+      if (Object.keys(bag).length) {
+        window.__dcSetProps(window.__dcRootName(), bag);
+        await new Promise((r) => setTimeout(r, 50));
+      }
+    } catch (e) {}
+  }
+  // Reveal content gated on scroll or visibility before printing. Lazy <img>,
+  // IntersectionObserver fade-ins, and collapsed <details> don't render while
+  // off-screen, so a long page would print with them blank or closed. Open
+  // every <details>, force native-lazy images eager, and scroll the document
+  // through its full height to trip lazy-load + IO; then wait (bounded) for the
+  // newly-triggered images. Inert for deck-stage (slides aren't scroll-gated).
+  try {
+    for (const d of document.querySelectorAll('details')) d.open = true;
+    for (const img of document.querySelectorAll('img[loading="lazy"]'))
+      img.loading = 'eager';
+    const scroller = document.scrollingElement || document.documentElement;
+    const full = Math.max(scroller.scrollHeight, document.body.scrollHeight);
+    const step = window.innerHeight || 800;
+    for (let y = 0; y <= full; y += step) {
+      window.scrollTo(0, y);
+      await new Promise((r) => requestAnimationFrame(r));
+    }
+    window.scrollTo(0, 0);
+    await Promise.race([
+      Promise.all(
+        [...document.images].map((img) =>
+          img.complete
+            ? null
+            : new Promise((res) => {
+                img.addEventListener('load', res, { once: true });
+                img.addEventListener('error', res, { once: true });
+              })
+        )
+      ),
+      new Promise((r) => setTimeout(r, 4000)),
+    ]);
+  } catch (e) {}
+  try { await document.fonts.ready; } catch (e) {}
+  // Jump every animation to its end state so print() never captures a slide
+  // mid-entrance. Ordering matters: the 0s-transition style must be live
+  // BEFORE data-deck-active is set so attribute-keyed transitions don't
+  // start a (now-0s) run from the pre-active base.
+  const st = document.createElement('style');
+  st.textContent = '*,*::before,*::after{animation-delay:-99s !important;animation-duration:.001s !important;animation-iteration-count:1 !important;animation-fill-mode:both !important;animation-play-state:running !important;transition-duration:0s !important}';
+  document.head.appendChild(st);
+  for (const d of document.querySelectorAll('deck-stage')) {
+    for (const c of d.children) {
+      const t = c.tagName;
+      if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+      c.setAttribute('data-deck-active', '');
+    }
+  }
+  // Re-append deck-stage's @page last so no author @page can add a margin and
+  // spill each full-bleed slide onto two sheets. Backstop for old copies.
+  if (ds) {
+    let pg = document.getElementById('deck-stage-print-page');
+    if (!pg) {
+      pg = document.createElement('style');
+      pg.textContent = '@page{size:' + (+ds.getAttribute('width') || 1920) +
+        'px ' + (+ds.getAttribute('height') || 1080) + 'px;margin:0}';
+    }
+    document.body.appendChild(pg);
+  }
+  try {
+    const sweep = () => {
+      for (const a of document.getAnimations()) {
+        try { a.finish(); } catch (e) {
+          try { a.currentTime = (a.effect && a.effect.getComputedTiming().duration) || 0; a.pause(); } catch (e2) {}
+        }
+      }
+    };
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+  } catch (e) {}
+  // Size the PDF page to the rendered design unless the file opted into
+  // standard paper via @page{size:letter|A4|…}. Decks own their own @page.
+  // Wrappers (body, …) lose padding+margin so the frame sits at (0,0); the
+  // frame itself loses only margin — its padding is INSIDE the measured
+  // rect and must stay, or content shifts and leaves a gap at bottom/right.
+  var __m = null;
+  try { __m = (() => {
+  var STAMP = true;
+  var docEl = document.documentElement;
+  var doc = { width: docEl.scrollWidth, height: docEl.scrollHeight };
+
+  var ds = document.querySelector('deck-stage');
+  if (ds) {
+    var dw = Number(ds.getAttribute('width')) || 1920;
+    var dh = Number(ds.getAttribute('height')) || 1080;
+    var n = typeof ds.length === 'number' ? ds.length : ds.children.length;
+    var idx = typeof ds.index === 'number' ? ds.index : 0;
+    var frames = [];
+    for (var i = 0; i < n; i++) frames.push({ left: 0, top: 0, width: dw, height: dh });
+    return { kind: 'deck', source: 'declared', doc: doc, frames: frames,
+      authored: frames.map(function(){return{width:true,height:true}}),
+      deck: { width: dw, height: dh, slideCount: n, index: idx },
+      signals: { paperPage: false, pxPage: false } };
+  }
+
+  // Declared kind: a doc-page tag names the kind outright, so no signal
+  // heuristics run (like the deck branch above, signals report false —
+  // they describe inferred classifications only). The tag alone is not
+  // trusted: the element must have upgraded (shadowRoot present), so a
+  // leftover tag whose script was deleted falls through to the heuristics
+  // that handle plain markup.
+  var stageSx = window.scrollX || 0, stageSy = window.scrollY || 0;
+  var dp = document.querySelector('doc-page');
+  if (dp && dp.shadowRoot) {
+    // Crop to the sheet, not the host — the desk around it is screen-only
+    // chrome that must not land in PNG exports.
+    var sheet = dp.shadowRoot.querySelector('.sheet');
+    var sr = (sheet || dp).getBoundingClientRect();
+    return { kind: 'paper-doc', source: 'declared', doc: doc,
+      frames: [{ left: sr.left + stageSx, top: sr.top + stageSy,
+        width: sr.width, height: sr.height }],
+      authored: [{ width: false, height: false }],
+      signals: { paperPage: false, pxPage: false } };
+  }
+  var paperPage = false, pxPage = false;
+  var eachRule = function (fn) {
+    for (var s = 0; s < document.styleSheets.length; s++) {
+      var rs; try { rs = document.styleSheets[s].cssRules; } catch (e) { continue; }
+      for (var r = 0; r < rs.length; r++) {
+        fn(rs[r]);
+        if (rs[r].cssRules) for (var n = 0; n < rs[r].cssRules.length; n++) fn(rs[r].cssRules[n]);
+      }
+    }
+  };
+  eachRule(function (r) {
+    if (r.type !== 6) return;
+    var m = /\bsize\s*:\s*([^;}]+)/i.exec(r.cssText || '');
+    if (!m) return;
+    if (/\b(letter|a[3-5]|legal|ledger)\b/i.test(m[1])) paperPage = true;
+    if (/\d+(?:\.\d+)?px\b/i.test(m[1])) pxPage = true;
+  });
+  var signals = { paperPage: paperPage, pxPage: pxPage };
+
+  var pxVal = function (v) {
+    var m = /^(\d+(?:\.\d+)?)px$/.exec(v || ''); return m ? +m[1] : 0;
+  };
+  var authoredPx = function (el, prop) {
+    if (pxVal(el.style[prop])) return true;
+    var attr = el.getAttribute(prop);
+    if (attr && /^\d+$/.test(attr)) return true;
+    var hit = false;
+    eachRule(function (r) {
+      if (hit || r.type !== 1 || !r.style) return;
+      try { if (el.matches(r.selectorText) && pxVal(r.style[prop])) hit = true; } catch (e) {}
+    });
+    return hit;
+  };
+
+  var el = document.body, rootPxW = false;
+  for (;;) {
+    var kids = [];
+    for (var c = 0; c < el.children.length; c++) {
+      var t = el.children[c].tagName;
+      if (t !== 'SCRIPT' && t !== 'STYLE' && t !== 'TEMPLATE') kids.push(el.children[c]);
+    }
+    if (kids.length !== 1 || !(kids[0] instanceof HTMLElement)) break;
+    if (STAMP) el.setAttribute('data-om-frame-wrap', '');
+    el = kids[0];
+    rootPxW = authoredPx(el, 'width');
+    if (rootPxW) break;
+  }
+  if (!rootPxW) rootPxW = authoredPx(el, 'width');
+
+  // @page{size:letter} alone is a flowing doc; with a px-width root it's a
+  // fixed sheet pretending to be paper — fall through and size to render.
+  if (paperPage && !rootPxW) {
+    return { kind: 'paper-doc', source: 'inferred', doc: doc, signals: signals,
+      frames: [{ left: 0, top: 0, width: doc.width, height: doc.height }],
+      authored: [{ width: false, height: false }] };
+  }
+
+  var sx = window.scrollX || 0, sy = window.scrollY || 0;
+  var rectOf = function (e) {
+    var r = e.getBoundingClientRect();
+    var oy; try { oy = getComputedStyle(e).overflowY; } catch (err) {}
+    var h = oy === 'visible' ? Math.max(r.height, e.scrollHeight || 0) : r.height;
+    return { left: r.left + sx, top: r.top + sy, width: r.width, height: h };
+  };
+
+  // Multi-frame: off unless the page opts in via data-om-multi-frame on the
+  // stop element — the explicit opt-in is what guards against card grids
+  // and pricing tables that match the geometry but aren't separate
+  // canvases. Two ways to name the frames, explicit first:
+  // 1. Descendants marked data-om-frame-export (the social-frames starter
+  //    marks each asset frame; shells/panels around them are presentation,
+  //    so nesting is expected). Document order.
+  // 2. Fallback, no marked descendants: direct children with an authored px
+  //    width AND height (the original geometry heuristic).
+  // Frames may be different sizes (a gallery mixes 1080×1920 stories with
+  // 728×90 banners); data-om-frame-label rides along for export filenames.
+  if (el.hasAttribute('data-om-multi-frame')) {
+    var visOk = function (e) {
+      var cs; try { cs = getComputedStyle(e); } catch (err) { return false; }
+      return cs.display !== 'none' && cs.visibility !== 'hidden' && cs.position !== 'fixed';
+    };
+    // A frame's crop is its VISUAL box — never the scrollHeight-inflated
+    // rect that rectOf computes for page roots. Shadow-DOM hover controls
+    // (image-slot's Replace bar parks 29px below its host) and similar
+    // escaping UI contribute scrollable overflow to the frame, and the
+    // inflated height both squashes the nominal-size resize and drags
+    // content below the frame into the crop. Zoom-independent; bit every
+    // slot-bearing frame.
+    var frameRectOf = function (e) {
+      var r = e.getBoundingClientRect();
+      return { left: r.left + sx, top: r.top + sy, width: r.width, height: r.height };
+    };
+    var pushCand = function (list, e) {
+      if (!visOk(e)) return;
+      var rc = frameRectOf(e);
+      if (rc.width < 2 || rc.height < 2) return;
+      var lbl = e.getAttribute('data-om-frame-label');
+      if (lbl) rc.label = lbl;
+      list.push(rc);
+    };
+    var cands = [];
+    var marked = el.querySelectorAll('[data-om-frame-export]');
+    if (marked.length) {
+      for (var mk = 0; mk < marked.length; mk++) pushCand(cands, marked[mk]);
+    } else {
+      for (var k = 0; k < el.children.length; k++) {
+        var ch = el.children[k];
+        if (!authoredPx(ch, 'width') || !authoredPx(ch, 'height')) continue;
+        pushCand(cands, ch);
+      }
+    }
+    if (cands.length >= 2) {
+      return { kind: 'multi-frame', source: 'inferred', doc: doc, signals: signals,
+        frames: cands, authored: cands.map(function(){return{width:true,height:true}}) };
+    }
+  }
+
+  if (STAMP) el.setAttribute('data-om-frame', '');
+  return { kind: 'single-canvas', source: 'inferred', doc: doc, signals: signals,
+    frames: [rectOf(el)],
+    authored: [{ width: rootPxW, height: authoredPx(el, 'height') }] };
+})(); } catch (e) {}
+  var frame = null;
+  if (__m && __m.kind === 'single-canvas') {
+    var f = __m.frames && __m.frames[0];
+    if (f && f.width >= 200 && f.height >= 200) {
+      frame = f;
+      var fst = document.createElement('style');
+      fst.textContent = '@media print{@page{size:' + Math.ceil(f.width) + 'px ' +
+        Math.ceil(f.height) + 'px;margin:0}' +
+        'html,body,[data-om-frame-wrap]{padding:0!important;margin:0!important;background:none!important}' +
+        '[data-om-frame]{margin:0!important}}';
+      document.body.appendChild(fst);
+    }
+  }
+  // Relax break-inside on oversized elements. An element taller than a
+  // printable page can't honor break-inside: avoid — browsers either overflow
+  // it or push it whole to the next page, leaving a blank gap, then break it
+  // anyway at an arbitrary point. After the final layout (content revealed,
+  // animations jumped), find elements taller than a page that still compute
+  // break-inside: avoid and reset them to auto, so the browser breaks them at
+  // their children's boundaries instead (children keep their own avoid). PAGE_PX
+  // is a conservative portrait estimate at 96 CSS px/in — Letter/A4 usable
+  // height minus our 0.5in margins — so only clearly-oversized elements are
+  // touched and under-page elements still stay whole. Skipped for decks (slides
+  // are sized to the page) and for fixed-size canvases (frame set, or an author
+  // px-based @page) — runs as before for flowing docs on letter/A4.
+  try {
+    if (!ds && !frame && !(__m && __m.signals && __m.signals.pxPage)) {
+      const PAGE_PX = 1024;
+      // Our print defaults add a real @page margin only when the source has
+      // no @page of its own; computed style can't tell us (it reports screen
+      // media), so read the injected rule directly.
+      const defaults = document.querySelector('style[data-omelette-print-defaults]');
+      const pageInset = /@page\s*\{[^}]*margin/.test(defaults ? defaults.textContent || '' : '');
+      const SEL = 'section,article,figure,table,pre,blockquote,[class~="card" i],[class~="page" i],[class~="sheet" i]';
+      for (const el of document.body.querySelectorAll(SEL)) {
+        if (el instanceof HTMLElement && el.offsetHeight > PAGE_PX) {
+          el.setAttribute('data-om-oversized', '');
+          // Fake-paged docs simulate sheets with over-tall break-after:page
+          // boxes; honoring the break spills half-blank pages and ends a
+          // colored box mid-sheet. Flow them, and (only when we own the page
+          // inset) drop the redundant padding/background via the rule below.
+          const cs = getComputedStyle(el);
+          if (cs.breakAfter === 'page' || cs.pageBreakAfter === 'always') {
+            el.setAttribute('data-om-fakepage', '');
+          }
+        }
+      }
+      const ost = document.createElement('style');
+      ost.textContent = '@media print{' +
+        '[data-om-oversized]{break-inside:auto !important;page-break-inside:auto !important}' +
+        '[data-om-fakepage]{break-after:auto !important;page-break-after:auto !important}' +
+        (pageInset ? '[data-om-fakepage]{padding:0 !important;background:none !important}' : '') +
+        '}';
+      document.head.appendChild(ost);
+    }
+  } catch (e) {}
+  // macOS Preview renders Skia-PDF Luminosity soft-masks as opaque grey boxes;
+  // swap the CSS that triggers them for Preview-safe forms.
+  try {
+    for (const el of document.body.querySelectorAll('*')) {
+      const cs = getComputedStyle(el);
+
+      if (cs.boxShadow !== 'none' && cs.filter === 'none') {
+        const outs = [], kept = [];
+        for (const s of cs.boxShadow.split(/,(?![^(]*[)])/)) {
+          const t = s.trim();
+          const m = t.match(/^(rgba?[(][^)]+[)]) (-?[0-9.]+px) (-?[0-9.]+px) ([0-9.]+px) -?[0-9.]+px$/);
+          if (m && parseFloat(m[4]) > 0) outs.push('drop-shadow(' + m[2] + ' ' + m[3] + ' ' + m[4] + ' ' + m[1] + ')');
+          else kept.push(t);
+        }
+        if (outs.length) {
+          el.style.setProperty('filter', outs.join(' '), 'important');
+          el.style.setProperty('box-shadow', kept.join(', ') || 'none', 'important');
+        }
+      }
+
+      const mask = cs.maskImage && cs.maskImage !== 'none' ? cs.maskImage : cs.webkitMaskImage;
+      if (mask && mask !== 'none' && cs.filter === 'none') el.style.setProperty('filter', 'opacity(1)', 'important');
+    }
+  } catch (e) {}
+  setTimeout(() => { try { window.print(); } catch (e) {} }, 200);
+})();
+</script>
+</body>
+</html>

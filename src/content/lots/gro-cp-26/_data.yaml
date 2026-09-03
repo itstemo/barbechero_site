@@ -1,0 +1,18 @@
+# MICROLOTE 02 — GRO·CP·26. Transcribed from design/Barbechero Sitio.dc.html,
+# the "CUPREATA" view. Wild-harvested around the maestro's own town, so
+# `origin` and `palenque` both point at the same place — see
+# docs/IMPLEMENTATION-PLAN.md §3b.
+number: 2
+codeAgave: CP
+accentHue: 250
+harvestYear: 2026
+agave: cupreata
+origin: san-miguel-de-las-palmas
+palenque: san-miguel-de-las-palmas
+maestro: jairo
+heroTag: SILVESTRE
+# No photos exist for this lot — `images` omitted entirely.
+notes: Herbales, toque dulce
+available: true
+order: 2
+nextLot: oax-cy-26

@@ -1,0 +1,16 @@
+# Where the Espadín—Mexicano lot was distilled (lots/gro-em-26 `palenque`).
+# Sierra Norte, Guerrero — see docs/IMPLEMENTATION-PLAN.md §3b. This is the
+# place `lotCode()` reads its GRO segment from, and (per §3b's decision) the
+# one marker the map draws for this lot.
+#
+# TODO: unconfirmed — derived from photo EXIF, needs confirmation. The photo
+# geotag for the tronco-hueco still shot is ~18.399, -99.778, about 8.6km from
+# the Telixtac field coordinate — consistent with a separate cultivation and
+# distillation site, but not proof. The design's original (rounded,
+# single-marker) coordinate for this lot was -99.55, 18.35.
+name: Pachivia
+region: Sierra Norte
+state: Guerrero
+stateAbbr: GRO
+coords: [-99.778, 18.399]
+labelPlacement: above

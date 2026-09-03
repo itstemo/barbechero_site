@@ -1,0 +1,10 @@
+# Coyote, MICROLOTE 03 (OAX·CY·26).
+# Transcribed from design/Barbechero Sitio.dc.html, section "01 — EL AGAVE"
+# (ESPECIE / MANEJO spec rows). Design's La Ficha AGAVE row displays the
+# combined "Coyote — Agave lyobaa"; commonName and scientificName are kept
+# separate here per the agaves schema, and the page layer is expected to
+# compose them the same way it composes any other spec row.
+commonName: Coyote
+scientificName: Agave lyobaa
+manejo: cultivado
+manejoLabel: Cultivado en Palo Grande

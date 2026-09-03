@@ -1,0 +1,388 @@
+---
+/**
+ * ES lot page. One template, no per-lot variants (plan §2):
+ *   hero -> 01 EL AGAVE -> 02 EL LUGAR -> 03 EL MAESTRO -> 04 LA FICHA
+ *
+ * Everything per-lot comes from the content collections: the accent is one
+ * hue applied on the page root, the sections' presence of a media column is
+ * `Boolean(images.*)`, and a section without a photo renders full-width prose
+ * rather than a placeholder box (plan §5b — explicit user instruction).
+ */
+import type { GetStaticPaths } from 'astro';
+import { getCollection, getEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Dot from '../../components/Dot.astro';
+import LotMap from '../../components/LotMap.astro';
+import LotMedia from '../../components/LotMedia.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import SpecList from '../../components/SpecList.astro';
+import SpecRow from '../../components/SpecRow.astro';
+import {
+  getLotProse,
+  isSameOriginAndPalenque,
+  lotCode,
+  microloteLabel,
+  placeLabel,
+} from '../../lib/lot';
+
+export const getStaticPaths = (async () => {
+  const lots = await getCollection('lots');
+  return lots.map((lot) => ({ params: { slug: lot.id }, props: { lot } }));
+}) satisfies GetStaticPaths;
+
+const { lot } = Astro.props;
+const data = lot.data;
+
+/*
+ * Plan §3c: a dangling reference() is reported through Astro's logger and the
+ * build still exits 0 — it only explodes when something dereferences it. So
+ * every join is resolved here, up front, and checked, which turns a broken
+ * join into a loud build failure instead of a render crash halfway down a page.
+ */
+function required<T>(value: T | undefined, what: string): T {
+  if (!value) {
+    throw new Error(
+      `Lot "${lot.id}": ${what} did not resolve. The reference is dangling — ` +
+        `Astro logs this at sync time without failing the build (plan §3c).`,
+    );
+  }
+  return value;
+}
+
+const [agaveEntry, originEntry, palenqueEntry, maestroEntry, proseEntry, nextEntry] =
+  await Promise.all([
+    getEntry(data.agave),
+    getEntry(data.origin),
+    getEntry(data.palenque),
+    getEntry(data.maestro),
+    getLotProse(lot.id, 'es'),
+    data.nextLot ? getEntry(data.nextLot) : Promise.resolve(undefined),
+  ]);
+
+const agave = required(agaveEntry, `agave "${data.agave.id}"`).data;
+const origin = required(originEntry, `origin place "${data.origin.id}"`);
+const palenque = required(palenqueEntry, `palenque "${data.palenque.id}"`);
+const maestro = required(maestroEntry, `maestro "${data.maestro.id}"`).data;
+const prose = required(proseEntry, `Spanish prose ("${lot.id}/es")`).data;
+
+let next: { href: string; name: string; accentHue: number } | undefined;
+if (data.nextLot) {
+  const nextLot = required(nextEntry, `nextLot "${data.nextLot.id}"`);
+  const nextAgave = required(
+    await getEntry(nextLot.data.agave),
+    `nextLot "${nextLot.id}"'s agave "${nextLot.data.agave.id}"`,
+  );
+  next = {
+    href: `/lote/${nextLot.id}/`,
+    name: nextAgave.data.commonName.toUpperCase(),
+    accentHue: nextLot.data.accentHue,
+  };
+}
+
+const code = lotCode(palenque.data.stateAbbr, data.codeAgave, data.harvestYear);
+const sameSite = isSameOriginAndPalenque(lot);
+
+/*
+ * Same caption rule as LotMap (plan §3b): when the field and the still are
+ * different places, name what they share; otherwise name the locality.
+ */
+const region = palenque.data.region;
+const heroLocality = (
+  !sameSite && region ? `${region}, ${palenque.data.state}` : placeLabel(palenque)
+).toUpperCase();
+
+/*
+ * The design shows "ESPECIES" (plural) for the hybrid lot and "ESPECIE" for
+ * the two single-species lots — derived from the agave, not hand-typed.
+ */
+const speciesLabel = agave.manejo === 'hibrido' ? 'ESPECIES' : 'ESPECIE';
+
+/*
+ * La Ficha's AGAVE row: "Coyote — Agave lyobaa", but plain "Cupreata" and
+ * plain "Espadín — Mexicano". The rule that produces all three: append the
+ * scientific name only when it adds something — i.e. when it does not already
+ * contain the common name, and is not a hybrid cross (which is stated in
+ * section 01 and is too long for a leader row).
+ */
+const scientific = agave.scientificName;
+const agaveFicha =
+  scientific.includes('×') || scientific.toLowerCase().includes(agave.commonName.toLowerCase())
+    ? agave.commonName
+    : `${agave.commonName} — ${scientific}`;
+
+const distillation = data.distillationDetail ?? maestro.distillationMethod;
+const maestroName = `${maestro.honorific} ${maestro.name}`.toUpperCase();
+
+const title = `${agave.commonName} — ${code} · Barbechero`;
+const description = `${microloteLabel(data.number)} ${code}: ${agave.commonName}, ${placeLabel(palenque)}, ${maestro.name}. Cosecha ${data.harvestYear}.`;
+---
+
+<Layout
+  title={title}
+  description={description}
+  nav="lotes"
+  accentHue={data.accentHue}
+  ogImage={`/og/${lot.id}.png`}
+  ogImageAlt={`Barbechero — ${microloteLabel(data.number)} ${code}, ${agave.commonName}`}
+>
+  <main class="u-page" id="contenido">
+    <section class="lot-hero">
+      <p class="lot-hero__eyebrow">
+        <Dot size={9} />
+        {microloteLabel(data.number)} — {code}
+      </p>
+      <h1 class="lot-hero__title">{agave.commonName}</h1>
+      <p class="lot-hero__meta">
+        <span>COSECHA {data.harvestYear}</span>
+        <span>{heroLocality}</span>
+        <span>{maestroName}</span>
+        <span>{data.heroTag.toUpperCase()}</span>
+      </p>
+    </section>
+
+    {/* --- 01 EL AGAVE --------------------------------------------------- */}
+    <section class="section section--first">
+      {
+        data.images?.agave && (
+          <div class="section__media">
+            <LotMedia
+              src={data.images.agave}
+              alt={`Agave del microlote ${code} en campo.`}
+              loading="eager"
+            />
+          </div>
+        )
+      }
+      <div class:list={['section__body', !data.images?.agave && 'is-solo']}>
+        <SectionHeading index="01" label="EL AGAVE" />
+        <h2 class="section__title">{prose.section01.heading}</h2>
+        <p class="section__prose">{prose.section01.body}</p>
+        <SpecList variant="inline">
+          <SpecRow label={speciesLabel} value={agave.scientificName} />
+          <SpecRow label="MANEJO" value={agave.manejoLabel} />
+          {data.notes && <SpecRow label="NOTAS" value={data.notes} />}
+        </SpecList>
+      </div>
+    </section>
+
+    {/* --- 02 EL LUGAR --------------------------------------------------- */}
+    <section class="section">
+      <div class="section__media">
+        <LotMap lot={lot} />
+      </div>
+      <div class="section__body">
+        <SectionHeading index="02" label="EL LUGAR" />
+        <h2 class="section__title">{prose.section02.heading}</h2>
+        <p class="section__prose">{prose.section02.body}</p>
+      </div>
+    </section>
+
+    {/* --- 03 EL MAESTRO ------------------------------------------------- */}
+    <section class="section">
+      {
+        data.images?.maestro && (
+          <div class="section__media">
+            <LotMedia
+              src={data.images.maestro}
+              alt={`El proceso de destilación del microlote ${code}.`}
+            />
+          </div>
+        )
+      }
+      <div class:list={['section__body', !data.images?.maestro && 'is-solo']}>
+        <SectionHeading index="03" label="EL MAESTRO" />
+        <h2 class="section__title">{prose.section03.heading}</h2>
+        <p class="section__prose">{prose.section03.body}</p>
+        {
+          distillation && (
+            <SpecList variant="inline">
+              <SpecRow label="DESTILACIÓN" value={distillation} />
+            </SpecList>
+          )
+        }
+      </div>
+    </section>
+
+    {/* --- 04 LA FICHA --------------------------------------------------- */}
+    <section class="section section--last">
+      {
+        data.images?.botella && (
+          <div class="section__media">
+            <LotMedia
+              src={data.images.botella}
+              alt={`Botella del microlote ${code}.`}
+            />
+          </div>
+        )
+      }
+      <div class:list={['section__body', !data.images?.botella && 'is-solo']}>
+        <SectionHeading index="04" label="LA FICHA" />
+        <SpecList variant="ficha">
+          <SpecRow label="AGAVE" value={agaveFicha} size="md" />
+          {/* The two-location story lives here now that the map draws one
+              marker (plan §3b): both rows whenever the sites differ. */}
+          <SpecRow label="ORIGEN" value={placeLabel(origin)} size="md" />
+          {!sameSite && <SpecRow label="PALENQUE" value={placeLabel(palenque)} size="md" />}
+          <SpecRow label="MAESTRO" value={maestro.name} size="md" />
+          {distillation && <SpecRow label="DESTILACIÓN" value={distillation} size="md" />}
+          <SpecRow label="COSECHA" value={String(data.harvestYear)} size="md" />
+          <SpecRow label="LOTE" value={code} size="md" tone="code" />
+        </SpecList>
+
+        {
+          next && (
+            <p class="next-lot">
+              <a
+                class="next-lot__link"
+                href={next.href}
+                style={`--accent-hue:${next.accentHue}`}
+              >
+                SIGUIENTE — {next.name} →
+              </a>
+            </p>
+          )
+        }
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  /* --- Hero ------------------------------------------------------------- */
+
+  .lot-hero {
+    padding: var(--space-hero-top) 0 var(--space-hero-bottom);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .lot-hero__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--font-mono);
+    font-weight: var(--weight-medium);
+    font-size: var(--mono-sm);
+    line-height: var(--lh-flat);
+    letter-spacing: var(--track-lg);
+    color: var(--accent);
+  }
+
+  .lot-hero__title {
+    font-style: italic;
+    font-size: var(--serif-display);
+    line-height: var(--lh-flat);
+    letter-spacing: -0.01em;
+    margin: 22px 0 0;
+    /* Applied here as well as globally: at the 46px clamp floor
+       "Espadín — Mexicano" needs ~370px against 327px, so it will wrap —
+       balance makes it break evenly (plan §6 defect 3, §6b item 9). */
+    text-wrap: balance;
+  }
+
+  .lot-hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px var(--gap-meta);
+    margin-top: var(--space-lg);
+    font-family: var(--font-mono);
+    font-size: var(--mono-xs);
+    line-height: var(--lh-meta);
+    letter-spacing: var(--track-md);
+    color: var(--muted-strong);
+  }
+
+  /* --- Sections --------------------------------------------------------- */
+
+  .section {
+    display: grid;
+    /* min() around the floor, or every one of these tracks forces 330px into
+       a 327px content box and the whole page scrolls sideways
+       (plan §6b item 1 — the prototype's single worst defect). */
+    grid-template-columns: repeat(auto-fit, minmax(min(var(--col-min), 100%), 1fr));
+    gap: var(--gap-grid);
+    align-items: start;
+    padding-block: var(--space-section);
+    border-top: 1px solid var(--rule);
+  }
+
+  /* auto-fit collapses the tracks it has no items for, so a section whose
+     photo does not exist is a single full-width column — no placeholder, no
+     empty gap (plan §5b). */
+
+  .section--first {
+    border-top: 0;
+  }
+
+  .section--last {
+    padding-bottom: var(--space-section-end);
+  }
+
+  .section__media {
+    position: sticky;
+    top: var(--sticky-top);
+    min-width: 0;
+  }
+
+  /* Once the grid is one column each media block is its own row and sticky
+     has no travel — dead positioning (plan §6b item 5). */
+  @media (max-width: 899px) {
+    .section__media {
+      position: static;
+    }
+  }
+
+  .section__body {
+    max-width: var(--measure);
+    min-width: 0;
+  }
+
+  /* A section with no photo runs full width; the prose still needs a measure,
+     just a more generous one than the two-column 520px. */
+  .section__body.is-solo {
+    max-width: 680px;
+  }
+
+  .section__title {
+    font-style: italic;
+    font-size: var(--serif-h2);
+    line-height: var(--lh-tight);
+    margin: 24px 0 18px;
+  }
+
+  .section__prose {
+    font-size: var(--serif-body);
+    line-height: var(--lh-body);
+    margin: 0 0 22px;
+  }
+
+  /* --- Next lot --------------------------------------------------------- */
+
+  .next-lot {
+    margin-top: 40px;
+  }
+
+  .next-lot__link {
+    /* Re-bind so the inline hue on this link resolves (see Layout.astro). */
+    --accent: oklch(0.52 0.11 var(--accent-hue));
+
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    font-family: var(--font-mono);
+    font-size: var(--mono-xs);
+    line-height: var(--lh-flat);
+    letter-spacing: var(--track-md);
+    box-shadow: 0 1px 0 var(--rule-heavy);
+  }
+
+  @media (hover: hover) {
+    .next-lot__link:hover {
+      color: var(--accent);
+    }
+  }
+
+  .next-lot__link:active,
+  .next-lot__link:focus-visible {
+    color: var(--accent);
+  }
+</style>

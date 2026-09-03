@@ -1,0 +1,49 @@
+---
+/**
+ * Barbechero logo.
+ *
+ * All three published logo files (design/assets/logo-mark.svg, logo-word.svg,
+ * logo-lockup.svg) contain identical artwork — only the viewBox differs — so a
+ * single inlined path set serves all three (plan §5). The source's
+ * `translate(0,529) scale(0.1,-0.1)` wrapper has been baked into the path data
+ * (verified: renders pixel-identical to the original).
+ *
+ * Inlined rather than <img> so it takes `currentColor` instead of a fixed #000.
+ */
+import { LOGO_PATHS, LOGO_VIEWBOX, type LogoVariant } from '../lib/logo';
+export type { LogoVariant };
+
+interface Props {
+  /** mark = the glyph, word = the wordmark, lockup = both. */
+  variant?: LogoVariant;
+  /**
+   * Accessible name. Omit (the default) for decorative use, which renders the
+   * SVG aria-hidden — correct when the logo sits next to a text label.
+   */
+  label?: string;
+  class?: string;
+}
+
+const { variant = 'lockup', label, class: className } = Astro.props;
+const viewBox = LOGO_VIEWBOX[variant];
+---
+
+<svg
+  class={className}
+  viewBox={viewBox}
+  fill="currentColor"
+  xmlns="http://www.w3.org/2000/svg"
+  role={label ? 'img' : undefined}
+  aria-hidden={label ? undefined : 'true'}
+  focusable="false"
+>
+  {label && <title>{label}</title>}
+  {LOGO_PATHS.map((d) => <path d={d} />)}
+</svg>
+
+<style>
+  svg {
+    display: block;
+    height: auto;
+  }
+</style>
