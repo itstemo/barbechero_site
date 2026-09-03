@@ -1,0 +1,68 @@
+---
+/**
+ * The media column of a lot-page section.
+ *
+ * Portrait sources in a landscape-ish slot (plan §5b): both photos that exist
+ * are 1800x2400 (3:4), while the design's slot is up to ~588x540 (~1.09:1).
+ * Cropping 3:4 into 1.09:1 discards ~40% of the frame, so the slot is changed
+ * instead of the photograph:
+ *
+ *   >= 900px  aspect-ratio 4/5 at the full column width (~588x735). Against a
+ *             3:4 source that trims 6.25% of the height and nothing of the
+ *             width — with `object-position: center` it comes evenly off the
+ *             top and bottom margins, which in both photos is sky and
+ *             foreground dirt, not subject.
+ *   <  900px  aspect-ratio 3/4 — the native ratio, so zero crop — but capped
+ *             at 260px wide as an inset plate. A full-bleed portrait at 360px
+ *             would be 480px tall, i.e. a wall of photo above every section
+ *             (plan §6b item 13); 260x347 keeps the whole frame and stays
+ *             smaller than the text block it introduces.
+ */
+import { Picture } from 'astro:assets';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  loading?: 'eager' | 'lazy';
+  class?: string;
+}
+
+const { src, alt, loading = 'lazy', class: className }: Props = Astro.props;
+---
+
+<figure class:list={['lot-media', className]}>
+  <Picture
+    src={src}
+    alt={alt}
+    formats={['avif', 'webp']}
+    fallbackFormat="jpg"
+    widths={[260, 520, 588, 780, 1176]}
+    sizes="(min-width: 1240px) 588px, (min-width: 900px) 47vw, 260px"
+    loading={loading}
+    decoding="async"
+  />
+</figure>
+
+<style>
+  .lot-media {
+    margin: 0;
+    /* Native 3:4, inset — no crop at all on a phone. */
+    aspect-ratio: 3 / 4;
+    max-width: 260px;
+    width: 100%;
+  }
+
+  .lot-media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  @media (min-width: 900px) {
+    .lot-media {
+      aspect-ratio: 4 / 5;
+      max-width: none;
+    }
+  }
+</style>
