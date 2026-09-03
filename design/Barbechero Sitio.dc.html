@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+html{scroll-behavior:smooth}
+body{margin:0;background:#f7f5ee;color:#211d17;-webkit-font-smoothing:antialiased}
+a{color:#211d17;text-decoration:none}
+a:hover{color:oklch(0.52 0.11 40)}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#f7f5ee;color:#211d17;font-family:'Spectral',Georgia,serif">
+
+  <header style="position:sticky;top:0;z-index:20;background:rgba(247,245,238,.92);backdrop-filter:blur(6px);border-bottom:1px solid rgba(33,29,23,.28)">
+    <div style="max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap">
+      <button onClick="{{ goHome }}" style="display:flex;align-items:center;gap:12px">
+        <img src="assets/logo-mark.svg" alt="" style="height:26px">
+        <img src="assets/logo-word.svg" alt="Barbechero" style="width:132px">
+      </button>
+      <nav style="display:flex;align-items:center;gap:22px;flex-wrap:wrap;font:400 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.16em">
+        <button onClick="{{ goHome }}" style="opacity:{{ opHome }}" style-hover="opacity:1">INICIO</button>
+        <span style="width:1px;height:12px;background:rgba(33,29,23,.3)"></span>
+        <button onClick="{{ goEm }}" style="display:flex;align-items:center;gap:7px;opacity:{{ opEm }}" style-hover="opacity:1"><span style="width:7px;height:7px;border-radius:50%;background:oklch(0.52 0.11 40)"></span>ESPADÍN—MEXICANO</button>
+        <button onClick="{{ goCp }}" style="display:flex;align-items:center;gap:7px;opacity:{{ opCp }}" style-hover="opacity:1"><span style="width:7px;height:7px;border-radius:50%;background:oklch(0.52 0.11 250)"></span>CUPREATA</button>
+        <button onClick="{{ goCy }}" style="display:flex;align-items:center;gap:7px;opacity:{{ opCy }}" style-hover="opacity:1"><span style="width:7px;height:7px;border-radius:50%;background:oklch(0.52 0.11 115)"></span>COYOTE</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ============================== INICIO ============================== -->
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <main style="max-width:1240px;margin:0 auto;padding:0 24px">
+    <section style="min-height:calc(100vh - 190px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:22px;padding:80px 0 60px">
+      <img src="assets/logo-mark.svg" alt="" style="height:clamp(120px,18vw,178px)">
+      <img src="assets/logo-word.svg" alt="Barbechero" style="width:clamp(240px,40vw,420px)">
+      <div style="font:italic 300 clamp(15px,2.2vw,20px)/1.4 'Spectral',serif;color:rgba(33,29,23,.7)">Destilado de agave</div>
+      <div style="font:400 9.5px/1.9 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.24em;color:rgba(33,29,23,.5);max-width:420px">BARBECHO — LABRAR LA TIERRA Y DEJARLA DESCANSAR</div>
+    </section>
+
+    <section style="padding:0 0 90px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid #211d17;padding-bottom:10px;margin-bottom:4px">
+        <span style="font:500 10px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.28em">LOTES</span>
+        <span style="font:400 10px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.2em;color:rgba(33,29,23,.55)">COSECHA 2026</span>
+      </div>
+
+      <button onClick="{{ goEm }}" style="width:100%;display:grid;grid-template-columns:26px minmax(220px,1.6fr) 1fr auto;align-items:center;gap:clamp(12px,3vw,34px);padding:26px 2px;border-bottom:1px solid rgba(33,29,23,.22);text-align:left" style-hover="background:rgba(33,29,23,.035)">
+        <span style="font:400 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;color:rgba(33,29,23,.45)">01</span>
+        <span style="display:flex;align-items:center;gap:12px;font:italic 300 clamp(24px,3.4vw,36px)/1.05 'Spectral',serif">
+          <span style="width:9px;height:9px;border-radius:50%;background:oklch(0.52 0.11 40);flex:none"></span>Espadín — Mexicano
+        </span>
+        <span style="font:400 9.5px/1.7 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em;color:rgba(33,29,23,.6)">SIERRA NORTE, GUERRERO<br>MTRO. DON ROQUE</span>
+        <span style="font:500 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.1em;color:oklch(0.52 0.11 40)">GRO·EM·26 →</span>
+      </button>
+
+      <button onClick="{{ goCp }}" style="width:100%;display:grid;grid-template-columns:26px minmax(220px,1.6fr) 1fr auto;align-items:center;gap:clamp(12px,3vw,34px);padding:26px 2px;border-bottom:1px solid rgba(33,29,23,.22);text-align:left" style-hover="background:rgba(33,29,23,.035)">
+        <span style="font:400 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;color:rgba(33,29,23,.45)">02</span>
+        <span style="display:flex;align-items:center;gap:12px;font:italic 300 clamp(24px,3.4vw,36px)/1.05 'Spectral',serif">
+          <span style="width:9px;height:9px;border-radius:50%;background:oklch(0.52 0.11 250);flex:none"></span>Cupreata
+        </span>
+        <span style="font:400 9.5px/1.7 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em;color:rgba(33,29,23,.6)">SAN MIGUEL DE LAS PALMAS, GUERRERO<br>MTRO. JAIRO</span>
+        <span style="font:500 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.1em;color:oklch(0.52 0.11 250)">GRO·CP·26 →</span>
+      </button>
+
+      <button onClick="{{ goCy }}" style="width:100%;display:grid;grid-template-columns:26px minmax(220px,1.6fr) 1fr auto;align-items:center;gap:clamp(12px,3vw,34px);padding:26px 2px;border-bottom:1px solid rgba(33,29,23,.22);text-align:left" style-hover="background:rgba(33,29,23,.035)">
+        <span style="font:400 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;color:rgba(33,29,23,.45)">03</span>
+        <span style="display:flex;align-items:center;gap:12px;font:italic 300 clamp(24px,3.4vw,36px)/1.05 'Spectral',serif">
+          <span style="width:9px;height:9px;border-radius:50%;background:oklch(0.52 0.11 115);flex:none"></span>Coyote
+        </span>
+        <span style="font:400 9.5px/1.7 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em;color:rgba(33,29,23,.6)">PALO GRANDE, MIAHUATLÁN, OAXACA<br>MTRO. SOZIMO JARQUÍN</span>
+        <span style="font:500 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.1em;color:oklch(0.52 0.11 115)">OAX·CY·26 →</span>
+      </button>
+    </section>
+  </main>
+  </sc-if>
+
+  <!-- ============================== ESPADÍN — MEXICANO ============================== -->
+  <sc-if value="{{ isEm }}" hint-placeholder-val="{{ true }}">
+  <main style="max-width:1240px;margin:0 auto;padding:0 24px">
+    <section style="padding:clamp(56px,9vw,110px) 0 clamp(40px,6vw,70px);border-bottom:1px solid rgba(33,29,23,.22)">
+      <div style="display:flex;align-items:center;gap:14px;font:500 10px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.26em;color:oklch(0.52 0.11 40)">
+        <span style="width:9px;height:9px;border-radius:50%;background:oklch(0.52 0.11 40)"></span>MICROLOTE 01 — GRO·EM·26
+      </div>
+      <h1 style="font:italic 300 clamp(46px,9.5vw,116px)/1 'Spectral',serif;margin:22px 0 0;letter-spacing:-.01em;text-wrap:pretty">Espadín — Mexicano</h1>
+      <div style="display:flex;flex-wrap:wrap;gap:clamp(18px,4vw,54px);margin-top:30px;font:400 9.5px/1.8 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.16em;color:rgba(33,29,23,.62)">
+        <span>COSECHA 2026</span><span>SIERRA NORTE, GUERRERO</span><span>MTRO. DON ROQUE</span><span>MÉTODO FILIPINO</span>
+      </div>
+    </section>
+
+    <!-- 01 el agave -->
+    <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:clamp(28px,5vw,64px);align-items:start;padding:clamp(44px,7vw,86px) 0">
+      <div style="position:sticky;top:96px">
+        <image-slot id="site-em-agave" shape="rect" style="width:100%;height:clamp(300px,44vw,540px)" placeholder="Foto del agave en campo"></image-slot>
+      </div>
+      <div style="max-width:520px">
+        <div style="font:500 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.26em;color:rgba(33,29,23,.5);padding-bottom:12px;border-bottom:1px solid rgba(33,29,23,.3)">01 — EL AGAVE</div>
+        <h2 style="font:italic 300 clamp(26px,3.6vw,38px)/1.15 'Spectral',serif;margin:24px 0 18px">Una cruza de dos especies nativas</h2>
+        <p style="font:400 clamp(16px,1.5vw,18.5px)/1.75 'Spectral',serif;margin:0 0 22px;text-wrap:pretty">Este agave es la cruza de dos especies nativas de la sierra norte de Guerrero: Angustifolia y Rhodacantha. Que después de muchos años se cruzaron y generaron un hibrido asombroso. Ésta en una bebida única, con un sabor magnificado por las manos de Don Roque usando el método Filipino en un tronco hueco, que es de los métodos más ancestrales de destilación de México,</p>
+        <div style="display:flex;flex-direction:column;gap:9px;padding-top:20px;border-top:1px solid rgba(33,29,23,.22)">
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">ESPECIES</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 15px/1 'Spectral',serif">A. angustifolia × A. rhodacantha</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">MANEJO</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 15px/1 'Spectral',serif">Híbrido de sierra</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 el lugar -->
+    <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:clamp(28px,5vw,64px);align-items:start;padding:clamp(44px,7vw,86px) 0;border-top:1px solid rgba(33,29,23,.22)">
+      <div style="position:sticky;top:96px">
+        <div style="position:relative;width:100%;aspect-ratio:660/280">
+          <img src="assets/map-base.svg" alt="Mapa del sur de México" style="width:100%;height:100%;display:block">
+          <span style="position:absolute;left:38.9%;top:44.9%;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;border-radius:50%;background:oklch(0.52 0.11 40);box-shadow:0 0 0 5px rgba(247,245,238,.6)"></span>
+          <span style="position:absolute;left:38.9%;top:44.9%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;border:1px solid oklch(0.52 0.11 40);opacity:.55"></span>
+          <span style="position:absolute;left:38.9%;top:44.9%;transform:translate(-50%,-260%);white-space:nowrap;font:500 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em;color:#211d17">SIERRA NORTE, GUERRERO</span>
+          <span style="position:absolute;left:40.4%;top:51.1%;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:#211d17;opacity:.3"></span>
+          <span style="position:absolute;left:57.5%;top:76.3%;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:#211d17;opacity:.3"></span>
+        </div>
+        <div style="font:400 8.5px/1.7 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.45);margin-top:12px">GEOMETRÍA: NATURAL EARTH · PROYECCIÓN MERCATOR</div>
+      </div>
+      <div style="max-width:520px">
+        <div style="font:500 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.26em;color:rgba(33,29,23,.5);padding-bottom:12px;border-bottom:1px solid rgba(33,29,23,.3)">02 — EL LUGAR</div>
+        <h2 style="font:italic 300 clamp(26px,3.6vw,38px)/1.15 'Spectral',serif;margin:24px 0 18px">Sierra norte de Guerrero</h2>
+        <p style="font:400 clamp(16px,1.5vw,18.5px)/1.75 'Spectral',serif;margin:0;text-wrap:pretty">Las dos especies que dan origen a este lote son nativas de la misma sierra. Cruzarse les tomó muchos años; el resultado no existe en ningún otro lugar del mapa.</p>
+      </div>
+    </section>
+
+    <!-- 03 el maestro -->
+    <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:clamp(28px,5vw,64px);align-items:start;padding:clamp(44px,7vw,86px) 0;border-top:1px solid rgba(33,29,23,.22)">
+      <div style="position:sticky;top:96px">
+        <image-slot id="site-em-maestro" shape="rect" style="width:100%;height:clamp(300px,44vw,540px)" placeholder="Retrato de Don Roque"></image-slot>
+      </div>
+      <div style="max-width:520px">
+        <div style="font:500 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.26em;color:rgba(33,29,23,.5);padding-bottom:12px;border-bottom:1px solid rgba(33,29,23,.3)">03 — EL MAESTRO</div>
+        <h2 style="font:italic 300 clamp(26px,3.6vw,38px)/1.15 'Spectral',serif;margin:24px 0 18px">Don Roque</h2>
+        <p style="font:400 clamp(16px,1.5vw,18.5px)/1.75 'Spectral',serif;margin:0 0 22px;text-wrap:pretty">Don Roque destila en un tronco hueco, con el método filipino: uno de los métodos más ancestrales de destilación de México. El sabor del lote pasa por sus manos.</p>
+        <div style="display:flex;flex-direction:column;gap:9px;padding-top:20px;border-top:1px solid rgba(33,29,23,.22)">
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">DESTILACIÓN</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 15px/1 'Spectral',serif">Método filipino, tronco hueco</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 la ficha -->
+    <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:clamp(28px,5vw,64px);align-items:start;padding:clamp(44px,7vw,86px) 0 clamp(60px,8vw,100px);border-top:1px solid rgba(33,29,23,.22)">
+      <div style="position:sticky;top:96px">
+        <image-slot id="site-em-botella" shape="rect" style="width:100%;height:clamp(300px,44vw,540px)" placeholder="Foto de la botella"></image-slot>
+      </div>
+      <div style="max-width:520px">
+        <div style="font:500 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.26em;color:rgba(33,29,23,.5);padding-bottom:12px;border-bottom:1px solid rgba(33,29,23,.3)">04 — LA FICHA</div>
+        <div style="display:flex;flex-direction:column;gap:13px;margin-top:26px">
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">AGAVE</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 16px/1 'Spectral',serif">Espadín — Mexicano</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">ORIGEN</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 16px/1 'Spectral',serif">Sierra norte, Guerrero</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">MAESTRO</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 16px/1 'Spectral',serif">Don Roque</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">DESTILACIÓN</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 16px/1 'Spectral',serif">Método filipino</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">COSECHA</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 16px/1 'Spectral',serif">2026</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">LOTE</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:500 15px/1 'IBM Plex Mono',ui-monospace,monospace;color:oklch(0.52 0.11 40)">GRO·EM·26</span></div>
+        </div>
+        <div style="display:flex;gap:26px;margin-top:40px;font:400 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.16em">
+          <button onClick="{{ goCp }}" style="border-bottom:1px solid rgba(33,29,23,.4);padding-bottom:3px" style-hover="color:oklch(0.52 0.11 250)">SIGUIENTE — CUPREATA →</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <!-- ============================== CUPREATA ============================== -->
+  <sc-if value="{{ isCp }}" hint-placeholder-val="{{ true }}">
+  <main style="max-width:1240px;margin:0 auto;padding:0 24px">
+    <section style="padding:clamp(56px,9vw,110px) 0 clamp(40px,6vw,70px);border-bottom:1px solid rgba(33,29,23,.22)">
+      <div style="display:flex;align-items:center;gap:14px;font:500 10px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.26em;color:oklch(0.52 0.11 250)">
+        <span style="width:9px;height:9px;border-radius:50%;background:oklch(0.52 0.11 250)"></span>MICROLOTE 02 — GRO·CP·26
+      </div>
+      <h1 style="font:italic 300 clamp(46px,9.5vw,116px)/1 'Spectral',serif;margin:22px 0 0;letter-spacing:-.01em">Cupreata</h1>
+      <div style="display:flex;flex-wrap:wrap;gap:clamp(18px,4vw,54px);margin-top:30px;font:400 9.5px/1.8 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.16em;color:rgba(33,29,23,.62)">
+        <span>COSECHA 2026</span><span>SAN MIGUEL DE LAS PALMAS, GUERRERO</span><span>MTRO. JAIRO</span><span>SILVESTRE</span>
+      </div>
+    </section>
+
+    <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:clamp(28px,5vw,64px);align-items:start;padding:clamp(44px,7vw,86px) 0">
+      <div style="position:sticky;top:96px">
+        <image-slot id="site-cp-agave" shape="rect" style="width:100%;height:clamp(300px,44vw,540px)" placeholder="Foto del agave cupreata silvestre"></image-slot>
+      </div>
+      <div style="max-width:520px">
+        <div style="font:500 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.26em;color:rgba(33,29,23,.5);padding-bottom:12px;border-bottom:1px solid rgba(33,29,23,.3)">01 — EL AGAVE</div>
+        <h2 style="font:italic 300 clamp(26px,3.6vw,38px)/1.15 'Spectral',serif;margin:24px 0 18px">Silvestre, de montaña y lomerío</h2>
+        <p style="font:400 clamp(16px,1.5vw,18.5px)/1.75 'Spectral',serif;margin:0 0 22px;text-wrap:pretty">Este agave se produce en forma silvestre en las montañas y lomeríos del estado de Guerrero. Tiene un sabor único matizado con notas herbales y un toque dulce. Ha sido destilado por el maestro Jairo de San Miguel de las Palmas Guerrero.</p>
+        <div style="display:flex;flex-direction:column;gap:9px;padding-top:20px;border-top:1px solid rgba(33,29,23,.22)">
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">ESPECIE</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 15px/1 'Spectral',serif">Agave cupreata</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">MANEJO</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 15px/1 'Spectral',serif">Silvestre</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">NOTAS</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 15px/1 'Spectral',serif">Herbales, toque dulce</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:clamp(28px,5vw,64px);align-items:start;padding:clamp(44px,7vw,86px) 0;border-top:1px solid rgba(33,29,23,.22)">
+      <div style="position:sticky;top:96px">
+        <div style="position:relative;width:100%;aspect-ratio:660/280">
+          <img src="assets/map-base.svg" alt="Mapa del sur de México" style="width:100%;height:100%;display:block">
+          <span style="position:absolute;left:40.4%;top:51.1%;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;border-radius:50%;background:oklch(0.52 0.11 250);box-shadow:0 0 0 5px rgba(247,245,238,.6)"></span>
+          <span style="position:absolute;left:40.4%;top:51.1%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;border:1px solid oklch(0.52 0.11 250);opacity:.55"></span>
+          <span style="position:absolute;left:40.4%;top:51.1%;transform:translate(-50%,220%);white-space:nowrap;font:500 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em;color:#211d17">SAN MIGUEL DE LAS PALMAS, GUERRERO</span>
+          <span style="position:absolute;left:38.9%;top:44.9%;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:#211d17;opacity:.3"></span>
+          <span style="position:absolute;left:57.5%;top:76.3%;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:#211d17;opacity:.3"></span>
+        </div>
+        <div style="font:400 8.5px/1.7 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.45);margin-top:12px">GEOMETRÍA: NATURAL EARTH · PROYECCIÓN MERCATOR</div>
+      </div>
+      <div style="max-width:520px">
+        <div style="font:500 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.26em;color:rgba(33,29,23,.5);padding-bottom:12px;border-bottom:1px solid rgba(33,29,23,.3)">02 — EL LUGAR</div>
+        <h2 style="font:italic 300 clamp(26px,3.6vw,38px)/1.15 'Spectral',serif;margin:24px 0 18px">San Miguel de las Palmas</h2>
+        <p style="font:400 clamp(16px,1.5vw,18.5px)/1.75 'Spectral',serif;margin:0;text-wrap:pretty">El cupreata no se siembra en hilera: crece donde la montaña lo deja. Se recolecta en las laderas y lomeríos que rodean el pueblo del maestro Jairo.</p>
+      </div>
+    </section>
+
+    <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:clamp(28px,5vw,64px);align-items:start;padding:clamp(44px,7vw,86px) 0;border-top:1px solid rgba(33,29,23,.22)">
+      <div style="position:sticky;top:96px">
+        <image-slot id="site-cp-maestro" shape="rect" style="width:100%;height:clamp(300px,44vw,540px)" placeholder="Retrato del maestro Jairo"></image-slot>
+      </div>
+      <div style="max-width:520px">
+        <div style="font:500 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.26em;color:rgba(33,29,23,.5);padding-bottom:12px;border-bottom:1px solid rgba(33,29,23,.3)">03 — EL MAESTRO</div>
+        <h2 style="font:italic 300 clamp(26px,3.6vw,38px)/1.15 'Spectral',serif;margin:24px 0 18px">Maestro Jairo</h2>
+        <p style="font:400 clamp(16px,1.5vw,18.5px)/1.75 'Spectral',serif;margin:0;text-wrap:pretty">De San Miguel de las Palmas, Guerrero. Suyo es el lote completo: la recolecta del agave silvestre y la destilación.</p>
+      </div>
+    </section>
+
+    <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:clamp(28px,5vw,64px);align-items:start;padding:clamp(44px,7vw,86px) 0 clamp(60px,8vw,100px);border-top:1px solid rgba(33,29,23,.22)">
+      <div style="position:sticky;top:96px">
+        <image-slot id="site-cp-botella" shape="rect" style="width:100%;height:clamp(300px,44vw,540px)" placeholder="Foto de la botella"></image-slot>
+      </div>
+      <div style="max-width:520px">
+        <div style="font:500 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.26em;color:rgba(33,29,23,.5);padding-bottom:12px;border-bottom:1px solid rgba(33,29,23,.3)">04 — LA FICHA</div>
+        <div style="display:flex;flex-direction:column;gap:13px;margin-top:26px">
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">AGAVE</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 16px/1 'Spectral',serif">Cupreata</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">ORIGEN</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 16px/1 'Spectral',serif">San Miguel de las Palmas, Guerrero</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">MAESTRO</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 16px/1 'Spectral',serif">Jairo</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">COSECHA</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 16px/1 'Spectral',serif">2026</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">LOTE</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:500 15px/1 'IBM Plex Mono',ui-monospace,monospace;color:oklch(0.52 0.11 250)">GRO·CP·26</span></div>
+        </div>
+        <div style="display:flex;gap:26px;margin-top:40px;font:400 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.16em">
+          <button onClick="{{ goCy }}" style="border-bottom:1px solid rgba(33,29,23,.4);padding-bottom:3px" style-hover="color:oklch(0.52 0.11 115)">SIGUIENTE — COYOTE →</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <!-- ============================== COYOTE ============================== -->
+  <sc-if value="{{ isCy }}" hint-placeholder-val="{{ true }}">
+  <main style="max-width:1240px;margin:0 auto;padding:0 24px">
+    <section style="padding:clamp(56px,9vw,110px) 0 clamp(40px,6vw,70px);border-bottom:1px solid rgba(33,29,23,.22)">
+      <div style="display:flex;align-items:center;gap:14px;font:500 10px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.26em;color:oklch(0.52 0.11 115)">
+        <span style="width:9px;height:9px;border-radius:50%;background:oklch(0.52 0.11 115)"></span>MICROLOTE 03 — OAX·CY·26
+      </div>
+      <h1 style="font:italic 300 clamp(46px,9.5vw,116px)/1 'Spectral',serif;margin:22px 0 0;letter-spacing:-.01em">Coyote</h1>
+      <div style="display:flex;flex-wrap:wrap;gap:clamp(18px,4vw,54px);margin-top:30px;font:400 9.5px/1.8 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.16em;color:rgba(33,29,23,.62)">
+        <span>COSECHA 2026</span><span>PALO GRANDE, MIAHUATLÁN, OAXACA</span><span>MTRO. SOZIMO JARQUÍN</span><span>ALAMBIQUE DE REFRESCADERA</span>
+      </div>
+    </section>
+
+    <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:clamp(28px,5vw,64px);align-items:start;padding:clamp(44px,7vw,86px) 0">
+      <div style="position:sticky;top:96px">
+        <image-slot id="site-cy-agave" shape="rect" style="width:100%;height:clamp(300px,44vw,540px)" placeholder="Foto del agave coyote"></image-slot>
+      </div>
+      <div style="max-width:520px">
+        <div style="font:500 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.26em;color:rgba(33,29,23,.5);padding-bottom:12px;border-bottom:1px solid rgba(33,29,23,.3)">01 — EL AGAVE</div>
+        <h2 style="font:italic 300 clamp(26px,3.6vw,38px)/1.15 'Spectral',serif;margin:24px 0 18px">Uno de los agaves más escasos</h2>
+        <p style="font:400 clamp(16px,1.5vw,18.5px)/1.75 'Spectral',serif;margin:0 0 22px;text-wrap:pretty">El agave lyobaa es considerado uno de los agaves más escasos y difíciles de encontrar en forma silvestre. Lo cultivamos en Palo Grande, en Miahuatlan, Oaxaca y fue destilado por el Maestro Sozimo Jarquin usando el método artesanal de alambique de refrescadera, de alta complejidad y rareza. Disfruta la complejidad, suavidad y perfil aromático de mezcal.</p>
+        <div style="display:flex;flex-direction:column;gap:9px;padding-top:20px;border-top:1px solid rgba(33,29,23,.22)">
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">ESPECIE</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 15px/1 'Spectral',serif">Agave lyobaa</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">MANEJO</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 15px/1 'Spectral',serif">Cultivado en Palo Grande</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:clamp(28px,5vw,64px);align-items:start;padding:clamp(44px,7vw,86px) 0;border-top:1px solid rgba(33,29,23,.22)">
+      <div style="position:sticky;top:96px">
+        <div style="position:relative;width:100%;aspect-ratio:660/280">
+          <img src="assets/map-base.svg" alt="Mapa del sur de México" style="width:100%;height:100%;display:block">
+          <span style="position:absolute;left:57.5%;top:76.3%;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;border-radius:50%;background:oklch(0.52 0.11 115);box-shadow:0 0 0 5px rgba(247,245,238,.6)"></span>
+          <span style="position:absolute;left:57.5%;top:76.3%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;border:1px solid oklch(0.52 0.11 115);opacity:.55"></span>
+          <span style="position:absolute;left:57.5%;top:76.3%;transform:translate(-50%,220%);white-space:nowrap;font:500 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em;color:#211d17">PALO GRANDE, MIAHUATLÁN, OAXACA</span>
+          <span style="position:absolute;left:38.9%;top:44.9%;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:#211d17;opacity:.3"></span>
+          <span style="position:absolute;left:40.4%;top:51.1%;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:#211d17;opacity:.3"></span>
+        </div>
+        <div style="font:400 8.5px/1.7 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.45);margin-top:12px">GEOMETRÍA: NATURAL EARTH · PROYECCIÓN MERCATOR</div>
+      </div>
+      <div style="max-width:520px">
+        <div style="font:500 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.26em;color:rgba(33,29,23,.5);padding-bottom:12px;border-bottom:1px solid rgba(33,29,23,.3)">02 — EL LUGAR</div>
+        <h2 style="font:italic 300 clamp(26px,3.6vw,38px)/1.15 'Spectral',serif;margin:24px 0 18px">Palo Grande, Miahuatlán</h2>
+        <p style="font:400 clamp(16px,1.5vw,18.5px)/1.75 'Spectral',serif;margin:0;text-wrap:pretty">Un agave que casi no se encuentra silvestre, sembrado y esperado en Palo Grande, en la sierra sur de Oaxaca.</p>
+      </div>
+    </section>
+
+    <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:clamp(28px,5vw,64px);align-items:start;padding:clamp(44px,7vw,86px) 0;border-top:1px solid rgba(33,29,23,.22)">
+      <div style="position:sticky;top:96px">
+        <image-slot id="site-cy-maestro" shape="rect" style="width:100%;height:clamp(300px,44vw,540px)" placeholder="Retrato del maestro Sozimo Jarquín"></image-slot>
+      </div>
+      <div style="max-width:520px">
+        <div style="font:500 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.26em;color:rgba(33,29,23,.5);padding-bottom:12px;border-bottom:1px solid rgba(33,29,23,.3)">03 — EL MAESTRO</div>
+        <h2 style="font:italic 300 clamp(26px,3.6vw,38px)/1.15 'Spectral',serif;margin:24px 0 18px">Maestro Sozimo Jarquín</h2>
+        <p style="font:400 clamp(16px,1.5vw,18.5px)/1.75 'Spectral',serif;margin:0 0 22px;text-wrap:pretty">Destila con alambique de refrescadera, un método artesanal de alta complejidad y rareza.</p>
+        <div style="display:flex;flex-direction:column;gap:9px;padding-top:20px;border-top:1px solid rgba(33,29,23,.22)">
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">DESTILACIÓN</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 15px/1 'Spectral',serif">Alambique de refrescadera</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:clamp(28px,5vw,64px);align-items:start;padding:clamp(44px,7vw,86px) 0 clamp(60px,8vw,100px);border-top:1px solid rgba(33,29,23,.22)">
+      <div style="position:sticky;top:96px">
+        <image-slot id="site-cy-botella" shape="rect" style="width:100%;height:clamp(300px,44vw,540px)" placeholder="Foto de la botella"></image-slot>
+      </div>
+      <div style="max-width:520px">
+        <div style="font:500 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.26em;color:rgba(33,29,23,.5);padding-bottom:12px;border-bottom:1px solid rgba(33,29,23,.3)">04 — LA FICHA</div>
+        <div style="display:flex;flex-direction:column;gap:13px;margin-top:26px">
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">AGAVE</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 16px/1 'Spectral',serif">Coyote — Agave lyobaa</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">ORIGEN</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 16px/1 'Spectral',serif">Palo Grande, Miahuatlán, Oaxaca</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">MAESTRO</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 16px/1 'Spectral',serif">Sozimo Jarquín</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">DESTILACIÓN</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 16px/1 'Spectral',serif">Alambique de refrescadera</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">COSECHA</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:italic 400 16px/1 'Spectral',serif">2026</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font:400 9px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.12em;color:rgba(33,29,23,.55)">LOTE</span><span style="flex:1;border-bottom:1px dotted rgba(33,29,23,.4)"></span><span style="font:500 15px/1 'IBM Plex Mono',ui-monospace,monospace;color:oklch(0.52 0.11 115)">OAX·CY·26</span></div>
+        </div>
+        <div style="display:flex;gap:26px;margin-top:40px;font:400 9.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.16em">
+          <button onClick="{{ goEm }}" style="border-bottom:1px solid rgba(33,29,23,.4);padding-bottom:3px" style-hover="color:oklch(0.52 0.11 40)">SIGUIENTE — ESPADÍN—MEXICANO →</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <footer style="border-top:1px solid #211d17;margin-top:20px">
+    <div style="max-width:1240px;margin:0 auto;padding:34px 24px 46px;display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end;justify-content:space-between">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <img src="assets/logo-word.svg" alt="Barbechero" style="width:150px">
+        <span style="font:italic 400 14px/1.5 'Spectral',serif;color:rgba(33,29,23,.7);max-width:340px">Barbecho: labrar la tierra y dejarla descansar.</span>
+      </div>
+      <div style="font:400 8.5px/2 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em;color:rgba(33,29,23,.5);text-align:right">
+        MEZCAL ARTESANAL — HECHO EN MÉXICO<br>EL ABUSO EN EL CONSUMO DE ESTE PRODUCTO ES NOCIVO PARA LA SALUD
+      </div>
+    </div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { view: 'home' };
+  go(v) {
+    return () => {
+      this.setState({ view: v });
+      if (typeof window !== 'undefined') window.scrollTo({ top: 0 });
+    };
+  }
+  renderVals() {
+    const v = this.state.view;
+    return {
+      isHome: v === 'home', isEm: v === 'em', isCp: v === 'cp', isCy: v === 'cy',
+      goHome: this.go('home'), goEm: this.go('em'), goCp: this.go('cp'), goCy: this.go('cy'),
+      opHome: v === 'home' ? 1 : 0.5,
+      opEm: v === 'em' ? 1 : 0.5,
+      opCp: v === 'cp' ? 1 : 0.5,
+      opCy: v === 'cy' ? 1 : 0.5
+    };
+  }
+}
+
+</script>
+</body>
+</html>
