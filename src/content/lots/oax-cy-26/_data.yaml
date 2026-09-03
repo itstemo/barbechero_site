@@ -1,0 +1,20 @@
+# MICROLOTE 03 — OAX·CY·26. Transcribed from design/Barbechero Sitio.dc.html,
+# the "COYOTE" view. Cultivated and distilled at the same site, so `origin`
+# and `palenque` both point at the same place — see
+# docs/IMPLEMENTATION-PLAN.md §3b.
+number: 3
+codeAgave: CY
+accentHue: 115
+harvestYear: 2026
+agave: coyote
+origin: palo-grande
+palenque: palo-grande
+maestro: sozimo-jarquin
+heroTag: ALAMBIQUE DE REFRESCADERA
+images:
+  agave: ../../../assets/lots/oax-cy-26/agave-campo.jpg
+  # No maestro or bottle photos exist for this lot — those keys are omitted.
+distillationDetail: Alambique de refrescadera
+available: true
+order: 3
+nextLot: gro-em-26

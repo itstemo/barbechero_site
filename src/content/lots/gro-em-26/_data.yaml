@@ -1,0 +1,24 @@
+# MICROLOTE 01 — GRO·EM·26. Transcribed from design/Barbechero Sitio.dc.html,
+# the "ESPADÍN — MEXICANO" view. See docs/IMPLEMENTATION-PLAN.md §3b for the
+# two-location model (origin: Telixtac vs. palenque: Pachivia) and its
+# unconfirmed coordinates.
+number: 1
+codeAgave: EM
+accentHue: 40
+harvestYear: 2026
+agave: espadin-mexicano
+origin: telixtac
+palenque: pachivia
+maestro: don-roque
+heroTag: MÉTODO FILIPINO
+images:
+  agave: ../../../assets/lots/gro-em-26/agave-campo.jpg
+  # The design's slot 03 is captioned "Retrato de Don Roque", but the only
+  # photo that exists is the hollow-trunk still, not a portrait — see plan
+  # §5b. Suits the section anyway: its prose is about the tronco hueco.
+  maestro: ../../../assets/lots/gro-em-26/tronco-hueco.jpg
+  # No bottle photo exists — `botella` key omitted, not placeholdered.
+distillationDetail: Método filipino, tronco hueco
+available: true
+order: 1
+nextLot: gro-cp-26

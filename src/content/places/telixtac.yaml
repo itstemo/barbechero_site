@@ -1,0 +1,14 @@
+# Where the Espadín—Mexicano agave was cultivated (lots/gro-em-26 `origin`).
+# Sierra Norte, Guerrero — see docs/IMPLEMENTATION-PLAN.md §3b.
+#
+# TODO: unconfirmed — derived from photo EXIF, needs confirmation. The photo
+# geotag for the agave-campo shot is ~18.344, -99.836; the design's original
+# (rounded, single-marker) coordinate for this lot was -99.55, 18.35. Plan §5b
+# flags a ~30km discrepancy between the two. Per the task 7 brief, this entry
+# uses the photo-derived coordinate as a hypothesis, not a verified location.
+name: Telixtac
+region: Sierra Norte
+state: Guerrero
+stateAbbr: GRO
+coords: [-99.836, 18.344]
+labelPlacement: above
