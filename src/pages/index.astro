@@ -70,8 +70,11 @@ const harvestLabel =
     ? `COSECHA ${years[0]}`
     : `COSECHA ${years[0]}—${years[years.length - 1]}`;
 
+/* "de México" rather than naming states: lots will be added from regions
+   beyond Guerrero and Oaxaca, and this string feeds both the meta description
+   and the Organization JSON-LD, so it should not need editing per lot. */
 const description =
-  'Barbechero: microlotes de mezcal artesanal de Guerrero y Oaxaca. Barbecho: labrar la tierra y dejarla descansar.';
+  'Barbechero: microlotes de mezcal artesanal de México. Barbecho: labrar la tierra y dejarla descansar.';
 
 /*
  * Organization only, and deliberately nothing else.
