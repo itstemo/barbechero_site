@@ -1,0 +1,236 @@
+---
+/**
+ * `02 — EL LUGAR`'s map (plan §4).
+ *
+ * A static base map of southern Mexico (`src/assets/map-base.svg`, generated
+ * once by `design/map-src.html`) with one accent marker for this lot and a
+ * dimmed context dot for every other lot, so a reader sees where this lot sits
+ * among the rest. Positions are computed at build time by `src/lib/projection.ts`
+ * from each place's `coords`; no percentage is hardcoded, and no JavaScript
+ * reaches the browser.
+ *
+ * One marker, at the *palenque* — plan §3b "DECIDED": a lot's field and its
+ * still can be different places (Telixtac and Pachivia are 8.6km apart), but
+ * at this scale that is 3.35px against an 11px dot, so two markers would
+ * overlap into a blob. The distinction is carried by the prose and the
+ * ORIGEN / PALENQUE spec rows instead.
+ */
+import { getCollection, getEntries, getEntry, type CollectionEntry } from 'astro:content';
+import mapBase from '../assets/map-base.svg';
+import {
+  MAP_ASPECT_RATIO,
+  formatPercent,
+  isOnMap,
+  project,
+  type MapPosition,
+} from '../lib/projection';
+import { isSameOriginAndPalenque, placeLabel } from '../lib/lot';
+
+interface Props {
+  lot: CollectionEntry<'lots'>;
+  /**
+   * Accessible name override. Defaults to a Spanish sentence naming the
+   * palenque's locality (plan §6 item 6 — never the generic "Mapa del sur de
+   * México"); an English page passes its own string.
+   */
+  alt?: string;
+  class?: string;
+}
+
+const { lot, alt, class: className }: Props = Astro.props;
+
+// Resolve eagerly and check: Astro reports a dangling reference through the
+// logger without failing the build, so a missing join would otherwise surface
+// as a render-time crash on `.data` (plan §3c).
+const palenque = await getEntry(lot.data.palenque);
+if (!palenque) {
+  throw new Error(
+    `LotMap: lot "${lot.id}" references a palenque ("${lot.data.palenque.id}") that could not be resolved.`,
+  );
+}
+
+/*
+ * Caption (plan §3b): when the agave grew somewhere other than where it was
+ * distilled, naming one of the two localities would be misleading, so caption
+ * with what both share — "SIERRA NORTE, GUERRERO", exactly what the design
+ * shows. When they are one place, name that place specifically.
+ */
+const sameSite = isSameOriginAndPalenque(lot);
+const region = palenque.data.region;
+const caption = (
+  !sameSite && region ? `${region}, ${palenque.data.state}` : placeLabel(palenque)
+).toUpperCase();
+
+/*
+ * Context dots for every *other* lot, derived from the collection — a fourth
+ * lot gets a fourth dot with no edit here. Keyed by place id so two lots
+ * sharing a palenque produce one dot, and so a sibling that happens to be
+ * distilled at this lot's own palenque is not drawn underneath the marker.
+ */
+const otherLots = (await getCollection('lots')).filter((entry) => entry.id !== lot.id);
+const siblingPlaces = await getEntries(otherLots.map((entry) => entry.data.palenque));
+const seen = new Set<string>([palenque.id]);
+const siblings: MapPosition[] = [];
+for (const place of siblingPlaces) {
+  if (!place || seen.has(place.id)) continue;
+  seen.add(place.id);
+  const position = project(place.data.coords);
+  // A place outside the cropped map would be drawn hanging off the edge.
+  if (isOnMap(position)) siblings.push(position);
+}
+
+const marker = project(palenque.data.coords);
+const markerLeft = formatPercent(marker.x);
+const markerTop = formatPercent(marker.y);
+
+const label = placeLabel(palenque);
+const altText =
+  alt ??
+  (siblings.length > 0
+    ? `Mapa del sur de México: ${label}, señalado entre los demás microlotes.`
+    : `Mapa del sur de México: ${label}.`);
+---
+
+<figure
+  class:list={['lot-map', className]}
+  style={`--accent-hue:${lot.data.accentHue};--map-aspect-ratio:${MAP_ASPECT_RATIO}`}
+>
+  <div class="lot-map__frame" role="img" aria-label={altText}>
+    <img class="lot-map__base" src={mapBase.src} alt="" width="660" height="280" />
+    {
+      siblings.map((sibling) => (
+        <span
+          class="lot-map__sibling"
+          aria-hidden="true"
+          style={`left:${formatPercent(sibling.x)};top:${formatPercent(sibling.y)}`}
+        />
+      ))
+    }
+    <span
+      class="lot-map__ring"
+      aria-hidden="true"
+      style={`left:${markerLeft};top:${markerTop}`}></span>
+    <span
+      class="lot-map__pin"
+      aria-hidden="true"
+      style={`left:${markerLeft};top:${markerTop}`}></span>
+    <span
+      class:list={['lot-map__label', `is-${palenque.data.labelPlacement}`]}
+      aria-hidden="true"
+      style={`--x:${markerLeft};top:${markerTop}`}
+    >
+      {caption}
+    </span>
+  </div>
+  <figcaption class="lot-map__credit">GEOMETRÍA: NATURAL EARTH · PROYECCIÓN MERCATOR</figcaption>
+</figure>
+
+<style>
+  .lot-map {
+    /* `--accent` is substituted where it is *declared* — at `:root` — so
+       setting `--accent-hue` on this figure would not on its own change the
+       inherited colour. Redeclaring it here rebinds the hue locally, which
+       keeps the map correct whether or not the surrounding page has already
+       set `--accent-hue` on `:root`. Same L and C as tokens.css by
+       construction; the hue is still the only per-lot number. */
+    --accent: oklch(0.52 0.11 var(--accent-hue));
+
+    margin: 0;
+    max-width: 100%;
+  }
+
+  .lot-map__frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: var(--map-aspect-ratio);
+  }
+
+  .lot-map__base {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* All three overlays are centred on their own coordinate via a negative
+     margin of half their size, so `left`/`top` stay pure projection output. */
+  .lot-map__pin,
+  .lot-map__ring,
+  .lot-map__sibling {
+    position: absolute;
+    border-radius: 50%;
+  }
+
+  .lot-map__pin {
+    width: 11px;
+    height: 11px;
+    margin: -5.5px 0 0 -5.5px;
+    background: var(--accent);
+    box-shadow: 0 0 0 5px var(--paper-halo);
+  }
+
+  .lot-map__ring {
+    width: 34px;
+    height: 34px;
+    margin: -17px 0 0 -17px;
+    border: 1px solid var(--accent);
+    opacity: 0.55;
+  }
+
+  .lot-map__sibling {
+    width: 6px;
+    height: 6px;
+    margin: -3px 0 0 -3px;
+    background: var(--ink);
+    opacity: 0.3;
+  }
+
+  /* The label spans the full width and is centred by asymmetric padding
+     rather than by `translateX(-50%)`. Both put its centre at --x, but this
+     way the text is bounded by the map instead of hanging off the page when
+     a long caption sits near an edge (plan §6b item 1: nothing may overflow
+     at 360px). */
+  .lot-map__label {
+    position: absolute;
+    left: 0;
+    right: 0;
+    padding-left: max(0px, calc(2 * var(--x) - 100%));
+    padding-right: max(0px, calc(100% - 2 * var(--x)));
+    text-align: center;
+    white-space: nowrap;
+    font-family: var(--font-mono);
+    font-weight: var(--weight-medium);
+    font-size: var(--mono-2xs);
+    line-height: var(--lh-flat);
+    letter-spacing: var(--track-sm);
+    color: var(--ink);
+  }
+
+  /* Matches the design's translate(-50%,-260%) / (-50%,220%); the horizontal
+     half of that is handled by the padding above. */
+  .lot-map__label.is-above {
+    transform: translateY(-260%);
+  }
+
+  .lot-map__label.is-below {
+    transform: translateY(220%);
+  }
+
+  /* Below the two-column breakpoint the map is narrow enough that a long
+     caption must be allowed to wrap rather than run past the frame. */
+  @media (max-width: 899px) {
+    .lot-map__label {
+      white-space: normal;
+      text-wrap: balance;
+    }
+  }
+
+  .lot-map__credit {
+    margin-top: 12px;
+    font-family: var(--font-mono);
+    font-weight: var(--weight-regular);
+    font-size: var(--mono-3xs);
+    line-height: 1.7;
+    letter-spacing: var(--track-sm);
+    color: var(--faint);
+  }
+</style>
