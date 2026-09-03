@@ -1,0 +1,47 @@
+---
+/**
+ * Container for <SpecRow>s. Two shapes appear in the design:
+ *   inline  — 9px gaps, hairline rule above (agave and maestro blocks)
+ *   ficha   — 13px gaps, no rule, sits under the section heading
+ */
+interface Props {
+  variant?: 'inline' | 'ficha';
+  class?: string;
+}
+
+const { variant = 'inline', class: className } = Astro.props;
+---
+
+<dl class:list={['spec-list', `is-${variant}`, className]}>
+  <slot />
+</dl>
+
+<style>
+  .spec-list {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+  }
+
+  .is-inline {
+    gap: 9px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .is-ficha {
+    gap: 13px;
+    margin-top: 26px;
+  }
+
+  /* Stacked spec rows need more air between entries than beside them. */
+  @media (max-width: 479px) {
+    .is-inline {
+      gap: 16px;
+    }
+
+    .is-ficha {
+      gap: 20px;
+    }
+  }
+</style>

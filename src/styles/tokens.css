@@ -1,0 +1,173 @@
+/* ============================================================================
+   Barbechero — design tokens
+   Extracted from design/Barbechero Sitio.dc.html (inline styles) per
+   docs/IMPLEMENTATION-PLAN.md §1, §6b.
+
+   Breakpoints (documented; CSS custom properties cannot be used in media
+   queries, so these numbers are repeated literally in @media rules):
+     640px   stack landing rows, drop right-aligned footer, mono step-down ends
+     900px   sections still two-up above this; sticky media disabled below
+     1240px  page max-width
+   ========================================================================= */
+
+:root {
+  /* --- Colour ------------------------------------------------------------ */
+  --paper: #f7f5ee;
+  --ink: #211d17;
+
+  /* Channel lists so alpha variants can be derived without new hexes. */
+  --paper-rgb: 247 245 238;
+  --ink-rgb: 33 29 23;
+
+  /* Every accent in the design is oklch(0.52 0.11 H): same L and C, hue only.
+     A page (or a lot) sets exactly one number: --accent-hue.
+       40  espadín — mexicano
+       250 cupreata
+       115 coyote
+     Never hardcode a per-lot colour. */
+  --accent-hue: 40;
+  --accent: oklch(0.52 0.11 var(--accent-hue));
+
+  /* Named ink-alpha scale.
+     The design uses eleven near-identical alphas. Counted in the source:
+     .4 (×29) .55 (×27) .22 (×20) .5 (×14) .3 (×13) .45 (×6) .62 (×3)
+     .6 (×3) .035 (×3) .7 (×2) .28 (×1). They collapse to seven named
+     tokens — three for rules, four for text — plus the hover wash
+     (--ink-wash below), each source value mapped to the nearest name:
+       .22, .28  -> --rule           hairlines between sections and lot rows,
+                                      header bottom border
+       .30       -> --rule-strong    section-heading underline, nav divider
+       .40       -> --rule-heavy     dotted spec leader, next-lot underline
+       .62       -> --faint          row index numbers, map caption
+       .62       -> --muted          section eyebrow, spec labels, footer legal
+       .60, .62  -> --muted-strong   landing locality, hero meta row
+       .70       -> --ink-soft       italic taglines (hero, footer) */
+  --rule: rgb(var(--ink-rgb) / 0.22);
+  --rule-strong: rgb(var(--ink-rgb) / 0.3);
+  --rule-heavy: rgb(var(--ink-rgb) / 0.4);
+  --faint: rgb(var(--ink-rgb) / 0.62);
+  --muted: rgb(var(--ink-rgb) / 0.62);
+  --muted-strong: rgb(var(--ink-rgb) / 0.62);
+  --ink-soft: rgb(var(--ink-rgb) / 0.7);
+
+  /* Surfaces */
+  --paper-header: rgb(var(--paper-rgb) / 0.92); /* sticky header background */
+  --paper-halo: rgb(var(--paper-rgb) / 0.6);    /* map marker halo */
+  --ink-wash: rgb(var(--ink-rgb) / 0.035);      /* lot-row hover */
+
+  /* --- Families ---------------------------------------------------------- */
+  --font-serif: "Spectral", Georgia, "Times New Roman", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* --- Mono scale, with a mobile floor (plan §6b item 7) -----------------
+     The design runs mono at 8.5 / 9 / 9.5 / 10 / 15px. Below ~12px this is
+     not reasonably readable on a phone, so each step interpolates *down*
+     from a mobile floor to its original desktop size at 1240px. Descending
+     clamps: the min is the desktop value, the max the mobile floor.
+
+     Revised in task 9. These were authored to hold the floor at 360px and
+     start descending immediately above it, which put the smallest step at
+     10.96px at 375 and 10.92px at 390 — under the floor across most of the
+     phone range the floor exists for. The interpolation now begins at 390px,
+     the top of that range (plan §6b targets 360, 375 and 390 equally), so
+     the floor holds across all three; the Playwright suite asserts it at each.
+
+     Raised from an 11px floor to 12px (user decision, 2026-09-03) to clear
+     Lighthouse's legible-font-size audit. Floors step 12 / 12 / 12.5 / 13 so
+     the mobile hierarchy survives instead of collapsing to one size.
+
+     Derivation, for the next person who has to add a step: for a descending
+     clamp `A - B*vw` holding `floor` up to 390px and reaching `desktop` at
+     1240px, B = (floor - desktop) / 8.5 and A = floor + 3.9 * B. */
+  --mono-3xs: clamp(8.5px, 13.606px - 0.412vw, 12px);   /* 12 -> 8.5  footer legal, map caption */
+  --mono-2xs: clamp(9px, 13.376px - 0.353vw, 12px);     /* 12 -> 9    spec labels, map pin labels */
+  --mono-xs: clamp(9.5px, 13.876px - 0.353vw, 12.5px);  /* 12.5 -> 9.5 nav, hero meta, eyebrows */
+  --mono-sm: clamp(10px, 14.376px - 0.353vw, 13px);     /* 13 -> 10   LOTES header, lot eyebrow */
+  --mono-md: 15px;                                       /* lot code value; already above the floor */
+
+  /* --- Serif scale ------------------------------------------------------- */
+  --serif-display: clamp(46px, 9.5vw, 116px); /* lot h1 */
+  --serif-title: clamp(24px, 3.4vw, 36px);    /* landing lot name */
+  --serif-h2: clamp(26px, 3.6vw, 38px);       /* section h2 */
+  --serif-lede: clamp(15px, 2.2vw, 20px);     /* hero tagline */
+  --serif-body: clamp(16px, 1.5vw, 18.5px);   /* prose */
+  --serif-spec-lg: 16px;                      /* ficha spec value */
+  --serif-spec: 15px;                         /* inline spec value */
+  --serif-sm: 14px;                           /* footer tagline */
+
+  /* --- Weights ----------------------------------------------------------- */
+  /* Only five faces are self-hosted: serif 400, serif italic 300/400,
+     mono 400/500. Do not reference any other weight. */
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+
+  /* --- Tracking ---------------------------------------------------------
+     Source values .1 .12 .14 .16 .2 .24 .26 .28em collapse to three. */
+  --track-sm: 0.12em;  /* <- .1, .12, .14 */
+  --track-md: 0.16em;  /* <- .16, .2 */
+  --track-lg: 0.26em;  /* <- .24, .26, .28 */
+
+  /* --- Line heights ------------------------------------------------------ */
+  --lh-flat: 1;
+  --lh-tight: 1.15;
+  --lh-snug: 1.4;
+  --lh-meta: 1.8;
+  --lh-body: 1.75;
+  --lh-legal: 2;
+
+  /* --- Rhythm (the design's repeated clamps) ----------------------------- */
+  --space-section: clamp(44px, 7vw, 86px);      /* section block padding */
+  --space-hero-top: clamp(56px, 9vw, 110px);
+  --space-hero-bottom: clamp(40px, 6vw, 70px);
+  --space-section-end: clamp(60px, 8vw, 100px); /* last section bottom */
+  --gap-grid: clamp(28px, 5vw, 64px);           /* two-column section gap */
+  --gap-row: clamp(12px, 3vw, 34px);            /* landing lot row */
+  --gap-meta: clamp(18px, 4vw, 54px);           /* hero meta row */
+  --space-3xs: 3px;
+  --space-2xs: 7px;
+  --space-xs: 10px;
+  --space-sm: 14px;
+  --space-md: 22px;
+  --space-lg: 30px;
+  --space-xl: 44px;
+
+  /* --- Measures and layout ---------------------------------------------- */
+  --page-max: 1240px;
+  --page-pad: 20px;
+  --measure: 520px;   /* prose column max-width */
+  --media-h: clamp(300px, 44vw, 540px);
+  --hero-mark: clamp(120px, 18vw, 178px);
+  --hero-word: clamp(240px, 40vw, 420px);
+  /* Grid track floor. Always wrap in min(..., 100%) at the point of use
+     (plan §6b item 1) — a bare minmax(330px,1fr) overflows a 360px viewport. */
+  --col-min: 330px;
+  --col-min-row: 220px;
+
+  /* --- Header height and sticky offsets (plan §6b item 4) ---------------
+     Sticky offsets are derived from the header, never hardcoded to the
+     design's 96px.
+
+     Revised in task 5/6/8: this token was authored at 100px/64px/56px on the
+     assumption the mobile nav wraps to two rows. It no longer does — plan §6
+     defect 2 replaced the per-lot nav with a fixed-width INICIO / LOTES pair,
+     which fits on one row at 360px — and Layout.astro pins the header bar to
+     `min-height: calc(var(--header-h) - 1px)`, so the header measures exactly
+     this at every breakpoint. --sticky-top still resolves to the design's
+     96px. */
+  --header-h: 56px;
+  --sticky-top: calc(var(--header-h) + 40px);
+
+  /* Minimum touch target (plan §6b item 6). */
+  --tap: 44px;
+
+  /* Focus ring */
+  --focus-ring: 2px solid var(--accent);
+  --focus-offset: 3px;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --page-pad: 24px;
+  }
+}

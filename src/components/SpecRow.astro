@@ -1,0 +1,93 @@
+---
+/**
+ * Dotted-leader spec row: MONO LABEL · · · · · · italic value.
+ * Used in the agave, maestro and ficha blocks of every lot page.
+ *
+ * Mobile (plan §6b item 10): at 375px, ORIGEN / "San Miguel de las Palmas,
+ * Guerrero" needs ~315px of the 327px available, leaving the leader ~12px —
+ * it stops reading as a leader. Below 480px the row stacks (label above
+ * value) and the leader is removed entirely.
+ *
+ * Must live inside a <SpecList> (a <dl>): it renders a dt/dd pair.
+ */
+interface Props {
+  /** Mono label, e.g. "ORIGEN". Rendered as authored — the design uses caps. */
+  label: string;
+  /** Value text. Omit and pass a default slot instead for rich content. */
+  value?: string;
+  /** sm = 15px (inline spec blocks), md = 16px (la ficha). */
+  size?: 'sm' | 'md';
+  /** `code` renders the value as accent-coloured mono, e.g. GRO·EM·26. */
+  tone?: 'default' | 'code';
+}
+
+const { label, value, size = 'sm', tone = 'default' } = Astro.props;
+---
+
+<div class:list={['spec-row', `is-${size}`, `is-${tone}`]}>
+  <dt class="spec-row__label">{label}</dt>
+  <span class="spec-row__leader" aria-hidden="true"></span>
+  <dd class="spec-row__value">{value}<slot /></dd>
+</div>
+
+<style>
+  .spec-row {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-xs);
+  }
+
+  .spec-row__label {
+    font-family: var(--font-mono);
+    font-weight: var(--weight-regular);
+    font-size: var(--mono-2xs);
+    line-height: var(--lh-flat);
+    letter-spacing: var(--track-sm);
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .spec-row__leader {
+    flex: 1;
+    border-bottom: 1px dotted var(--rule-heavy);
+    /* Keeps the leader from being the thing that forces a wrap. */
+    min-width: 1ch;
+  }
+
+  .spec-row__value {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: var(--weight-regular);
+    font-size: var(--serif-spec);
+    line-height: var(--lh-flat);
+  }
+
+  .is-md .spec-row__value {
+    font-size: var(--serif-spec-lg);
+  }
+
+  .is-code .spec-row__value {
+    font-family: var(--font-mono);
+    font-style: normal;
+    font-weight: var(--weight-medium);
+    font-size: var(--mono-md);
+    color: var(--accent);
+  }
+
+  /* Below 480px the leader has no room left to read as a leader. */
+  @media (max-width: 479px) {
+    .spec-row {
+      display: block;
+    }
+
+    .spec-row__leader {
+      display: none;
+    }
+
+    .spec-row__value {
+      margin-top: 5px;
+      line-height: var(--lh-tight);
+    }
+  }
+</style>

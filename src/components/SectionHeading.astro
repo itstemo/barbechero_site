@@ -1,0 +1,43 @@
+---
+/**
+ * The `01 — EL AGAVE` eyebrow with its underline, above every section's prose.
+ */
+interface Props {
+  /** Two-digit section index, e.g. "01". */
+  index: string;
+  /** Section label, e.g. "EL AGAVE". */
+  label: string;
+  /** Element to render as; the eyebrow is a label, not a document heading. */
+  as?: 'div' | 'h2' | 'p';
+  id?: string;
+  class?: string;
+}
+
+const { index, label, as: Tag = 'div', id, class: className }: Props = Astro.props;
+---
+
+<Tag class:list={['section-heading', className]} id={id}>
+  {index} — {label}
+</Tag>
+
+<style>
+  .section-heading {
+    font-family: var(--font-mono);
+    font-weight: var(--weight-medium);
+    font-size: var(--mono-xs);
+    line-height: var(--lh-flat);
+    letter-spacing: var(--track-lg);
+    color: var(--muted);
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule-strong);
+    margin: 0;
+    /* The em dash must never be the break point. */
+    text-wrap: nowrap;
+  }
+
+  @media (max-width: 479px) {
+    .section-heading {
+      text-wrap: balance;
+    }
+  }
+</style>

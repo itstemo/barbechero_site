@@ -1,0 +1,162 @@
+/* ============================================================================
+   Barbechero — reset and base.
+   Mirrors the design's <style> block, plus the fixes in plan §6b.
+   Import order: fonts.css, tokens.css, global.css.
+   ========================================================================= */
+
+@import "./fonts.css";
+@import "./tokens.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* The design sets scroll-behavior unconditionally; plan §6b item 15. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+  /* Sticky headers must not cover anchored targets. */
+  :target {
+    scroll-margin-top: var(--sticky-top);
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-weight: var(--weight-regular);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Nothing in this design scrolls sideways. */
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: var(--weight-light);
+  text-wrap: balance; /* plan §6b item 9 */
+}
+
+p {
+  text-wrap: pretty; /* plan §6 item 3 — applied consistently, not just once */
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+img,
+video {
+  height: auto;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Hover styling is guarded: it never fires on touch (plan §6b item 8). */
+@media (hover: hover) {
+  a:hover {
+    color: var(--accent);
+  }
+}
+
+a:active {
+  color: var(--accent);
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+}
+
+/* --- Utilities ---------------------------------------------------------- */
+
+.u-page {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding-inline: var(--page-pad);
+}
+
+.u-mono {
+  font-family: var(--font-mono);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--track-md);
+}
+
+.u-measure {
+  max-width: var(--measure);
+}
+
+/* Real touch targets without changing the visual type size
+   (plan §6b item 6): pad the control, don't enlarge the text. */
+.u-tap {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+}
+
+.u-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
