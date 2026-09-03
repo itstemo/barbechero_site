@@ -63,7 +63,7 @@ export const getStaticPaths = (async () => {
   const first = lots[0];
   const siteCard: CardSpec = {
     kind: 'site',
-    lede: 'Destilado de agave',
+    lede: 'Mezcal & Destilado de agave',
     tagline: 'BARBECHO — LABRAR LA TIERRA Y DEJARLA DESCANSAR',
     accentHue: first ? first.data.accentHue : 40,
   };
