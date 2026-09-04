@@ -154,8 +154,17 @@
      which fits on one row at 360px — and Layout.astro pins the header bar to
      `min-height: calc(var(--header-h) - 1px)`, so the header measures exactly
      this at every breakpoint. --sticky-top still resolves to the design's
-     96px. */
-  --header-h: 56px;
+     96px.
+
+     Bilingual revision: the header now also carries the ES / EN toggle. At
+     360px the bar has ~176px left for the nav after the brand, and
+     INICIO / LOTES already needs ~163px of it, so a third group cannot share
+     that row. Below 640px the bar therefore wraps to two rows — brand, then
+     nav — and this token states the resulting height. Everything derived
+     from it (sticky offsets, the landing hero's `100svh -` subtrahend)
+     follows automatically, which is why the height is a token and not a
+     measurement. */
+  --header-h: 100px;
   --sticky-top: calc(var(--header-h) + 40px);
 
   /* Minimum touch target (plan §6b item 6). */
@@ -169,5 +178,7 @@
 @media (min-width: 640px) {
   :root {
     --page-pad: 24px;
+    /* One row again: brand + nav + language toggle fit comfortably. */
+    --header-h: 56px;
   }
 }

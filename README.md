@@ -33,6 +33,7 @@ src/content/
   lots/<state>-<agave>-<yy>/
     _data.yaml   # structured, locale-independent
     es.mdx       # prose for the three narrative sections
+    en.mdx       # the same, in English
   agaves/        # common + scientific name, manejo
   places/        # locality, region, state, [lon, lat]
   maestros/      # name, distillation method
@@ -73,10 +74,11 @@ what is deliberately missing.
 
 ## Verification
 
-`npm run verify` runs 110 assertions across all pages at 360/375/390/768/1280px:
+`npm run verify` runs 247 assertions across all pages at 360/375/390/768/1280px:
 no horizontal overflow, tap targets ≥44px, no text under the 12px mobile floor,
-every image decodes, axe-core clean with no tolerated failures, and metadata and
-OG cards intact. CI gates deploy on it — nothing publishes if it fails.
+every image decodes, axe-core clean with no tolerated failures, metadata and
+OG cards intact, and the language toggle round-tripping to the same page.
+CI gates deploy on it — nothing publishes if it fails.
 
 ## Deployment
 
@@ -87,5 +89,25 @@ already in place.
 
 ## Language
 
-Spanish only for now. The i18n routing is configured (`es` at `/`, `en` under
-`/en/`), so English is a matter of adding content, not plumbing.
+Bilingual. Spanish serves from `/` and `/lote/<slug>/`; English from `/en/` and
+`/en/lot/<slug>/` (the path segment is localized too). A language toggle in the
+header links to *the same page* in the other language — it is a plain `<a>`, no
+script.
+
+Every UI string lives in `src/i18n/ui.ts`, one entry per string with both
+languages side by side:
+
+```ts
+navLots: { es: 'LOTES', en: 'LOTS' },
+```
+
+Adding a string is one line in one file, and leaving out a locale is a compile
+error rather than a silent fallback — `astro check` fails. The handful of
+*display* strings that live in content instead (`manejoLabel`, `heroTag`,
+`notes`, `distillationDetail`, `distillationMethod`) use the same `{ es, en }`
+shape and are read by the same `t()` helper. Everything else in the content
+model — enums, coordinates, hues, years, codes, slugs — is locale-independent.
+
+Terms of art stay in Spanish in both languages (*palenque*, *maestro
+mezcalero*, *método filipino*, *tronco hueco*, *alambique de refrescadera*,
+*barbecho*), glossed in the English prose on first use.

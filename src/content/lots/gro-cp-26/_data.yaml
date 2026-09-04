@@ -10,9 +10,13 @@ agave: cupreata
 origin: san-miguel-de-las-palmas
 palenque: san-miguel-de-las-palmas
 maestro: jairo
-heroTag: SILVESTRE
+heroTag:
+  es: SILVESTRE
+  en: WILD
 # No photos exist for this lot — `images` omitted entirely.
-notes: Herbales, toque dulce
+notes:
+  es: Herbales, toque dulce
+  en: Herbal, a touch of sweet
 available: true
 order: 2
 nextLot: oax-cy-26

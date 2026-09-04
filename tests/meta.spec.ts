@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { PAGE_PATHS } from './pages';
+import { PAGE_PATHS, counterpartOf, localeOf } from './pages';
 
 /**
  * Metadata is asserted for the same reason the layout is: none of it is
@@ -47,9 +47,9 @@ test('every page has a unique title and description', async ({ page }) => {
 
 for (const path of PAGE_PATHS) {
   test.describe(`${path}`, () => {
-    test('declares Spanish, a canonical URL and a viewport', async ({ page }) => {
+    test('declares its language, a canonical URL and a viewport', async ({ page }) => {
       await page.goto(path);
-      await expect(page.locator('html')).toHaveAttribute('lang', 'es');
+      await expect(page.locator('html')).toHaveAttribute('lang', localeOf(path));
       await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
         'href',
         `${SITE}${path}`,
@@ -58,6 +58,29 @@ for (const path of PAGE_PATHS) {
         'content',
         /width=device-width/,
       );
+    });
+
+    test('advertises both localizations, with x-default on Spanish', async ({ page }) => {
+      await page.goto(path);
+
+      const spanish = localeOf(path) === 'es' ? path : counterpartOf(path);
+      const english = localeOf(path) === 'en' ? path : counterpartOf(path);
+
+      /* Every page names its counterpart — not just the home page. An
+         hreflang set that points every English page at `/` is the standard
+         way this goes wrong, and it is invisible without this assertion. */
+      await expect(page.locator('link[rel="alternate"][hreflang="es"]')).toHaveAttribute(
+        'href',
+        `${SITE}${spanish}`,
+      );
+      await expect(page.locator('link[rel="alternate"][hreflang="en"]')).toHaveAttribute(
+        'href',
+        `${SITE}${english}`,
+      );
+      /* x-default is what `/` serves, i.e. Spanish (defaultLocale). */
+      await expect(
+        page.locator('link[rel="alternate"][hreflang="x-default"]'),
+      ).toHaveAttribute('href', `${SITE}${spanish}`);
     });
 
     test('carries a complete Open Graph and Twitter card', async ({ page, request }) => {
@@ -76,7 +99,9 @@ for (const path of PAGE_PATHS) {
       expect(await meta('meta[property="og:url"]')).toBe(`${SITE}${path}`);
       expect(await meta('meta[property="og:type"]')).toBeTruthy();
       expect(await meta('meta[property="og:site_name"]')).toBe('Barbechero');
-      expect(await meta('meta[property="og:locale"]')).toBe('es_MX');
+      expect(await meta('meta[property="og:locale"]')).toBe(
+        localeOf(path) === 'es' ? 'es_MX' : 'en_US',
+      );
       expect(await meta('meta[name="twitter:card"]')).toBe('summary_large_image');
       expect(await meta('meta[name="twitter:title"]')).toBe(title);
       expect(await meta('meta[name="twitter:description"]')).toBe(description);

@@ -10,11 +10,16 @@ agave: coyote
 origin: palo-grande
 palenque: palo-grande
 maestro: sozimo-jarquin
-heroTag: ALAMBIQUE DE REFRESCADERA
+# Term of art — unchanged in English.
+heroTag:
+  es: ALAMBIQUE DE REFRESCADERA
+  en: ALAMBIQUE DE REFRESCADERA
 images:
   agave: ../../../assets/lots/oax-cy-26/agave-campo.jpg
   # No maestro or bottle photos exist for this lot — those keys are omitted.
-distillationDetail: Alambique de refrescadera
+distillationDetail:
+  es: Alambique de refrescadera
+  en: Alambique de refrescadera
 available: true
 order: 3
 nextLot: gro-em-26

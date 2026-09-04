@@ -23,6 +23,28 @@ import { defineCollection, reference } from 'astro:content';
 import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 
+/**
+ * A display string that has to exist in every locale.
+ *
+ * Structured data (enums, coordinates, hues, years, codes, slugs) stays
+ * locale-independent — it is data, not prose. But a handful of *display*
+ * strings genuinely live in content rather than in the UI dictionary:
+ * `manejoLabel`, `heroTag`, `notes`, `distillationDetail`,
+ * `distillationMethod`. They are authored per lot, so they cannot live in
+ * src/i18n/ui.ts, and they are read by a human, so they cannot stay Spanish
+ * on an English page.
+ *
+ * Same `{ es, en }` shape as the UI dictionary, and read by the same `t()`
+ * helper — one pattern in the codebase, not two. Both keys are required:
+ * omitting `en` fails the build at content sync, which is the content-layer
+ * equivalent of the type error `ui.ts` produces.
+ */
+const localized = () =>
+  z.object({
+    es: z.string().min(1),
+    en: z.string().min(1),
+  });
+
 const agaves = defineCollection({
   loader: glob({ pattern: '*.yaml', base: './src/content/agaves' }),
   schema: z.object({
@@ -33,7 +55,7 @@ const agaves = defineCollection({
     /** Closed set — drives the MANEJO spec row's underlying category. */
     manejo: z.enum(['silvestre', 'cultivado', 'hibrido']),
     /** Free-text display value for the MANEJO spec row, e.g. "Híbrido de sierra". */
-    manejoLabel: z.string().min(1),
+    manejoLabel: localized(),
   }),
 });
 
@@ -92,7 +114,7 @@ const maestros = defineCollection({
        * Optional: not every maestro entry in the source design carries one
        * (Jairo's Cupreata page has no DESTILACIÓN spec row).
        */
-      distillationMethod: z.string().optional(),
+      distillationMethod: localized().optional(),
       /**
        * Optional subject image for this maestro. Deliberately *not* named
        * "portrait": none of the three maestros currently have an actual
@@ -153,7 +175,7 @@ const lots = defineCollection({
       palenque: reference('places'),
       maestro: reference('maestros'),
       /** The hero meta row's 4th chip — a method or manejo highlight; varies per lot. */
-      heroTag: z.string().min(1),
+      heroTag: localized(),
       /**
        * Section media, keyed by the section it illustrates (01 El Agave,
        * 03 El Maestro, 04 La Ficha's bottle shot). Only 3 of 9 planned
@@ -174,9 +196,9 @@ const lots = defineCollection({
         })
         .optional(),
       /** Optional tasting-notes spec row, e.g. "Herbales, toque dulce". */
-      notes: z.string().optional(),
+      notes: localized().optional(),
       /** Optional expanded distillation description for the El Maestro spec row. */
-      distillationDetail: z.string().optional(),
+      distillationDetail: localized().optional(),
       available: z.boolean().default(true),
       /** Landing-page and next-lot-cycle order. */
       order: z.number().int(),

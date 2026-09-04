@@ -4,4 +4,9 @@
 commonName: Espadín — Mexicano
 scientificName: A. angustifolia × A. rhodacantha
 manejo: hibrido
-manejoLabel: Híbrido de sierra
+# "Sierra" is kept in the English: it is how the range is named throughout
+# the site ("Sierra Norte"), and it reads as a term of place, not a word
+# awaiting translation.
+manejoLabel:
+  es: Híbrido de sierra
+  en: Sierra hybrid

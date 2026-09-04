@@ -10,7 +10,10 @@ agave: espadin-mexicano
 origin: telixtac
 palenque: pachivia
 maestro: don-roque
-heroTag: MÉTODO FILIPINO
+# Term of art — unchanged in English.
+heroTag:
+  es: MÉTODO FILIPINO
+  en: MÉTODO FILIPINO
 images:
   agave: ../../../assets/lots/gro-em-26/agave-campo.jpg
   # The design's slot 03 is captioned "Retrato de Don Roque", but the only
@@ -18,7 +21,9 @@ images:
   # §5b. Suits the section anyway: its prose is about the tronco hueco.
   maestro: ../../../assets/lots/gro-em-26/tronco-hueco.jpg
   # No bottle photo exists — `botella` key omitted, not placeholdered.
-distillationDetail: Método filipino, tronco hueco
+distillationDetail:
+  es: Método filipino, tronco hueco
+  en: Método filipino, tronco hueco
 available: true
 order: 1
 nextLot: gro-cp-26
