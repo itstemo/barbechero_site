@@ -28,6 +28,27 @@ export const PAGE_PATHS: string[] = (() => {
   return paths.sort();
 })();
 
+/** The locale a built page is in, from its path: `/en/...` is English. */
+export function localeOf(path: string): 'es' | 'en' {
+  return path === '/en/' || path.startsWith('/en/') ? 'en' : 'es';
+}
+
+/**
+ * The Spanish counterpart of a path and vice versa — the pairing the language
+ * toggle and the hreflang tags have to agree on. Mirrors `pagePath()` in
+ * src/i18n/routes.ts, deliberately reimplemented here rather than imported:
+ * a test that shares the implementation it checks proves nothing.
+ */
+export function counterpartOf(path: string): string {
+  if (path === '/') return '/en/';
+  if (path === '/en/') return '/';
+  const en = path.match(/^\/en\/lot\/(.+)\/$/);
+  if (en) return `/lote/${en[1]}/`;
+  const es = path.match(/^\/lote\/(.+)\/$/);
+  if (es) return `/en/lot/${es[1]}/`;
+  throw new Error(`No counterpart rule for "${path}" — add one when a page shape is added.`);
+}
+
 /**
  * Plan §6b: 360 (common Android), 375 (iPhone SE/mini), 390 (modern iPhone),
  * 768 (tablet) and 1280 (desktop).

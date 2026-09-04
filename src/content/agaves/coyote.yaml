@@ -7,4 +7,6 @@
 commonName: Coyote
 scientificName: Agave lyobaa
 manejo: cultivado
-manejoLabel: Cultivado en Palo Grande
+manejoLabel:
+  es: Cultivado en Palo Grande
+  en: Cultivated in Palo Grande

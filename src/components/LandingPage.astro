@@ -1,0 +1,354 @@
+---
+/**
+ * The landing page, in either language: hero + the LOTES index.
+ *
+ * One component rather than two page files, because everything except the
+ * strings and the hrefs is identical — duplicating it into `src/pages/en/`
+ * would duplicate ~200 lines of CSS as well, and the two copies would drift.
+ * `src/pages/index.astro` and `src/pages/en/index.astro` are three-line
+ * wrappers that pick a locale.
+ *
+ * The lot rows are derived from the `lots` collection in `order`, so adding a
+ * lot adds a row with no edit here (plan §6 defect 2). They are <a href>, not
+ * <button> (defect 4), and they restructure to a two-row stack below 640px
+ * (§6b item 2) — the design's four-track grid leaves ~45px for the last two
+ * columns at 375px.
+ */
+import { getEntry } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import Logo from './Logo.astro';
+import Dot from './Dot.astro';
+import { pagePath, ogPath, type Locale } from '../i18n/routes';
+import { t, ui } from '../i18n/ui';
+import {
+  getOrderedLots,
+  isSameOriginAndPalenque,
+  lotCode,
+  placeLabel,
+} from '../lib/lot';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale }: Props = Astro.props;
+
+const lots = await getOrderedLots();
+
+/*
+ * Every reference is resolved here, eagerly, and checked. A dangling
+ * reference does not fail the Astro build — it is only logged — so a lazy
+ * dereference downstream becomes a render crash instead (plan §3c).
+ */
+const rows = await Promise.all(
+  lots.map(async (lot) => {
+    const [agave, palenque, maestro] = await Promise.all([
+      getEntry(lot.data.agave),
+      getEntry(lot.data.palenque),
+      getEntry(lot.data.maestro),
+    ]);
+    if (!agave) throw new Error(`Lot "${lot.id}": agave "${lot.data.agave.id}" did not resolve.`);
+    if (!palenque)
+      throw new Error(`Lot "${lot.id}": palenque "${lot.data.palenque.id}" did not resolve.`);
+    if (!maestro)
+      throw new Error(`Lot "${lot.id}": maestro "${lot.data.maestro.id}" did not resolve.`);
+
+    /*
+     * Same caption rule as the map (plan §3b): when the agave grew somewhere
+     * other than where it was distilled, naming one of the two would mislead,
+     * so name what they share — "SIERRA NORTE, GUERRERO". Otherwise name the
+     * specific locality.
+     */
+    const region = palenque.data.region;
+    const locality =
+      !isSameOriginAndPalenque(lot) && region
+        ? `${region}, ${palenque.data.state}`
+        : placeLabel(palenque);
+
+    return {
+      href: pagePath({ kind: 'lot', slug: lot.id }, locale),
+      index: String(lot.data.number).padStart(2, '0'),
+      name: agave.data.commonName,
+      accentHue: lot.data.accentHue,
+      locality: locality.toUpperCase(),
+      maestro: `${maestro.data.honorific} ${maestro.data.name}`.toUpperCase(),
+      code: lotCode(palenque.data.stateAbbr, lot.data.codeAgave, lot.data.harvestYear),
+    };
+  }),
+);
+
+// The design's "COSECHA 2026" — derived, so a 2027 vintage relabels itself.
+const years = [...new Set(lots.map((lot) => lot.data.harvestYear))].sort();
+const range =
+  years.length === 1 ? `${years[0]}` : `${years[0]}—${years[years.length - 1]}`;
+const harvestLabel = t(ui.home.harvest, locale, range);
+
+/* "de México" rather than naming states: lots will be added from regions
+   beyond Guerrero and Oaxaca, and this string feeds both the meta description
+   and the Organization JSON-LD, so it should not need editing per lot. */
+const description = t(ui.meta.homeDescription, locale);
+
+/*
+ * Organization only, and deliberately nothing else.
+ *
+ * `Product` per lot was considered and rejected: schema.org Product is read by
+ * search engines as a thing that can be bought, and its rich results are built
+ * around `offers`, price and availability. None of that exists here — there is
+ * no shop, no price and no purchase path — so marking the lots up as products
+ * would advertise commerce this site does not do. For an alcohol brand that is
+ * not a cosmetic distinction. The lots are described in prose and in the page
+ * metadata, which is what they are: editorial pages about three batches.
+ */
+const site = (Astro.site ?? new URL(Astro.url.origin)).href;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Barbechero',
+  url: new URL(pagePath({ kind: 'home' }, locale), site).href,
+  description,
+  slogan: t(ui.footer.tagline, locale),
+  image: new URL(ogPath({ kind: 'home' }, locale), site).href,
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'MX',
+  },
+};
+---
+
+<Layout
+  title={t(ui.meta.homeTitle, locale)}
+  description={description}
+  locale={locale}
+  page={{ kind: 'home' }}
+  nav="inicio"
+  ogImage={ogPath({ kind: 'home' }, locale)}
+  ogImageAlt={t(ui.meta.homeOgAlt, locale)}
+  jsonLd={jsonLd}
+>
+  <main class="u-page" id="contenido">
+    <section class="hero">
+      {/* The wordmark is the visible title; the h1 carries it as text. */}
+      <h1 class="u-visually-hidden">{t(ui.meta.homeTitle, locale)}</h1>
+      <Logo variant="mark" class="hero__mark" />
+      <Logo variant="word" class="hero__word" />
+      <p class="hero__lede">{t(ui.home.lede, locale)}</p>
+      <p class="hero__tagline">{t(ui.home.tagline, locale)}</p>
+    </section>
+
+    <section class="lots" id="lotes" aria-labelledby="lotes-title">
+      <div class="lots__head">
+        <h2 class="lots__title" id="lotes-title">{t(ui.home.lotsTitle, locale)}</h2>
+        <span class="lots__harvest">{harvestLabel}</span>
+      </div>
+
+      <ul class="lots__list">
+        {
+          rows.map((row) => (
+            <li>
+              <a class="lot-row" href={row.href} style={`--accent-hue:${row.accentHue}`}>
+                <span class="lot-row__index">{row.index}</span>
+                <span class="lot-row__name">
+                  <Dot size={9} />
+                  {row.name}
+                </span>
+                <span class="lot-row__meta">
+                  {row.locality}
+                  <br />
+                  {row.maestro}
+                </span>
+                <span class="lot-row__code">{row.code} →</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  /* 100svh, not 100vh: on iOS Safari 100vh is the *tall* viewport, so the hero
+     overflows the visible area and reflows as the URL bar collapses. The
+     subtrahend is the real header height, not the design's hardcoded 190px
+     (plan §6b item 3). */
+  .hero {
+    min-height: calc(100svh - var(--header-h));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 22px;
+    padding: clamp(48px, 8vw, 80px) 0 clamp(40px, 6vw, 60px);
+  }
+
+  .hero :global(.hero__mark) {
+    height: var(--hero-mark);
+    width: auto;
+  }
+
+  .hero :global(.hero__word) {
+    width: var(--hero-word);
+    height: auto;
+  }
+
+  .hero__lede {
+    font-style: italic;
+    font-weight: var(--weight-light);
+    font-size: var(--serif-lede);
+    line-height: var(--lh-snug);
+    color: var(--ink-soft);
+  }
+
+  .hero__tagline {
+    font-family: var(--font-mono);
+    font-weight: var(--weight-regular);
+    font-size: var(--mono-xs);
+    line-height: 1.9;
+    letter-spacing: var(--track-lg);
+    color: rgb(var(--ink-rgb) / 0.62);
+    max-width: 420px;
+  }
+
+  /* --- The index -------------------------------------------------------- */
+
+  .lots {
+    padding-bottom: 90px;
+    scroll-margin-top: var(--sticky-top);
+  }
+
+  .lots__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 10px;
+    margin-bottom: 4px;
+  }
+
+  .lots__title {
+    font-family: var(--font-mono);
+    font-weight: var(--weight-medium);
+    font-size: var(--mono-sm);
+    line-height: var(--lh-flat);
+    letter-spacing: var(--track-lg);
+  }
+
+  .lots__harvest {
+    font-family: var(--font-mono);
+    font-weight: var(--weight-regular);
+    font-size: var(--mono-sm);
+    line-height: var(--lh-flat);
+    letter-spacing: var(--track-md);
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .lot-row {
+    /* --accent is substituted where it is declared (on <body>), so the inline
+       per-row --accent-hue only takes effect if --accent is redeclared here. */
+    --accent: oklch(0.52 0.11 var(--accent-hue));
+
+    display: grid;
+    /* min() around the track floor, or the row overflows a 360px viewport
+       exactly as the prototype does (plan §6b items 1 and 2). */
+    grid-template-columns:
+      26px
+      minmax(min(220px, 100%), 1.6fr)
+      1fr
+      auto;
+    align-items: center;
+    gap: var(--gap-row);
+    padding: 26px 2px;
+    border-bottom: 1px solid var(--rule);
+    text-align: left;
+    /* A whole row is the tap target, and it is far above the 44px floor. */
+    min-height: var(--tap);
+  }
+
+  @media (hover: hover) {
+    .lot-row:hover {
+      background: var(--ink-wash);
+      color: inherit;
+    }
+  }
+
+  .lot-row:active,
+  .lot-row:focus-visible {
+    background: var(--ink-wash);
+  }
+
+  .lot-row__index {
+    font-family: var(--font-mono);
+    font-size: var(--mono-xs);
+    line-height: var(--lh-flat);
+    color: var(--faint);
+  }
+
+  .lot-row__name {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-style: italic;
+    font-weight: var(--weight-light);
+    font-size: var(--serif-title);
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+
+  .lot-row__meta {
+    font-family: var(--font-mono);
+    font-size: var(--mono-xs);
+    line-height: 1.7;
+    letter-spacing: var(--track-sm);
+    color: var(--muted-strong);
+  }
+
+  .lot-row__code {
+    font-family: var(--font-mono);
+    font-weight: var(--weight-medium);
+    font-size: var(--mono-xs);
+    line-height: var(--lh-flat);
+    letter-spacing: var(--track-sm);
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  /* Below 640px the four-track grid has nothing left for columns 3 and 4, so
+     the row becomes two rows: index + name, then locality/maestro + code
+     (plan §6b item 2). */
+  @media (max-width: 639px) {
+    .lot-row {
+      grid-template-columns: 26px 1fr auto;
+      grid-template-areas:
+        'index name name'
+        '.     meta code';
+      row-gap: 12px;
+      column-gap: 12px;
+      align-items: start;
+      padding-block: 22px;
+    }
+
+    .lot-row__index {
+      grid-area: index;
+      /* Optically aligns the number with the first line of the lot name. */
+      padding-top: 0.5em;
+    }
+
+    .lot-row__name {
+      grid-area: name;
+    }
+
+    .lot-row__meta {
+      grid-area: meta;
+      min-width: 0;
+    }
+
+    .lot-row__code {
+      grid-area: code;
+      align-self: end;
+      white-space: nowrap;
+    }
+  }
+</style>

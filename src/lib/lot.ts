@@ -5,6 +5,7 @@
 // authored as a single string. This is the one place that assembles them, so
 // the separator/format only needs to change once.
 import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
+import type { Locale } from '../i18n/routes';
 
 const CODE_SEPARATOR = '·'; // "·" MIDDLE DOT
 
@@ -47,11 +48,6 @@ export function isSameOriginAndPalenque(lot: CollectionEntry<'lots'>): boolean {
   return lot.data.origin.id === lot.data.palenque.id;
 }
 
-/** "MICROLOTE 01", "MICROLOTE 02", ... */
-export function microloteLabel(number: number): string {
-  return `MICROLOTE ${String(number).padStart(2, '0')}`;
-}
-
 /**
  * Derive a place's display string as "Name, Municipality, State" (dropping
  * municipality when unset) unless the place sets an explicit `label`
@@ -65,8 +61,6 @@ export function placeLabel(place: CollectionEntry<'places'>): string {
   );
   return parts.join(', ');
 }
-
-export type Locale = 'es' | 'en';
 
 /** Look up a lot's per-locale prose by slug (the lot's id in the `lots` collection). */
 export function getLotProse(slug: string, locale: Locale) {

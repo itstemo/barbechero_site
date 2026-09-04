@@ -1,0 +1,22 @@
+---
+/**
+ * English lot pages, at `/en/lot/<slug>/`.
+ *
+ * The segment is the English word `lot`, not `lote` — a URL is read by
+ * people, and the Spanish routes keep `/lote/`. Both spellings are produced
+ * by `pagePath()` in src/i18n/routes.ts, which is also what the language
+ * toggle and the hreflang tags use, so the two can never disagree.
+ */
+import type { GetStaticPaths } from 'astro';
+import { getCollection } from 'astro:content';
+import LotPage from '../../../components/LotPage.astro';
+
+export const getStaticPaths = (async () => {
+  const lots = await getCollection('lots');
+  return lots.map((lot) => ({ params: { slug: lot.id }, props: { lot } }));
+}) satisfies GetStaticPaths;
+
+const { lot } = Astro.props;
+---
+
+<LotPage lot={lot} locale="en" />

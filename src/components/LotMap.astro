@@ -25,19 +25,22 @@ import {
   type MapPosition,
 } from '../lib/projection';
 import { isSameOriginAndPalenque, placeLabel } from '../lib/lot';
+import type { Locale } from '../i18n/routes';
+import { t, ui } from '../i18n/ui';
 
 interface Props {
   lot: CollectionEntry<'lots'>;
+  locale: Locale;
   /**
-   * Accessible name override. Defaults to a Spanish sentence naming the
-   * palenque's locality (plan §6 item 6 — never the generic "Mapa del sur de
-   * México"); an English page passes its own string.
+   * Accessible name override. Defaults to a sentence in `locale` naming the
+   * palenque's locality (plan §6 item 6 — never the generic "map of southern
+   * Mexico").
    */
   alt?: string;
   class?: string;
 }
 
-const { lot, alt, class: className }: Props = Astro.props;
+const { lot, locale, alt, class: className }: Props = Astro.props;
 
 // Resolve eagerly and check: Astro reports a dangling reference through the
 // logger without failing the build, so a missing join would otherwise surface
@@ -87,8 +90,8 @@ const label = placeLabel(palenque);
 const altText =
   alt ??
   (siblings.length > 0
-    ? `Mapa del sur de México: ${label}, señalado entre los demás microlotes.`
-    : `Mapa del sur de México: ${label}.`);
+    ? t(ui.map.altAmongSiblings, locale, label)
+    : t(ui.map.alt, locale, label));
 ---
 
 <figure
@@ -122,7 +125,7 @@ const altText =
       {caption}
     </span>
   </div>
-  <figcaption class="lot-map__credit">GEOMETRÍA: NATURAL EARTH · PROYECCIÓN MERCATOR</figcaption>
+  <figcaption class="lot-map__credit">{t(ui.map.credit, locale)}</figcaption>
 </figure>
 
 <style>

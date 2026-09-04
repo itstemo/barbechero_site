@@ -4,4 +4,6 @@
 commonName: Cupreata
 scientificName: Agave cupreata
 manejo: silvestre
-manejoLabel: Silvestre
+manejoLabel:
+  es: Silvestre
+  en: Wild

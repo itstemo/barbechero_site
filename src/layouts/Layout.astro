@@ -10,11 +10,29 @@
  */
 import { getCollection } from 'astro:content';
 import Logo from '../components/Logo.astro';
+import {
+  HTML_LANG,
+  OG_LOCALE,
+  alternatePaths,
+  otherLocale,
+  pagePath,
+  type Locale,
+  type PageRef,
+} from '../i18n/routes';
+import { t, ui } from '../i18n/ui';
 import '../styles/global.css';
 
 interface Props {
   title: string;
   description: string;
+  /** Which language this page is written in. Drives every string below. */
+  locale: Locale;
+  /**
+   * What this page *is*, independent of locale. The language toggle and the
+   * hreflang pairs are computed from it, so the toggle lands on the same
+   * page in the other language rather than on the home page.
+   */
+  page: PageRef;
   /** Which nav item is the current page. Lot pages are "lotes". */
   nav?: 'inicio' | 'lotes';
   /**
@@ -37,29 +55,54 @@ interface Props {
 const {
   title,
   description,
+  locale,
+  page,
   nav,
   accentHue,
   ogImage = '/og/site.png',
-  ogImageAlt = 'Barbechero — Mezcal & Destilado de agave',
+  ogImageAlt,
   jsonLd,
 }: Props = Astro.props;
 
 // Only the count is needed; the list itself belongs to the landing page.
 const lotCount = (await getCollection('lots')).length;
 
-const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
+const origin = Astro.site ?? new URL(Astro.url.origin);
+const canonical = new URL(Astro.url.pathname, origin);
 /* Absolute, because og:image is one of the few tags that genuinely requires
    it — most scrapers will not resolve a relative path. */
-const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin);
+const ogImageUrl = new URL(ogImage, origin);
+
+/*
+ * hreflang. Derived from `page`, so every page advertises its counterpart —
+ * not just the home page — and x-default points at Spanish, which is what
+ * serves from `/` (astro.config.mjs `defaultLocale`).
+ */
+const alternates = alternatePaths(page);
+const hreflang = [
+  { lang: 'es', href: new URL(alternates.es, origin).href },
+  { lang: 'en', href: new URL(alternates.en, origin).href },
+  { lang: 'x-default', href: new URL(alternates.es, origin).href },
+];
+
+const other = otherLocale(locale);
+const homeHref = pagePath({ kind: 'home' }, locale);
+const lotsHref = `${homeHref}#lotes`;
+const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
 ---
 
-<html lang="es">
+<html lang={HTML_LANG[locale]}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical.href} />
+    {
+      hreflang.map((alternate) => (
+        <link rel="alternate" hreflang={alternate.lang} href={alternate.href} />
+      ))
+    }
 
     {/*
       Icons. The artwork is the logo mark on a paper tile, generated from the
@@ -75,7 +118,8 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin);
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Barbechero" />
-    <meta property="og:locale" content="es_MX" />
+    <meta property="og:locale" content={OG_LOCALE[locale]} />
+    <meta property="og:locale:alternate" content={OG_LOCALE[other]} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical.href} />
@@ -83,13 +127,13 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin);
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta property="og:image:alt" content={cardAlt} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl.href} />
-    <meta name="twitter:image:alt" content={ogImageAlt} />
+    <meta name="twitter:image:alt" content={cardAlt} />
 
     <meta name="generator" content={Astro.generator} />
 
@@ -120,28 +164,67 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin);
   </head>
 
   <body style={accentHue === undefined ? undefined : `--accent-hue:${accentHue}`}>
-    <a class="skip-link u-mono" href="#contenido">SALTAR AL CONTENIDO</a>
+    <a class="skip-link u-mono" href="#contenido">{t(ui.nav.skipToContent, locale)}</a>
 
     <header class="site-header">
       <div class="site-header__bar u-page">
-        <a class="site-header__brand" href="/" aria-label="Barbechero — inicio">
+        <a
+          class="site-header__brand"
+          href={homeHref}
+          aria-label={t(ui.nav.ariaBrand, locale)}
+        >
           <Logo variant="mark" class="site-header__mark" />
           <Logo variant="word" class="site-header__word" />
         </a>
 
-        <nav class="site-nav" aria-label="Principal">
+        <nav class="site-nav" aria-label={t(ui.nav.ariaMain, locale)}>
           <a
             class="site-nav__link"
-            href="/"
-            aria-current={nav === 'inicio' ? 'page' : undefined}>INICIO</a
+            href={homeHref}
+            aria-current={nav === 'inicio' ? 'page' : undefined}
+            >{t(ui.nav.home, locale)}</a
           >
           <span class="site-nav__divider" aria-hidden="true"></span>
           <a
             class="site-nav__link"
-            href="/#lotes"
+            href={lotsHref}
             aria-current={nav === 'lotes' ? 'page' : undefined}
-            >LOTES<span class="site-nav__count">{lotCount}</span></a
+            >{t(ui.nav.lots, locale)}<span class="site-nav__count">{lotCount}</span></a
           >
+          <span class="site-nav__divider" aria-hidden="true"></span>
+
+          {/*
+            The language toggle. Two plain <a href>, no script — the whole
+            site ships zero client JavaScript, and a language switcher is a
+            navigation, so a link is also the correct control.
+
+            Both hrefs come from `alternatePaths(page)`, i.e. from what this
+            page *is*, so /en/lot/gro-em-26/ points at /lote/gro-em-26/ and
+            back. `hreflang` and `lang` on each link tell a screen reader and
+            a crawler what is on the other end; `aria-current="true"` marks
+            the one you are already reading.
+          */}
+          <span class="site-lang" role="group" aria-label={t(ui.nav.ariaLanguage, locale)}>
+            <a
+              class="site-nav__link site-lang__link"
+              href={alternates.es}
+              hreflang="es"
+              lang="es"
+              aria-label={t(ui.nav.ariaLangEs, locale)}
+              aria-current={locale === 'es' ? 'true' : undefined}
+              >{t(ui.nav.langEs, locale)}</a
+            >
+            <span class="site-lang__slash" aria-hidden="true">/</span>
+            <a
+              class="site-nav__link site-lang__link"
+              href={alternates.en}
+              hreflang="en"
+              lang="en"
+              aria-label={t(ui.nav.ariaLangEn, locale)}
+              aria-current={locale === 'en' ? 'true' : undefined}
+              >{t(ui.nav.langEn, locale)}</a
+            >
+          </span>
         </nav>
       </div>
     </header>
@@ -152,13 +235,10 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin);
       <div class="site-footer__bar u-page">
         <div class="site-footer__brand">
           <Logo variant="word" label="Barbechero" class="site-footer__word" />
-          <span class="site-footer__tagline"
-            >Barbecho: labrar la tierra y dejarla descansar.</span
-          >
+          <span class="site-footer__tagline">{t(ui.footer.tagline, locale)}</span>
         </div>
         <p class="site-footer__legal">
-          MEZCAL ARTESANAL — HECHO EN MÉXICO<br />EL ABUSO EN EL CONSUMO DE ESTE PRODUCTO
-          ES NOCIVO PARA LA SALUD
+          {t(ui.footer.origin, locale)}<br />{t(ui.footer.warning, locale)}
         </p>
       </div>
     </footer>
@@ -263,12 +343,17 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin);
     flex: none;
   }
 
-  /* Pad the control rather than enlarging the type (plan §6b item 6). */
+  /* Pad the control rather than enlarging the type (plan §6b item 6).
+     `min-width` as well as `min-height`: the tap floor is 44px in both
+     directions, and a short label ("HOME", "EN") is narrower than that at
+     any mono size the scale allows. */
   .site-nav__link {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
     min-height: var(--tap);
+    min-width: var(--tap);
     padding-inline: 2px;
     opacity: 0.62;
     white-space: nowrap;
@@ -308,6 +393,45 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin);
     height: 12px;
     background: var(--rule-strong);
     flex: none;
+  }
+
+  /* --- Language toggle --------------------------------------------------- */
+
+  .site-lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex: none;
+  }
+
+  /* Each face is its own control, so each needs the full 44px target, not
+     just the pair together (plan §6b item 6). */
+  .site-lang__link {
+    padding-inline: 0;
+  }
+
+  .site-lang__link[aria-current='true'] {
+    opacity: 1;
+  }
+
+  .site-lang__slash {
+    color: var(--rule-strong);
+  }
+
+  /* Two rows below 640px: brand, then nav. At 360px the bar has ~176px left
+     after the brand and INICIO / LOTES alone needs ~163px of it, so the
+     toggle cannot share that row without overflowing. --header-h is set to
+     match in tokens.css, so the sticky offsets stay correct. */
+  @media (max-width: 639px) {
+    .site-header__bar {
+      flex-wrap: wrap;
+      align-content: center;
+      row-gap: 4px;
+    }
+
+    .site-nav {
+      flex: 1 0 100%;
+    }
   }
 
   /* --- Footer ----------------------------------------------------------- */
