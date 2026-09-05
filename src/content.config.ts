@@ -201,6 +201,34 @@ const lots = defineCollection({
           botella: image().optional(),
         })
         .optional(),
+      /**
+       * Optional captioned photo strip for section 01 (El Agave) — a small
+       * process essay (jima, horno, tahona, still) that doesn't fit the
+       * single `images.agave` slot. Ordered as authored; each photo carries
+       * its own caption rather than reusing the section prose.
+       */
+      gallery: z
+        .array(
+          z.object({
+            image: image(),
+            caption: localized(),
+          }),
+        )
+        .optional(),
+      /**
+       * Optional short clip alongside the gallery — video is not run through
+       * astro:assets (no built-in transform/optimization for it), so `src`
+       * and `poster` are plain root-relative paths into `public/videos/`,
+       * pre-compressed (h264 + faststart) before landing there. Same section
+       * 01 slot as `gallery`.
+       */
+      video: z
+        .object({
+          src: z.string().min(1),
+          poster: z.string().min(1),
+          caption: localized(),
+        })
+        .optional(),
       /** Optional tasting-notes spec row, e.g. "Herbales, toque dulce". */
       notes: localized().optional(),
       /** Optional expanded distillation description for the El Maestro spec row. */

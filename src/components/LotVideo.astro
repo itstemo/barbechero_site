@@ -1,0 +1,47 @@
+---
+/**
+ * A single captioned clip alongside the LotGallery photo strip. Not run
+ * through astro:assets — `src`/`poster` are plain paths into
+ * public/videos/, pre-compressed before they land there (see the `video`
+ * field on the lots schema). Portrait source (iPhone, 9:16), so it's capped
+ * narrow rather than stretched full width.
+ */
+interface Props {
+  src: string;
+  poster: string;
+  caption: string;
+}
+
+const { src, poster, caption }: Props = Astro.props;
+---
+
+<figure class="lot-video">
+  <video controls playsinline preload="metadata" poster={poster}>
+    <source src={src} type="video/mp4" />
+  </video>
+  <figcaption>{caption}</figcaption>
+</figure>
+
+<style>
+  .lot-video {
+    margin: 0;
+    max-width: 320px;
+  }
+
+  .lot-video video {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 9 / 16;
+    background: var(--rule);
+  }
+
+  .lot-video figcaption {
+    margin-top: 10px;
+    font-family: var(--font-mono);
+    font-size: var(--mono-xs);
+    line-height: var(--lh-body);
+    letter-spacing: var(--track-sm, 0.02em);
+    color: var(--muted-strong);
+  }
+</style>

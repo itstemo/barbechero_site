@@ -19,6 +19,37 @@ heroTag:
 images:
   agave: ../../../assets/lots/oax-cy-26/agave-campo.jpg
   # No maestro or bottle photos exist for this lot — those keys are omitted.
+# Process essay from the 2026 harvest: field to still, in order. Captions are
+# drafted from what's visible in the photos — confirm before publishing.
+gallery:
+  - image: ../../../assets/lots/oax-cy-26/jima-corte.jpg
+    caption:
+      es: 'La jima: cortando el agave en el campo de Palo Grande.'
+      en: 'The jima: cutting the agave in the fields of Palo Grande.'
+  - image: ../../../assets/lots/oax-cy-26/jima-apilando.jpg
+    caption:
+      es: Apilando las piñas recién jimadas.
+      en: Stacking the freshly harvested piñas.
+  - image: ../../../assets/lots/oax-cy-26/horno-partiendo.jpg
+    caption:
+      es: Partiendo las piñas antes de meterlas al horno de tierra.
+      en: Splitting the piñas before they go into the earthen oven.
+  - image: ../../../assets/lots/oax-cy-26/tahona-fermentacion.jpg
+    caption:
+      es: Fermentación natural en tina de madera.
+      en: Natural fermentation in the wooden vat.
+  - image: ../../../assets/lots/oax-cy-26/alambique-fuego.jpg
+    caption:
+      es: Calentando el alambique de refrescadera.
+      en: Heating the alambique de refrescadera.
+# Compressed from the source iPhone clip with ffmpeg (h264 + faststart,
+# already ~1.4Mbps from WhatsApp compression — remuxed, not re-encoded).
+video:
+  src: /videos/oax-cy-26-jima.mp4
+  poster: /videos/oax-cy-26-jima-poster.jpg
+  caption:
+    es: 'La jima: cosechando el agave coyote en Palo Grande.'
+    en: 'La jima: harvesting the coyote agave in Palo Grande.'
 distillationDetail:
   es: Alambique de refrescadera
   en: Alambique de refrescadera
