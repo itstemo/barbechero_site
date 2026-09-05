@@ -245,6 +245,30 @@ const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
             site is built to catch). The footer has room to spare.
           */}
           <a class="site-footer__link u-mono" href={aboutHref}>{t(ui.footer.about, locale)}</a>
+          {/* The Instagram glyph is drawn (not an <img>): one stroke weight,
+              currentColor ink, no fill — it sits with the hairlines and mono
+              type instead of importing the platform's gradient brand. The
+              handle text keeps the row at the 44px tap floor. */}
+          <a
+            class="site-footer__link site-footer__social u-mono"
+            href="https://www.instagram.com/barbechero"
+            rel="me"
+            aria-label={t(ui.footer.instagramAria, locale)}
+          >
+            <svg
+              class="site-footer__social-icon"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              focusable="false"
+              fill="none"
+              stroke="currentColor"
+            >
+              <rect x="2.75" y="2.75" width="18.5" height="18.5" rx="5.25" />
+              <circle cx="12" cy="12" r="4.25" />
+              <circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none" />
+            </svg>
+            @barbechero
+          </a>
         </div>
         <p class="site-footer__legal">
           {t(ui.footer.origin, locale)}<br />{t(ui.footer.warning, locale)}
@@ -499,6 +523,20 @@ const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
   .site-footer__link:active,
   .site-footer__link:focus-visible {
     color: var(--accent);
+  }
+
+  /* The social row pairs the glyph with the handle; the stroke sits at
+     ~14px, a touch above the 12.5px mono ceiling, so the mark reads as a
+     mark rather than a letterform — and renders ≈1px, matching the
+     site's hairlines. */
+  .site-footer__social {
+    gap: 8px;
+  }
+
+  .site-footer__social-icon {
+    width: 14px;
+    height: 14px;
+    flex: none;
   }
 
   .site-footer__legal {

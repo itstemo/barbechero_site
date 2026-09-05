@@ -131,6 +131,9 @@ export const ui = {
       en: 'Barbecho: to till the earth and let it rest.',
     },
     about: { es: 'NOSOTROS', en: 'ABOUT' },
+    /* The visible text is the handle itself — the same in both locales, so
+       only the accessible name is translated. */
+    instagramAria: { es: 'Barbechero en Instagram', en: 'Barbechero on Instagram' },
     /* Translated for the English page because this is a website, not a
        bottle label — comprehension wins over the regulated Spanish wording.
        Flagged for the user: a label would have to keep the NOM text verbatim. */
