@@ -1,5 +1,4 @@
-# MICROLOTE 04 — OAX·MX·23 (harvest 2023; the directory slug oax-mx-26 stays
-# as the stable content id/URL). The Mexicano lot: same maestro (Sozimo Jarquín),
+# MICROLOTE 04 — OAX·MX·26. The Mexicano lot: same maestro (Sozimo Jarquín),
 # same palenque (La Chaga) and same plantation (Palo Grande) as the Coyote
 # lot (oax-cy-26) — only the agave differs: Agave rhodacantha instead of
 # Agave lyobaa. See docs/IMPLEMENTATION-PLAN.md §3b for the two-location
@@ -9,7 +8,7 @@ codeAgave: MX
 # Hue 180 (teal) — the largest gap in the existing accent set (40 espadín,
 # 115 coyote, 250 cupreata), so the landing rows stay distinguishable.
 accentHue: 180
-harvestYear: 2023
+harvestYear: 2026
 agave: mexicano
 origin: palo-grande
 palenque: la-chaga

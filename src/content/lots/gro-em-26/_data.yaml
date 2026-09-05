@@ -1,11 +1,12 @@
-# MICROLOTE 01 — GRO·EM·26. Transcribed from design/Barbechero Sitio.dc.html,
+# MICROLOTE 01 — GRO·EM·23 (harvest 2023; the directory slug gro-em-26 stays
+# as the stable content id/URL). Transcribed from design/Barbechero Sitio.dc.html,
 # the "ESPADÍN — MEXICANO" view. See docs/IMPLEMENTATION-PLAN.md §3b for the
 # two-location model (origin: Telixtac vs. palenque: Pachivia) and its
 # unconfirmed coordinates.
 number: 1
 codeAgave: EM
 accentHue: 40
-harvestYear: 2026
+harvestYear: 2023
 agave: espadin-mexicano
 origin: telixtac
 palenque: pachivia
