@@ -2,8 +2,14 @@
 /**
  * A captioned photo strip — a small process essay that doesn't fit the
  * single per-section `images.*` slot (see `gallery` on the lots schema).
- * Full width: spans both grid tracks of the section it's dropped into via
- * `.section__gallery` in LotPage.astro, regardless of column count.
+ * Full width wherever the section is two-up; below that it becomes an inset
+ * 260px strip so portrait photos do not dominate the reading flow.
+ *
+ * That switch is at 746px, not the design's 900px: `.section__grid` is
+ * `auto-fit minmax(330px, 1fr)` with `--gap-grid`, so it collapses to one
+ * column at 2*330 + 0.05W > W - 48, i.e. below 745.3px. Capping at 900px
+ * instead left a single 260px file of photos sitting in a 752px content box
+ * next to a still-two-column section.
  */
 import { Picture } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
@@ -30,8 +36,8 @@ const { items }: Props = Astro.props;
           alt={item.alt}
           formats={['avif', 'webp']}
           fallbackFormat="jpg"
-          widths={[320, 480, 640]}
-          sizes="(min-width: 700px) 320px, 45vw"
+          widths={[260, 320, 480, 640, 780]}
+          sizes="(min-width: 1280px) 250px, (min-width: 1240px) calc(298px - 3.75vw), (min-width: 998px) calc(21.25vw - 12px), (min-width: 746px) calc(30vw - 16px), 260px"
           loading="lazy"
           decoding="async"
         />
@@ -44,8 +50,17 @@ const { items }: Props = Astro.props;
 <style>
   .lot-gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
     gap: var(--gap-grid);
+  }
+
+  /* Once the section is a single column, inset the strip so a process
+     sequence does not become a full-width wall of portrait photos. See the
+     header comment for why this is 745px and not 900px. */
+  @media (max-width: 745px) {
+    .lot-gallery {
+      max-width: 260px;
+    }
   }
 
   .lot-gallery__item {
