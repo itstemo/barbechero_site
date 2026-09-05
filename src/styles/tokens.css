@@ -6,7 +6,10 @@
    Breakpoints (documented; CSS custom properties cannot be used in media
    queries, so these numbers are repeated literally in @media rules):
      640px   stack landing rows, drop right-aligned footer, mono step-down ends
-     900px   sections still two-up above this; sticky media disabled below
+     746px   the section grid collapses to one column below this; derived
+             from --col-min and --gap-grid (2*330 + 0.05W > W - 48), not a
+             declared number, so it moves if either token does
+     900px   lot media switches to the full-column 4/5 slot above this
      1240px  page max-width
    ========================================================================= */
 

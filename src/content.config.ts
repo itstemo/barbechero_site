@@ -189,7 +189,7 @@ const lots = defineCollection({
        * placeholder default — a missing key means "no media column for
        * this section," not "show a grey box." A page template can check
        * `Boolean(lot.data.images?.agave)` etc. to decide between the
-       * 2-column sticky-media grid and a full-width prose layout.
+       * 2-column media grid and a full-width prose layout.
        * `maestro` here names the *section* (03 — El Maestro), not
        * necessarily a portrait: today it may be a process shot (e.g. the
        * filipino hollow-trunk still) rather than a picture of the person.
