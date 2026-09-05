@@ -116,7 +116,49 @@ const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <meta name="theme-color" content="#f7f5ee" />
+    {/* Kept in sync with the resolved theme by the script below. The value
+        here is the light ground, which is what a client that ignores the
+        script (or runs with it disabled) will correctly show. */}
+    <meta name="theme-color" content="#f7f5ee" id="theme-color" />
+
+    {/*
+      The only client script on the site, and the reason it exists: a theme
+      chosen on the last visit has to be on <html> *before the first paint*,
+      or the reader gets a flash of the other theme on every navigation.
+      Nothing else can do that — not a stylesheet, not a deferred module.
+
+      So it is deliberately the smallest thing that works: read one key, set
+      one attribute, and stamp `data-theme-ready` so the toggle button can
+      reveal itself (a control that cannot work without JavaScript should not
+      be visible when there is none). `is:inline` keeps it in the document
+      rather than becoming a blocking request, which would defeat the point.
+
+      No stored choice means no attribute, which means `prefers-color-scheme`
+      decides — the OS setting is the default, not light.
+    */}
+    <script is:inline>
+      (function () {
+        var root = document.documentElement;
+        var chosen = null;
+        try {
+          chosen = localStorage.getItem('barbechero-theme');
+        } catch (error) {
+          /* Private mode, or storage disabled. Fall through to the OS. */
+        }
+        if (chosen === 'light' || chosen === 'dark') {
+          root.setAttribute('data-theme', chosen);
+        }
+        root.setAttribute('data-theme-ready', '');
+
+        var dark =
+          chosen === 'dark' ||
+          (chosen !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        /* Same two grounds as src/styles/tokens.css. */
+        document
+          .getElementById('theme-color')
+          .setAttribute('content', dark ? '#191511' : '#f7f5ee');
+      })();
+    </script>
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Barbechero" />
@@ -196,9 +238,11 @@ const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
           <span class="site-nav__divider" aria-hidden="true"></span>
 
           {/*
-            The language toggle. Two plain <a href>, no script — the whole
-            site ships zero client JavaScript, and a language switcher is a
-            navigation, so a link is also the correct control.
+            The language toggle. Two plain <a href>, no script — a language
+            switcher is a navigation, so a link is the correct control, and it
+            keeps working with JavaScript off. (The theme toggle below is the
+            one control on the site that cannot be built this way; see the
+            note in <head>.)
 
             Both hrefs come from `alternatePaths(page)`, i.e. from what this
             page *is*, so /en/lot/gro-em-26/ points at /lote/gro-em-26/ and
@@ -227,7 +271,57 @@ const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
               >{t(ui.nav.langEn, locale)}</a
             >
           </span>
+
         </nav>
+
+        <span class="site-nav__divider site-nav__divider--theme" aria-hidden="true"></span>
+
+        {/*
+          The theme toggle. A <button>, not a link: it changes how this page
+          looks, it does not go anywhere.
+
+          Which icon shows is decided in CSS, by the same three-state logic
+          as the palette in tokens.css — so the right one is painted on the
+          first frame, with no script involved. The button shows the mode it
+          will move you *to*: a moon on paper, a sun in the dark.
+
+          The label has to say the same thing, and CSS cannot write one, so
+          both strings ride along in data-* and the script picks. Until it
+          does, `aria-label` is the neutral "Theme".
+        */}
+        <button
+          type="button"
+          class="site-nav__link site-theme"
+          data-label-dark={t(ui.nav.themeToDark, locale)}
+          data-label-light={t(ui.nav.themeToLight, locale)}
+          aria-label={t(ui.nav.ariaTheme, locale)}
+        >
+          {/* Drawn to sit with the Instagram glyph in the footer: one
+              stroke weight, currentColor, no fill. */}
+          <svg
+            class="site-theme__icon site-theme__icon--sun"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            focusable="false"
+            fill="none"
+            stroke="currentColor"
+          >
+            <circle cx="12" cy="12" r="4.6" />
+            <path
+              d="M12 1.9v2.6M12 19.5v2.6M22.1 12h-2.6M4.5 12H1.9M19.14 4.86l-1.84 1.84M6.7 17.3l-1.84 1.84M19.14 19.14L17.3 17.3M6.7 6.7L4.86 4.86"
+            />
+          </svg>
+          <svg
+            class="site-theme__icon site-theme__icon--moon"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            focusable="false"
+            fill="none"
+            stroke="currentColor"
+          >
+            <path d="M20.5 14.6A9 9 0 1 1 9.4 3.5a7.2 7.2 0 0 0 11.1 11.1Z" />
+          </svg>
+        </button>
       </div>
     </header>
 
@@ -275,6 +369,59 @@ const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
         </p>
       </div>
     </footer>
+
+    {/*
+      The other half of the toggle. Down here rather than in <head> because
+      nothing it does needs to happen before paint — the palette and the icon
+      are already correct by then; this only handles the press.
+
+      `is:inline` for the same reason as the head script: a separate request
+      for twenty lines is worse than the twenty lines.
+    */}
+    <script is:inline>
+      (function () {
+        var root = document.documentElement;
+        var button = document.querySelector('.site-theme');
+        var meta = document.getElementById('theme-color');
+        var system = window.matchMedia('(prefers-color-scheme: dark)');
+        if (!button) return;
+
+        /* What is actually on screen: the chosen theme if there is one, and
+           the OS setting if there is not. Both the label and the meta tag
+           follow from this, never from the stored value alone. */
+        function resolved() {
+          var chosen = root.getAttribute('data-theme');
+          if (chosen === 'dark' || chosen === 'light') return chosen;
+          return system.matches ? 'dark' : 'light';
+        }
+
+        function sync() {
+          var dark = resolved() === 'dark';
+          button.setAttribute(
+            'aria-label',
+            dark ? button.dataset.labelLight : button.dataset.labelDark,
+          );
+          meta.setAttribute('content', dark ? '#191511' : '#f7f5ee');
+        }
+
+        button.addEventListener('click', function () {
+          var next = resolved() === 'dark' ? 'light' : 'dark';
+          root.setAttribute('data-theme', next);
+          try {
+            localStorage.setItem('barbechero-theme', next);
+          } catch (error) {
+            /* The choice still holds for this page; it just will not persist. */
+          }
+          sync();
+        });
+
+        /* Someone flipping their OS theme while the page is open, with no
+           choice stored here, should follow along. */
+        system.addEventListener('change', sync);
+
+        sync();
+      })();
+    </script>
   </body>
 </html>
 
@@ -285,7 +432,7 @@ const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
      per-lot inline `--accent-hue` above govern the whole page. Same L and C as
      tokens.css by construction; the hue stays the only per-lot number. */
   body {
-    --accent: oklch(0.52 0.11 var(--accent-hue));
+    --accent: oklch(var(--accent-l) var(--accent-c) var(--accent-hue));
   }
 </style>
 
@@ -364,7 +511,15 @@ const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
     flex: none;
   }
 
+  /* The bar's three groups. Explicit `order` because the toggle changes
+     rows at 640px — see the two-row rule at the bottom of this block — and
+     `order` is the only way to move it there without a second copy in the
+     markup. `margin-left: auto` (not the bar's `space-between`, which would
+     spread three children evenly) keeps the nav and the toggle together on
+     the right, with the brand alone on the left. */
   .site-nav {
+    order: 2;
+    margin-left: auto;
     display: flex;
     align-items: center;
     gap: clamp(14px, 3vw, 22px);
@@ -451,6 +606,71 @@ const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
     color: var(--rule-strong);
   }
 
+  /* --- Theme toggle ------------------------------------------------------ */
+
+  /* Hidden until the head script has run. Without JavaScript the palette
+     still follows the OS correctly — there is simply nothing to press, and
+     a dead control is worse than no control. */
+  .site-theme,
+  .site-nav__divider--theme {
+    display: none;
+  }
+
+  :root[data-theme-ready] .site-theme {
+    display: inline-flex;
+  }
+
+  :root[data-theme-ready] .site-nav__divider--theme {
+    display: block;
+  }
+
+  .site-nav__divider--theme {
+    order: 3;
+  }
+
+  /* Same 44px target as every other control in this bar (plan §6b item 6).
+     `padding-inline: 0` because the icon is already centred in it. */
+  .site-theme {
+    order: 4;
+    flex: none;
+    padding-inline: 0;
+  }
+
+  .site-theme__icon {
+    width: 15px;
+    height: 15px;
+    flex: none;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* The button offers the mode you are *not* in: a moon on paper, a sun in
+     the dark. The three states below mirror the palette in tokens.css
+     exactly — system default, chosen dark, chosen light — so the icon and
+     the ground can never disagree, including on the first painted frame. */
+  .site-theme__icon--sun {
+    display: none;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) .site-theme__icon--sun {
+      display: block;
+    }
+
+    :root:not([data-theme='light']) .site-theme__icon--moon {
+      display: none;
+    }
+  }
+
+  :root[data-theme='dark'] .site-theme__icon--sun {
+    display: block;
+  }
+
+  :root[data-theme='dark'] .site-theme__icon--moon {
+    display: none;
+  }
+
   /* Two rows below 640px: brand, then nav. At 360px the bar has ~176px left
      after the brand and INICIO / LOTES alone needs ~163px of it, so the
      toggle cannot share that row without overflowing. --header-h is set to
@@ -464,6 +684,25 @@ const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
 
     .site-nav {
       flex: 1 0 100%;
+      /* It owns the whole row now, so it neither needs pushing right nor
+         can it come before the toggle. */
+      order: 3;
+      margin-left: 0;
+    }
+
+    /* Up to the brand row. INICIO / LOTES / ES / EN already needs ~163px of
+       the ~176px this row has spare at 360px; a fourth control on it
+       overflows by ~40px, which is the exact failure the nav was reshaped to
+       avoid. The brand row has the space, and "top right" is where the
+       control belongs anyway. */
+    .site-theme {
+      order: 2;
+    }
+
+    /* The divider separated it from the language pair. On its own row above,
+       the edge of the bar does that job. */
+    :root[data-theme-ready] .site-nav__divider--theme {
+      display: none;
     }
   }
 

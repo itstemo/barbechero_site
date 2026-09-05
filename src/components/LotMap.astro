@@ -6,8 +6,14 @@
  * once by `design/map-src.html`) with one accent marker for this lot and a
  * dimmed context dot for every other lot, so a reader sees where this lot sits
  * among the rest. Positions are computed at build time by `src/lib/projection.ts`
- * from each place's `coords`; no percentage is hardcoded, and no JavaScript
- * reaches the browser.
+ * from each place's `coords`; no percentage is hardcoded, and nothing in this
+ * component runs in the browser.
+ *
+ * The base map is inlined rather than `<img src>`-ed, for the same reason
+ * <Logo> is: its strokes are `currentColor`, so the coastline is ink on paper
+ * in light mode and the same relationship inverted in dark mode. Served as a
+ * file it would keep whatever colour was baked into it and disappear against
+ * the dark ground.
  *
  * One marker, at the *palenque* — plan §3b "DECIDED": a lot's field and its
  * still can be different places (Telixtac and Pachivia are 8.6km apart), but
@@ -16,7 +22,7 @@
  * ORIGEN / PALENQUE spec rows instead.
  */
 import { getCollection, getEntries, getEntry, type CollectionEntry } from 'astro:content';
-import mapBase from '../assets/map-base.svg';
+import mapBase from '../assets/map-base.svg?raw';
 import {
   MAP_ASPECT_RATIO,
   formatPercent,
@@ -100,7 +106,8 @@ const altText =
   style={`--accent-hue:${lot.data.accentHue};--map-aspect-ratio:${MAP_ASPECT_RATIO}`}
 >
   <div class="lot-map__frame" role="img" aria-label={altText}>
-    <img class="lot-map__base" src={mapBase.src} alt="" width="660" height="280" />
+    {/* Decorative: the frame above carries the role and the label. */}
+    <div class="lot-map__base" aria-hidden="true" set:html={mapBase} />
     {
       siblings.map((sibling) => (
         <span
@@ -137,7 +144,7 @@ const altText =
        keeps the map correct whether or not the surrounding page has already
        set `--accent-hue` on `:root`. Same L and C as tokens.css by
        construction; the hue is still the only per-lot number. */
-    --accent: oklch(0.52 0.11 var(--accent-hue));
+    --accent: oklch(var(--accent-l) var(--accent-c) var(--accent-hue));
 
     margin: 0;
     max-width: 100%;
@@ -150,6 +157,14 @@ const altText =
   }
 
   .lot-map__base {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* `:global` because `set:html` content is injected verbatim and never
+     receives this component's scope class. */
+  .lot-map__base :global(svg) {
     display: block;
     width: 100%;
     height: 100%;

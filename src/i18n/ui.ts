@@ -55,6 +55,13 @@ export const ui = {
     langEn: { es: 'EN', en: 'EN' },
     ariaLangEs: { es: 'Español', en: 'Español' },
     ariaLangEn: { es: 'English', en: 'English' },
+    /* The theme toggle. One button, and its label names the state it will
+       move you *to* — that is what a reader who cannot see the icon needs to
+       know before pressing it. `ariaTheme` labels the button before the
+       script has resolved which way it points; the two below replace it. */
+    ariaTheme: { es: 'Tema', en: 'Theme' },
+    themeToDark: { es: 'Cambiar a modo oscuro', en: 'Switch to dark mode' },
+    themeToLight: { es: 'Cambiar a modo claro', en: 'Switch to light mode' },
   },
 
   /** The four section eyebrows on a lot page. */

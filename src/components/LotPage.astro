@@ -437,7 +437,7 @@ const description = t(
 
   .next-lot__link {
     /* Re-bind so the inline hue on this link resolves (see Layout.astro). */
-    --accent: oklch(0.52 0.11 var(--accent-hue));
+    --accent: oklch(var(--accent-l) var(--accent-c) var(--accent-hue));
 
     display: inline-flex;
     align-items: center;
