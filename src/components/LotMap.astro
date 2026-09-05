@@ -24,7 +24,7 @@ import {
   project,
   type MapPosition,
 } from '../lib/projection';
-import { isSameOriginAndPalenque, placeLabel } from '../lib/lot';
+import { placeLabel, lotLocality } from '../lib/lot';
 import type { Locale } from '../i18n/routes';
 import { t, ui } from '../i18n/ui';
 
@@ -45,24 +45,25 @@ const { lot, locale, alt, class: className }: Props = Astro.props;
 // Resolve eagerly and check: Astro reports a dangling reference through the
 // logger without failing the build, so a missing join would otherwise surface
 // as a render-time crash on `.data` (plan §3c).
-const palenque = await getEntry(lot.data.palenque);
+const [origin, palenque] = await Promise.all([
+  getEntry(lot.data.origin),
+  getEntry(lot.data.palenque),
+]);
+if (!origin) {
+  throw new Error(
+    `LotMap: lot "${lot.id}" references an origin ("${lot.data.origin.id}") that could not be resolved.`,
+  );
+}
 if (!palenque) {
   throw new Error(
     `LotMap: lot "${lot.id}" references a palenque ("${lot.data.palenque.id}") that could not be resolved.`,
   );
 }
 
-/*
- * Caption (plan §3b): when the agave grew somewhere other than where it was
- * distilled, naming one of the two localities would be misleading, so caption
- * with what both share — "SIERRA NORTE, GUERRERO", exactly what the design
- * shows. When they are one place, name that place specifically.
- */
-const sameSite = isSameOriginAndPalenque(lot);
-const region = palenque.data.region;
-const caption = (
-  !sameSite && region ? `${region}, ${palenque.data.state}` : placeLabel(palenque)
-).toUpperCase();
+// Same rule as the landing row, the lot hero and the OG card (plan §3b): the
+// pin sits at the palenque, but the caption names both places when they
+// differ — the origin plainly, the palenque with its full label.
+const caption = lotLocality(origin, palenque).toUpperCase();
 
 /*
  * Context dots for every *other* lot, derived from the collection — a fourth

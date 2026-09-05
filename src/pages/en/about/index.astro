@@ -1,0 +1,11 @@
+---
+/**
+ * English "about" page, at `/en/about/`. The segment is the English word
+ * `about`, not `nosotros` — same reasoning as the lot routes: a URL is read
+ * by people. Produced by `pagePath()` in src/i18n/routes.ts, which is also
+ * what the language toggle and the hreflang tags use.
+ */
+import AboutPage from '../../../components/AboutPage.astro';
+---
+
+<AboutPage locale="en" />

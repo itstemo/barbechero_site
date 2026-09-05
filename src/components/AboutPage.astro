@@ -1,0 +1,84 @@
+---
+/**
+ * The About page, in either language. Deliberately thin: unlike the lot page
+ * and the landing page, there is no per-lot data to assemble here — the
+ * whole point of this page is that its text is free-form MDX prose in
+ * src/content/about/{es,en}.mdx, so growing it is "add a paragraph to that
+ * file," never "add a field here."
+ */
+import { getEntry, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import { ogPath, type Locale } from '../i18n/routes';
+import { t, ui } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale }: Props = Astro.props;
+
+// Plan §3c: resolved eagerly and checked, same as every other page — a
+// missing locale file should fail the build loudly, not render a blank page.
+const entry = await getEntry('about', locale);
+if (!entry) {
+  throw new Error(
+    `About page: no content for locale "${locale}" (src/content/about/${locale}.mdx is missing).`,
+  );
+}
+const { Content } = await render(entry);
+---
+
+<Layout
+  title={t(ui.meta.aboutTitle, locale)}
+  description={t(ui.meta.aboutDescription, locale)}
+  locale={locale}
+  page={{ kind: 'about' }}
+  ogImage={ogPath({ kind: 'about' }, locale)}
+  ogImageAlt={t(ui.meta.aboutOgAlt, locale)}
+>
+  <main class="u-page" id="contenido">
+    <section class="about">
+      <h1 class="about__title">{entry.data.title}</h1>
+      <div class="about__prose">
+        <Content />
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .about {
+    max-width: 680px;
+    padding: var(--space-hero-top) 0 var(--space-section-end);
+  }
+
+  .about__title {
+    font-style: italic;
+    font-size: var(--serif-h2);
+    line-height: var(--lh-tight);
+    margin: 0 0 28px;
+    text-wrap: balance;
+  }
+
+  .about__prose {
+    font-size: var(--serif-body);
+    line-height: var(--lh-body);
+  }
+
+  /* The body is free-form MDX — style what a person is likely to write,
+     not a fixed set of elements this page happens to use today. */
+  .about__prose :global(p) {
+    margin: 0 0 22px;
+  }
+
+  .about__prose :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .about__prose :global(h2) {
+    font-style: italic;
+    font-size: var(--serif-h2);
+    line-height: var(--lh-tight);
+    margin: 40px 0 18px;
+  }
+</style>

@@ -1,0 +1,16 @@
+# La Chaga — where the Coyote lot is distilled (lots/oax-cy-26 `palenque`).
+# Same municipality as Palo Grande (`origin`) — Miahuatlán, Oaxaca — but a
+# distinct site. See docs/IMPLEMENTATION-PLAN.md §3b.
+#
+# TODO: unconfirmed — no verified coordinates exist yet for La Chaga itself.
+# Placed at Palo Grande's coordinates as a stand-in: both sites are in the
+# same municipality, and at the map's scale (all of southern Mexico in
+# 660x280px) a few kilometres is imperceptible — the same reasoning plan §3b
+# used to justify one marker for Espadín's Telixtac/Pachivia split. Replace
+# with La Chaga's real coordinates when they are known.
+name: La Chaga
+municipality: Miahuatlán
+state: Oaxaca
+stateAbbr: OAX
+coords: [-96.55, 16.30]
+labelPlacement: below

@@ -107,8 +107,14 @@ const maestros = defineCollection({
     z.object({
       /** e.g. "Don Roque", "Jairo", "Sozimo Jarquín". */
       name: z.string().min(1),
-      /** Title shown before the name in the nav/hero meta chip. */
-      honorific: z.string().min(1).default('MTRO.'),
+      /**
+       * Title shown before the name in the hero meta row and the landing
+       * row (e.g. "Maestro Mezcalero Don Roque"). Written in full — not the
+       * "MTRO." abbreviation the design used — and kept in Spanish in both
+       * locales: it is a term of art, same policy as "palenque" or "tronco
+       * hueco".
+       */
+      honorific: z.string().min(1).default('Maestro Mezcalero'),
       /**
        * Canonical distillation method, e.g. "Alambique de refrescadera".
        * Optional: not every maestro entry in the source design carries one
@@ -217,4 +223,23 @@ const lotProse = defineCollection({
   }),
 });
 
-export const collections = { agaves, places, maestros, lots, lotProse };
+/**
+ * The "About" page — one entry per locale (`es.mdx` / `en.mdx`, id becomes
+ * "es"/"en" directly, no subdirectory).
+ *
+ * Deliberately the loosest schema in this file: `title` is the only required
+ * field, and the page's actual text is the MDX body, rendered with
+ * `render()` from `astro:content`. That is the point — this is the one page
+ * on the site meant to grow in ad hoc prose (more paragraphs, a subheading)
+ * rather than fixed fields, so "add more text" should mean "write markdown
+ * in the file," never "add a field to this schema first."
+ */
+const about = defineCollection({
+  loader: glob({ pattern: '{es,en}.mdx', base: './src/content/about' }),
+  schema: z.object({
+    /** The page's own heading — not necessarily the nav label. */
+    title: z.string().min(1),
+  }),
+});
+
+export const collections = { agaves, places, maestros, lots, lotProse, about };

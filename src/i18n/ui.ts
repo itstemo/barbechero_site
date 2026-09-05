@@ -130,6 +130,7 @@ export const ui = {
       es: 'Barbecho: labrar la tierra y dejarla descansar.',
       en: 'Barbecho: to till the earth and let it rest.',
     },
+    about: { es: 'NOSOTROS', en: 'ABOUT' },
     /* Translated for the English page because this is a website, not a
        bottle label — comprehension wins over the regulated Spanish wording.
        Flagged for the user: a label would have to keep the NOM text verbatim. */
@@ -211,7 +212,17 @@ export const ui = {
       en: (microlot: string, code: string, name: string) =>
         `Barbechero — ${microlot} ${code}, ${name}`,
     },
+    /* The on-page heading comes from the about entry's own `title` field
+       (src/content/about/{es,en}.mdx) — these are only the <title>/meta
+       strings, which stay in the dictionary like every other page's. */
+    aboutTitle: { es: 'Nosotros · Barbechero', en: 'About · Barbechero' },
+    aboutDescription: {
+      es: 'Quiénes somos: la familia y el proyecto detrás de Barbechero.',
+      en: 'Who we are: the family and the project behind Barbechero.',
+    },
+    aboutOgAlt: { es: 'Barbechero — Nosotros', en: 'Barbechero — About' },
   },
+
 } as const satisfies Record<string, Record<string, Entry>>;
 
 /* --------------------------------------------------------------------------

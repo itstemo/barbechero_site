@@ -46,6 +46,8 @@ export function counterpartOf(path: string): string {
   if (en) return `/lote/${en[1]}/`;
   const es = path.match(/^\/lote\/(.+)\/$/);
   if (es) return `/en/lot/${es[1]}/`;
+  if (path === '/nosotros/') return '/en/about/';
+  if (path === '/en/about/') return '/nosotros/';
   throw new Error(`No counterpart rule for "${path}" — add one when a page shape is added.`);
 }
 

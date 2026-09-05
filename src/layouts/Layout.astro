@@ -19,6 +19,7 @@ import {
   type Locale,
   type PageRef,
 } from '../i18n/routes';
+
 import { t, ui } from '../i18n/ui';
 import '../styles/global.css';
 
@@ -88,6 +89,7 @@ const hreflang = [
 const other = otherLocale(locale);
 const homeHref = pagePath({ kind: 'home' }, locale);
 const lotsHref = `${homeHref}#lotes`;
+const aboutHref = pagePath({ kind: 'about' }, locale);
 const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
 ---
 
@@ -236,6 +238,13 @@ const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
         <div class="site-footer__brand">
           <Logo variant="word" label="Barbechero" class="site-footer__word" />
           <span class="site-footer__tagline">{t(ui.footer.tagline, locale)}</span>
+          {/*
+            Not in the header nav (plan §6b already tunes that row to the
+            edge of what fits at 360px with the language toggle in it — a
+            third item risks the exact horizontal-overflow class of bug this
+            site is built to catch). The footer has room to spare.
+          */}
+          <a class="site-footer__link u-mono" href={aboutHref}>{t(ui.footer.about, locale)}</a>
         </div>
         <p class="site-footer__legal">
           {t(ui.footer.origin, locale)}<br />{t(ui.footer.warning, locale)}
@@ -467,6 +476,29 @@ const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
     line-height: 1.5;
     color: var(--ink-soft);
     max-width: 340px;
+  }
+
+  .site-footer__link {
+    display: inline-flex;
+    align-items: center;
+    /* "ABOUT" alone is narrower than 44px — same fix as .site-nav__link
+       (min-width, not just min-height): a short label needs both. */
+    min-height: var(--tap);
+    min-width: var(--tap);
+    font-size: var(--mono-xs);
+    letter-spacing: var(--track-md);
+    color: var(--muted-strong);
+  }
+
+  @media (hover: hover) {
+    .site-footer__link:hover {
+      color: var(--accent);
+    }
+  }
+
+  .site-footer__link:active,
+  .site-footer__link:focus-visible {
+    color: var(--accent);
   }
 
   .site-footer__legal {

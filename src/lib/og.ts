@@ -233,11 +233,16 @@ async function lotSvg(card: LotCard): Promise<string> {
       maxWidth: RIGHT - PAD,
     }),
     Promise.resolve(hairline(PAD, RIGHT, 512)),
+    /* maxWidth is a safety net, not a normal constraint: a two-place
+       locality ("Palo Grande · La Chaga, Oaxaca") runs a little longer than
+       the single-place case this card was first drawn for, and the harvest
+       chip shares this baseline on the right. */
     textPath(card.locality, PAD, 560, {
       face: 'mono',
       size: 19,
       tracking: 0.12,
       opacity: MUTED_OPACITY,
+      maxWidth: 760,
     }),
     textPath(card.harvest, RIGHT, 560, {
       face: 'mono',
