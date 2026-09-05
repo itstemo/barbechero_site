@@ -17,7 +17,9 @@ import { getEntry, type CollectionEntry } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import Dot from './Dot.astro';
 import LotMap from './LotMap.astro';
+import LotGallery from './LotGallery.astro';
 import LotMedia from './LotMedia.astro';
+import LotVideo from './LotVideo.astro';
 import SectionHeading from './SectionHeading.astro';
 import SpecList from './SpecList.astro';
 import SpecRow from './SpecRow.astro';
@@ -191,6 +193,29 @@ const description = t(
           )}
         </SpecList>
       </div>
+      {
+        data.gallery && (
+          <div class="section__gallery">
+            <LotGallery
+              items={data.gallery.map((item) => {
+                const caption = t(item.caption, locale);
+                return { image: item.image, alt: caption, caption };
+              })}
+            />
+          </div>
+        )
+      }
+      {
+        data.video && (
+          <div class="section__video">
+            <LotVideo
+              src={data.video.src}
+              poster={data.video.poster}
+              caption={t(data.video.caption, locale)}
+            />
+          </div>
+        )
+      }
     </section>
 
     {/* --- 02 EL LUGAR --------------------------------------------------- */}
@@ -374,6 +399,14 @@ const description = t(
   .section__body {
     max-width: var(--measure);
     min-width: 0;
+  }
+
+  /* Always its own full-width row, whatever column count the section
+     currently has (auto-fit collapses tracks with no items — plan §5b). */
+  .section__gallery,
+  .section__video {
+    grid-column: 1 / -1;
+    margin-top: var(--space-lg);
   }
 
   /* A section with no photo runs full width; the prose still needs a measure,
