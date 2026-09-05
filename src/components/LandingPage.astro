@@ -237,7 +237,7 @@ const jsonLd = {
   .lot-row {
     /* --accent is substituted where it is declared (on <body>), so the inline
        per-row --accent-hue only takes effect if --accent is redeclared here. */
-    --accent: oklch(0.52 0.11 var(--accent-hue));
+    --accent: oklch(var(--accent-l) var(--accent-c) var(--accent-hue));
 
     display: grid;
     /* min() around the track floor, or the row overflows a 360px viewport
