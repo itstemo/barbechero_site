@@ -169,13 +169,11 @@ const description = t(
         {
           data.images?.agave && (
             <div class="section__media">
-              <div class="section__media-pin">
-                <LotMedia
-                  src={data.images.agave}
-                  alt={t(ui.media.agave, locale, code)}
-                  loading="eager"
-                />
-              </div>
+              <LotMedia
+                src={data.images.agave}
+                alt={t(ui.media.agave, locale, code)}
+                loading="eager"
+              />
             </div>
           )
         }
@@ -221,9 +219,7 @@ const description = t(
     <section class="section">
       <div class="section__grid">
         <div class="section__media">
-          <div class="section__media-pin">
-            <LotMap lot={lot} locale={locale} />
-          </div>
+          <LotMap lot={lot} locale={locale} />
         </div>
         <div class="section__body">
           <SectionHeading index="02" label={t(ui.section.place, locale)} />
@@ -239,12 +235,10 @@ const description = t(
         {
           data.images?.maestro && (
             <div class="section__media">
-              <div class="section__media-pin">
-                <LotMedia
-                  src={data.images.maestro}
-                  alt={t(ui.media.maestro, locale, code)}
-                />
-              </div>
+              <LotMedia
+                src={data.images.maestro}
+                alt={t(ui.media.maestro, locale, code)}
+              />
             </div>
           )
         }
@@ -269,12 +263,10 @@ const description = t(
         {
           data.images?.botella && (
             <div class="section__media">
-              <div class="section__media-pin">
-                <LotMedia
-                  src={data.images.botella}
-                  alt={t(ui.media.botella, locale, code)}
-                />
-              </div>
+              <LotMedia
+                src={data.images.botella}
+                alt={t(ui.media.botella, locale, code)}
+              />
             </div>
           )
         }
@@ -376,11 +368,9 @@ const description = t(
 
   /* The grid owns only the media/body pair. The gallery and video stay out-
       side of it (siblings below): a full-span item inside an auto-fit grid
-      defeats track collapse, which used to leave a dead third column here —
-      and a sticky item taller-travelling than its row can escape across
-      rows in Chromium, which is how the media ended up on top of the
-      gallery's first photo. With the pair alone in the grid, auto-fit col-
-      lapses to exactly two columns again. */
+      defeats track collapse, which used to leave a dead third column here.
+      With the pair alone in the grid, auto-fit collapses to exactly two
+      columns again. */
   .section__grid {
     display: grid;
     /* min() around the floor, or every one of these tracks forces 330px into
@@ -403,25 +393,9 @@ const description = t(
     padding-bottom: var(--space-section-end);
   }
 
-  /* Stretch so the pin's sticky range is the row itself: the pin is then
-     hard-clamped by the media block's box and can never reach what follows
-     the grid — the gallery, the video, or the next section. */
   .section__media {
-    align-self: stretch;
+    align-self: start;
     min-width: 0;
-  }
-
-  .section__media-pin {
-    position: sticky;
-    top: var(--sticky-top);
-  }
-
-  /* Once the grid is one column each media block is its own row and sticky
-     has no travel — dead positioning (plan §6b item 5). */
-  @media (max-width: 899px) {
-    .section__media-pin {
-      position: static;
-    }
   }
 
   .section__body {

@@ -39,6 +39,7 @@ const { src, alt, loading = 'lazy', class: className }: Props = Astro.props;
     widths={[260, 520, 588, 780, 1176]}
     sizes="(min-width: 1240px) 588px, (min-width: 900px) 47vw, 260px"
     loading={loading}
+    fetchpriority={loading === 'eager' ? 'high' : undefined}
     decoding="async"
   />
 </figure>
