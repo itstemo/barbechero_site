@@ -27,6 +27,7 @@ import {
   getLotProse,
   isSameOriginAndPalenque,
   lotCode,
+  lotLocality,
   placeLabel,
 } from '../lib/lot';
 
@@ -91,14 +92,8 @@ const code = lotCode(palenque.data.stateAbbr, data.codeAgave, data.harvestYear);
 const sameSite = isSameOriginAndPalenque(lot);
 const microlot = t(ui.lot.microlot, locale, data.number);
 
-/*
- * Same caption rule as LotMap (plan §3b): when the field and the still are
- * different places, name what they share; otherwise name the locality.
- */
-const region = palenque.data.region;
-const heroLocality = (
-  !sameSite && region ? `${region}, ${palenque.data.state}` : placeLabel(palenque)
-).toUpperCase();
+// Same rule as the landing row, the map and the OG card (plan §3b).
+const heroLocality = lotLocality(origin, palenque).toUpperCase();
 
 /*
  * The design shows "ESPECIES" (plural) for the hybrid lot and "ESPECIE" for

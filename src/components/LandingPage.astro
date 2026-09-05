@@ -20,12 +20,7 @@ import Logo from './Logo.astro';
 import Dot from './Dot.astro';
 import { pagePath, ogPath, type Locale } from '../i18n/routes';
 import { t, ui } from '../i18n/ui';
-import {
-  getOrderedLots,
-  isSameOriginAndPalenque,
-  lotCode,
-  placeLabel,
-} from '../lib/lot';
+import { getOrderedLots, lotCode, lotLocality } from '../lib/lot';
 
 interface Props {
   locale: Locale;
@@ -42,28 +37,22 @@ const lots = await getOrderedLots();
  */
 const rows = await Promise.all(
   lots.map(async (lot) => {
-    const [agave, palenque, maestro] = await Promise.all([
+    const [agave, origin, palenque, maestro] = await Promise.all([
       getEntry(lot.data.agave),
+      getEntry(lot.data.origin),
       getEntry(lot.data.palenque),
       getEntry(lot.data.maestro),
     ]);
     if (!agave) throw new Error(`Lot "${lot.id}": agave "${lot.data.agave.id}" did not resolve.`);
+    if (!origin) throw new Error(`Lot "${lot.id}": origin "${lot.data.origin.id}" did not resolve.`);
     if (!palenque)
       throw new Error(`Lot "${lot.id}": palenque "${lot.data.palenque.id}" did not resolve.`);
     if (!maestro)
       throw new Error(`Lot "${lot.id}": maestro "${lot.data.maestro.id}" did not resolve.`);
 
-    /*
-     * Same caption rule as the map (plan §3b): when the agave grew somewhere
-     * other than where it was distilled, naming one of the two would mislead,
-     * so name what they share — "SIERRA NORTE, GUERRERO". Otherwise name the
-     * specific locality.
-     */
-    const region = palenque.data.region;
-    const locality =
-      !isSameOriginAndPalenque(lot) && region
-        ? `${region}, ${palenque.data.state}`
-        : placeLabel(palenque);
+    // Same rule as the map, the lot hero and the OG card (plan §3b): name
+    // both places when they differ, the one place when they don't.
+    const locality = lotLocality(origin, palenque);
 
     return {
       href: pagePath({ kind: 'lot', slug: lot.id }, locale),

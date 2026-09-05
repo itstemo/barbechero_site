@@ -1,8 +1,11 @@
-# Coyote lot (oax-cy-26): cultivated and distilled at the same site, so
-# `origin` and `palenque` both point here — see docs/IMPLEMENTATION-PLAN.md §3b.
-# Coords and label placement transcribed from design/Barbechero Sitio.dc.html
-# (Coyote view, section "02 — EL LUGAR": left:57.5%;top:76.3%, label
-# translate(-50%,220%) = below).
+# Coyote lot (oax-cy-26): where the agave is cultivated (`origin`). The lot
+# is distilled at a separate site, La Chaga, in the same municipality — see
+# docs/IMPLEMENTATION-PLAN.md §3b. These coordinates and the label placement
+# are transcribed from design/Barbechero Sitio.dc.html (Coyote view, section
+# "02 — EL LUGAR": left:57.5%;top:76.3%, label translate(-50%,220%) = below) —
+# the design predates the origin/palenque split and drew one marker here;
+# now that the marker sits at La Chaga instead, this file keeps the coords
+# only as `origin` display data, unused by the map.
 name: Palo Grande
 municipality: Miahuatlán
 state: Oaxaca

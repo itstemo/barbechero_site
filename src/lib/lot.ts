@@ -40,12 +40,33 @@ export async function lotCodeForEntry(lot: CollectionEntry<'lots'>): Promise<str
 /**
  * Whether a lot's agave was grown and distilled at the same place. The page
  * layer branches on this for both the map (one marker vs. two) and the meta
- * row (one locality chip vs. "grown in X, distilled in Y"). Compares by
- * reference id, not by resolving both entries, so it's cheap to call from a
- * template that hasn't otherwise dereferenced either place.
+ * row (one locality chip vs. two names). Compares by reference id, not by
+ * resolving both entries, so it's cheap to call from a template that hasn't
+ * otherwise dereferenced either place.
  */
 export function isSameOriginAndPalenque(lot: CollectionEntry<'lots'>): boolean {
   return lot.data.origin.id === lot.data.palenque.id;
+}
+
+/**
+ * The one-line locality for a lot — the landing row, the lot hero meta row,
+ * the map caption, and the OG card all show exactly this string, computed
+ * once here rather than copy-pasted at four call sites (that duplication is
+ * exactly the kind that drifts: an earlier version of this codebase had the
+ * same ternary written out four times).
+ *
+ * When the agave grew where it was distilled, name that place. When the two
+ * differ — Espadín—Mexicano is grown in Telixtac and distilled in Pachivia;
+ * Coyote is grown in Palo Grande and distilled in La Chaga — naming only one
+ * of them would misrepresent the lot, so both are named: the origin plainly,
+ * the palenque with its full label (name, municipality, state).
+ */
+export function lotLocality(
+  origin: CollectionEntry<'places'>,
+  palenque: CollectionEntry<'places'>,
+): string {
+  if (origin.id === palenque.id) return placeLabel(palenque);
+  return `${origin.data.name} · ${placeLabel(palenque)}`;
 }
 
 /**

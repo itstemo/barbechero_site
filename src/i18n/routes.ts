@@ -33,7 +33,10 @@ export function otherLocale(locale: Locale): Locale {
  * these; adding a route shape adds a variant here and the compiler then
  * requires a path for it in both locales.
  */
-export type PageRef = { kind: 'home' } | { kind: 'lot'; slug: string };
+export type PageRef =
+  | { kind: 'home' }
+  | { kind: 'lot'; slug: string }
+  | { kind: 'about' };
 
 /** BCP 47 tags for `<html lang>`. */
 export const HTML_LANG: Record<Locale, string> = {
@@ -57,6 +60,8 @@ export function pagePath(ref: PageRef, locale: Locale): string {
          Deliberate — a URL is read by people, and a Spanish path under an
          English page reads as a mistake. */
       return locale === 'es' ? `/lote/${ref.slug}/` : `/en/lot/${ref.slug}/`;
+    case 'about':
+      return locale === 'es' ? '/nosotros/' : '/en/about/';
   }
 }
 
@@ -68,8 +73,24 @@ export function alternatePaths(ref: PageRef): Record<Locale, string> {
 /**
  * Where a page's Open Graph card lives. Cards carry words, so they are per
  * locale too: `/og/site.png` and `/og/en/site.png`.
+ *
+ * A `switch`, like `pagePath` above, rather than a `ref.kind === 'home' ? ...
+ * : ref.slug` ternary: a ternary silently returns `undefined` (`ref.slug` on
+ * a kind that has none) for a `PageRef` variant it doesn't know about,
+ * where a switch with no default fails to compile until every case is
+ * handled — the same "adding a page shape forces every route function to
+ * catch up" property `pagePath` already has.
  */
 export function ogPath(ref: PageRef, locale: Locale): string {
-  const slug = ref.kind === 'home' ? 'site' : ref.slug;
+  const slug = ((): string => {
+    switch (ref.kind) {
+      case 'home':
+        return 'site';
+      case 'lot':
+        return ref.slug;
+      case 'about':
+        return 'about';
+    }
+  })();
   return locale === 'es' ? `/og/${slug}.png` : `/og/en/${slug}.png`;
 }

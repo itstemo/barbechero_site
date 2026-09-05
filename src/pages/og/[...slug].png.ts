@@ -16,12 +16,7 @@ import { getEntry } from 'astro:content';
 import { renderCard, type CardSpec } from '../../lib/og';
 import { LOCALES, ogPath, type Locale, type PageRef } from '../../i18n/routes';
 import { t, ui } from '../../i18n/ui';
-import {
-  getOrderedLots,
-  isSameOriginAndPalenque,
-  lotCode,
-  placeLabel,
-} from '../../lib/lot';
+import { getOrderedLots, lotCode, lotLocality } from '../../lib/lot';
 
 /**
  * The route param, derived from the card's own URL so the endpoint and the
@@ -38,12 +33,16 @@ export const getStaticPaths = (async () => {
   const lotRoutes = await Promise.all(
     LOCALES.flatMap((locale) =>
       lots.map(async (lot) => {
-        const [agave, palenque] = await Promise.all([
+        const [agave, origin, palenque] = await Promise.all([
           getEntry(lot.data.agave),
+          getEntry(lot.data.origin),
           getEntry(lot.data.palenque),
         ]);
         if (!agave) {
           throw new Error(`OG card for "${lot.id}": agave "${lot.data.agave.id}" did not resolve.`);
+        }
+        if (!origin) {
+          throw new Error(`OG card for "${lot.id}": origin "${lot.data.origin.id}" did not resolve.`);
         }
         if (!palenque) {
           throw new Error(
@@ -51,12 +50,8 @@ export const getStaticPaths = (async () => {
           );
         }
 
-        /* Same caption rule as the page and the map (plan §3b). */
-        const region = palenque.data.region;
-        const locality =
-          !isSameOriginAndPalenque(lot) && region
-            ? `${region}, ${palenque.data.state}`
-            : placeLabel(palenque);
+        // Same rule as the page and the map (plan §3b).
+        const locality = lotLocality(origin, palenque);
 
         const card: CardSpec = {
           kind: 'lot',
@@ -86,7 +81,27 @@ export const getStaticPaths = (async () => {
     return { params: { slug: slugFor({ kind: 'home' }, locale) }, props: { card } };
   });
 
-  return [...siteRoutes, ...lotRoutes];
+  /* Reuses the 'site' card layout (logo, a centred serif line, the brand
+     tagline) rather than a dedicated card kind — the About page's card is
+     the same shape of thing, just with its own title in place of the
+     lede. `about`'s `title` field already resolves per locale. */
+  const aboutRoutes = await Promise.all(
+    LOCALES.map(async (locale) => {
+      const about = await getEntry('about', locale);
+      if (!about) {
+        throw new Error(`OG card for "about": no content for locale "${locale}".`);
+      }
+      const card: CardSpec = {
+        kind: 'site',
+        lede: about.data.title,
+        tagline: t(ui.footer.tagline, locale),
+        accentHue: first ? first.data.accentHue : 40,
+      };
+      return { params: { slug: slugFor({ kind: 'about' }, locale) }, props: { card } };
+    }),
+  );
+
+  return [...siteRoutes, ...lotRoutes, ...aboutRoutes];
 }) satisfies GetStaticPaths;
 
 export const GET: APIRoute = async ({ props }) => {
