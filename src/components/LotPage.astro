@@ -165,28 +165,32 @@ const description = t(
 
     {/* --- 01 EL AGAVE --------------------------------------------------- */}
     <section class="section section--first">
-      {
-        data.images?.agave && (
-          <div class="section__media">
-            <LotMedia
-              src={data.images.agave}
-              alt={t(ui.media.agave, locale, code)}
-              loading="eager"
-            />
-          </div>
-        )
-      }
-      <div class:list={['section__body', !data.images?.agave && 'is-solo']}>
-        <SectionHeading index="01" label={t(ui.section.agave, locale)} />
-        <h2 class="section__title">{prose.section01.heading}</h2>
-        <p class="section__prose">{prose.section01.body}</p>
-        <SpecList variant="inline">
-          <SpecRow label={speciesLabel} value={agave.scientificName} />
-          <SpecRow label={t(ui.spec.manejo, locale)} value={t(agave.manejoLabel, locale)} />
-          {data.notes && (
-            <SpecRow label={t(ui.spec.notes, locale)} value={t(data.notes, locale)} />
-          )}
-        </SpecList>
+      <div class="section__grid">
+        {
+          data.images?.agave && (
+            <div class="section__media">
+              <div class="section__media-pin">
+                <LotMedia
+                  src={data.images.agave}
+                  alt={t(ui.media.agave, locale, code)}
+                  loading="eager"
+                />
+              </div>
+            </div>
+          )
+        }
+        <div class:list={['section__body', !data.images?.agave && 'is-solo']}>
+          <SectionHeading index="01" label={t(ui.section.agave, locale)} />
+          <h2 class="section__title">{prose.section01.heading}</h2>
+          <p class="section__prose">{prose.section01.body}</p>
+          <SpecList variant="inline">
+            <SpecRow label={speciesLabel} value={agave.scientificName} />
+            <SpecRow label={t(ui.spec.manejo, locale)} value={t(agave.manejoLabel, locale)} />
+            {data.notes && (
+              <SpecRow label={t(ui.spec.notes, locale)} value={t(data.notes, locale)} />
+            )}
+          </SpecList>
+        </div>
       </div>
       {
         data.gallery && (
@@ -215,93 +219,105 @@ const description = t(
 
     {/* --- 02 EL LUGAR --------------------------------------------------- */}
     <section class="section">
-      <div class="section__media">
-        <LotMap lot={lot} locale={locale} />
-      </div>
-      <div class="section__body">
-        <SectionHeading index="02" label={t(ui.section.place, locale)} />
-        <h2 class="section__title">{prose.section02.heading}</h2>
-        <p class="section__prose">{prose.section02.body}</p>
+      <div class="section__grid">
+        <div class="section__media">
+          <div class="section__media-pin">
+            <LotMap lot={lot} locale={locale} />
+          </div>
+        </div>
+        <div class="section__body">
+          <SectionHeading index="02" label={t(ui.section.place, locale)} />
+          <h2 class="section__title">{prose.section02.heading}</h2>
+          <p class="section__prose">{prose.section02.body}</p>
+        </div>
       </div>
     </section>
 
     {/* --- 03 EL MAESTRO ------------------------------------------------- */}
     <section class="section">
-      {
-        data.images?.maestro && (
-          <div class="section__media">
-            <LotMedia
-              src={data.images.maestro}
-              alt={t(ui.media.maestro, locale, code)}
-            />
-          </div>
-        )
-      }
-      <div class:list={['section__body', !data.images?.maestro && 'is-solo']}>
-        <SectionHeading index="03" label={t(ui.section.maestro, locale)} />
-        <h2 class="section__title">{prose.section03.heading}</h2>
-        <p class="section__prose">{prose.section03.body}</p>
+      <div class="section__grid">
         {
-          distillation && (
-            <SpecList variant="inline">
-              <SpecRow label={t(ui.spec.distillation, locale)} value={distillation} />
-            </SpecList>
+          data.images?.maestro && (
+            <div class="section__media">
+              <div class="section__media-pin">
+                <LotMedia
+                  src={data.images.maestro}
+                  alt={t(ui.media.maestro, locale, code)}
+                />
+              </div>
+            </div>
           )
         }
+        <div class:list={['section__body', !data.images?.maestro && 'is-solo']}>
+          <SectionHeading index="03" label={t(ui.section.maestro, locale)} />
+          <h2 class="section__title">{prose.section03.heading}</h2>
+          <p class="section__prose">{prose.section03.body}</p>
+          {
+            distillation && (
+              <SpecList variant="inline">
+                <SpecRow label={t(ui.spec.distillation, locale)} value={distillation} />
+              </SpecList>
+            )
+          }
+        </div>
       </div>
     </section>
 
     {/* --- 04 LA FICHA --------------------------------------------------- */}
     <section class="section section--last">
-      {
-        data.images?.botella && (
-          <div class="section__media">
-            <LotMedia
-              src={data.images.botella}
-              alt={t(ui.media.botella, locale, code)}
-            />
-          </div>
-        )
-      }
-      <div class:list={['section__body', !data.images?.botella && 'is-solo']}>
-        <SectionHeading index="04" label={t(ui.section.ficha, locale)} />
-        <SpecList variant="ficha">
-          <SpecRow label={t(ui.spec.agave, locale)} value={agaveFicha} size="md" />
-          {/* The two-location story lives here now that the map draws one
-              marker (plan §3b): both rows whenever the sites differ. */}
-          <SpecRow label={t(ui.spec.origin, locale)} value={placeLabel(origin)} size="md" />
-          {!sameSite && (
-            <SpecRow
-              label={t(ui.spec.palenque, locale)}
-              value={placeLabel(palenque)}
-              size="md"
-            />
-          )}
-          <SpecRow label={t(ui.spec.maestro, locale)} value={maestro.name} size="md" />
-          {distillation && (
-            <SpecRow label={t(ui.spec.distillation, locale)} value={distillation} size="md" />
-          )}
-          <SpecRow
-            label={t(ui.spec.harvest, locale)}
-            value={String(data.harvestYear)}
-            size="md"
-          />
-          <SpecRow label={t(ui.spec.lot, locale)} value={code} size="md" tone="code" />
-        </SpecList>
-
+      <div class="section__grid">
         {
-          next && (
-            <p class="next-lot">
-              <a
-                class="next-lot__link"
-                href={next.href}
-                style={`--accent-hue:${next.accentHue}`}
-              >
-                {t(ui.lot.next, locale, next.name)}
-              </a>
-            </p>
+          data.images?.botella && (
+            <div class="section__media">
+              <div class="section__media-pin">
+                <LotMedia
+                  src={data.images.botella}
+                  alt={t(ui.media.botella, locale, code)}
+                />
+              </div>
+            </div>
           )
         }
+        <div class:list={['section__body', !data.images?.botella && 'is-solo']}>
+          <SectionHeading index="04" label={t(ui.section.ficha, locale)} />
+          <SpecList variant="ficha">
+            <SpecRow label={t(ui.spec.agave, locale)} value={agaveFicha} size="md" />
+            {/* The two-location story lives here now that the map draws one
+                marker (plan §3b): both rows whenever the sites differ. */}
+            <SpecRow label={t(ui.spec.origin, locale)} value={placeLabel(origin)} size="md" />
+            {!sameSite && (
+              <SpecRow
+                label={t(ui.spec.palenque, locale)}
+                value={placeLabel(palenque)}
+                size="md"
+              />
+            )}
+            <SpecRow label={t(ui.spec.maestro, locale)} value={maestro.name} size="md" />
+            {distillation && (
+              <SpecRow label={t(ui.spec.distillation, locale)} value={distillation} size="md" />
+            )}
+            <SpecRow
+              label={t(ui.spec.harvest, locale)}
+              value={String(data.harvestYear)}
+              size="md"
+            />
+            <SpecRow label={t(ui.spec.lot, locale)} value={code} size="md" tone="code" />
+          </SpecList>
+
+          {
+            next && (
+              <p class="next-lot">
+                <a
+                  class="next-lot__link"
+                  href={next.href}
+                  style={`--accent-hue:${next.accentHue}`}
+                >
+                  {t(ui.lot.next, locale, next.name)}
+                </a>
+              </p>
+            )
+          }
+        </div>
       </div>
     </section>
   </main>
@@ -354,6 +370,18 @@ const description = t(
   /* --- Sections --------------------------------------------------------- */
 
   .section {
+    padding-block: var(--space-section);
+    border-top: 1px solid var(--rule);
+  }
+
+  /* The grid owns only the media/body pair. The gallery and video stay out-
+      side of it (siblings below): a full-span item inside an auto-fit grid
+      defeats track collapse, which used to leave a dead third column here —
+      and a sticky item taller-travelling than its row can escape across
+      rows in Chromium, which is how the media ended up on top of the
+      gallery's first photo. With the pair alone in the grid, auto-fit col-
+      lapses to exactly two columns again. */
+  .section__grid {
     display: grid;
     /* min() around the floor, or every one of these tracks forces 330px into
        a 327px content box and the whole page scrolls sideways
@@ -361,8 +389,6 @@ const description = t(
     grid-template-columns: repeat(auto-fit, minmax(min(var(--col-min), 100%), 1fr));
     gap: var(--gap-grid);
     align-items: start;
-    padding-block: var(--space-section);
-    border-top: 1px solid var(--rule);
   }
 
   /* auto-fit collapses the tracks it has no items for, so a section whose
@@ -377,16 +403,23 @@ const description = t(
     padding-bottom: var(--space-section-end);
   }
 
+  /* Stretch so the pin's sticky range is the row itself: the pin is then
+     hard-clamped by the media block's box and can never reach what follows
+     the grid — the gallery, the video, or the next section. */
   .section__media {
+    align-self: stretch;
+    min-width: 0;
+  }
+
+  .section__media-pin {
     position: sticky;
     top: var(--sticky-top);
-    min-width: 0;
   }
 
   /* Once the grid is one column each media block is its own row and sticky
      has no travel — dead positioning (plan §6b item 5). */
   @media (max-width: 899px) {
-    .section__media {
+    .section__media-pin {
       position: static;
     }
   }
@@ -396,12 +429,11 @@ const description = t(
     min-width: 0;
   }
 
-  /* Always its own full-width row, whatever column count the section
-     currently has (auto-fit collapses tracks with no items — plan §5b). */
+  /* Their own full-width rows below the grid; the gap that used to come
+     from the grid's row gap is replaced by this margin. */
   .section__gallery,
   .section__video {
-    grid-column: 1 / -1;
-    margin-top: var(--space-lg);
+    margin-top: var(--gap-grid);
   }
 
   /* A section with no photo runs full width; the prose still needs a measure,

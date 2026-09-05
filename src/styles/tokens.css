@@ -19,12 +19,13 @@
   --paper-rgb: 247 245 238;
   --ink-rgb: 33 29 23;
 
-  /* Every accent in the design is oklch(0.52 0.11 H): same L and C, hue only.
-     A page (or a lot) sets exactly one number: --accent-hue.
-       40  espadín — mexicano
-       250 cupreata
-       115 coyote
-     Never hardcode a per-lot colour. */
+   /* Every accent in the design is oklch(0.52 0.11 H): same L and C, hue only.
+      A page (or a lot) sets exactly one number: --accent-hue.
+        40   espadín — mexicano
+        250  cupreata
+        115  coyote
+        180  mexicano
+      Never hardcode a per-lot colour. */
   --accent-hue: 40;
   --accent: oklch(0.52 0.11 var(--accent-hue));
 
