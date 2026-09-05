@@ -1,0 +1,28 @@
+# MICROLOTE 04 — OAX·MX·26. The Mexicano lot: same maestro (Sozimo Jarquín),
+# same palenque (La Chaga) and same plantation (Palo Grande) as the Coyote
+# lot (oax-cy-26) — only the agave differs: Agave rhodacantha instead of
+# Agave lyobaa. See docs/IMPLEMENTATION-PLAN.md §3b for the two-location
+# model (origin: palo-grande vs. palenque: la-chaga).
+number: 4
+codeAgave: MX
+# Hue 180 (teal) — the largest gap in the existing accent set (40 espadín,
+# 115 coyote, 250 cupreata), so the landing rows stay distinguishable.
+accentHue: 180
+harvestYear: 2026
+agave: mexicano
+origin: palo-grande
+palenque: la-chaga
+maestro: sozimo-jarquin
+# Term of art — unchanged in English.
+heroTag:
+  es: ALAMBIQUE DE REFRESCADERA
+  en: ALAMBIQUE DE REFRESCADERA
+# No photos exist for this lot yet — `images` omitted entirely; the sections
+# render full-width prose until real photos land.
+distillationDetail:
+  es: Alambique de refrescadera
+  en: Alambique de refrescadera
+available: true
+order: 4
+# Closes the cycle: espadín → cupreata → coyote → mexicano → espadín.
+nextLot: gro-em-26
