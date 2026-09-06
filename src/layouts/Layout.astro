@@ -133,8 +133,9 @@ const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
       be visible when there is none). `is:inline` keeps it in the document
       rather than becoming a blocking request, which would defeat the point.
 
-      No stored choice means no attribute, which means `prefers-color-scheme`
-      decides — the OS setting is the default, not light.
+      No stored choice means no attribute, which means light — the OS setting
+      is never consulted (user decision, 2026-09-05: dark mode is opt-in
+      only, chosen with the toggle, never inferred).
     */}
     <script is:inline>
       (function () {
@@ -143,16 +144,14 @@ const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
         try {
           chosen = localStorage.getItem('barbechero-theme');
         } catch (error) {
-          /* Private mode, or storage disabled. Fall through to the OS. */
+          /* Private mode, or storage disabled. Fall through to light. */
         }
         if (chosen === 'light' || chosen === 'dark') {
           root.setAttribute('data-theme', chosen);
         }
         root.setAttribute('data-theme-ready', '');
 
-        var dark =
-          chosen === 'dark' ||
-          (chosen !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        var dark = chosen === 'dark';
         /* Same two grounds as src/styles/tokens.css. */
         document
           .getElementById('theme-color')
@@ -383,16 +382,14 @@ const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
         var root = document.documentElement;
         var button = document.querySelector('.site-theme');
         var meta = document.getElementById('theme-color');
-        var system = window.matchMedia('(prefers-color-scheme: dark)');
         if (!button) return;
 
         /* What is actually on screen: the chosen theme if there is one, and
-           the OS setting if there is not. Both the label and the meta tag
-           follow from this, never from the stored value alone. */
+           light if there is not. Both the label and the meta tag follow from
+           this — the OS setting is never consulted. */
         function resolved() {
           var chosen = root.getAttribute('data-theme');
-          if (chosen === 'dark' || chosen === 'light') return chosen;
-          return system.matches ? 'dark' : 'light';
+          return chosen === 'dark' ? 'dark' : 'light';
         }
 
         function sync() {
@@ -414,10 +411,6 @@ const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
           }
           sync();
         });
-
-        /* Someone flipping their OS theme while the page is open, with no
-           choice stored here, should follow along. */
-        system.addEventListener('change', sync);
 
         sync();
       })();
@@ -646,21 +639,11 @@ const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
   }
 
   /* The button offers the mode you are *not* in: a moon on paper, a sun in
-     the dark. The three states below mirror the palette in tokens.css
-     exactly — system default, chosen dark, chosen light — so the icon and
-     the ground can never disagree, including on the first painted frame. */
+     the dark. The two states below mirror the palette in tokens.css exactly
+     — default light, chosen dark — so the icon and the ground can never
+     disagree, including on the first painted frame. */
   .site-theme__icon--sun {
     display: none;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light']) .site-theme__icon--sun {
-      display: block;
-    }
-
-    :root:not([data-theme='light']) .site-theme__icon--moon {
-      display: none;
-    }
   }
 
   :root[data-theme='dark'] .site-theme__icon--sun {
