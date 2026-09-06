@@ -93,6 +93,24 @@ const marker = project(palenque.data.coords);
 const markerLeft = formatPercent(marker.x);
 const markerTop = formatPercent(marker.y);
 
+/*
+ * A `below` label is drawn 2.2 line-heights under the pin, so a marker low in
+ * the frame pushes its caption out of the map and into the credit line — which
+ * is exactly what happened to the two Oaxaca lots (La Chaga sits at 76.3% of
+ * the frame's height) on every phone-width viewport.
+ *
+ * A caption that has to wrap to two lines needs `y·H + 2.2L + 2L <= H`, i.e.
+ * `y <= 1 - 4.2L/H`, to stay inside the frame. The tightest case the site
+ * renders is a 360px viewport: the frame is 320px wide, so H = 320 * 280/660 =
+ * 136px, and L (--mono-2xs at --lh-flat) is 12px — giving 62%. Beyond that the
+ * caption is flipped above the pin at narrow widths (see the stylesheet); it
+ * grows upward into the map instead of downward out of it. Wide viewports keep
+ * the placement the design specified, because there the caption is one line and
+ * fits below.
+ */
+const LOW_MARKER_THRESHOLD = 62;
+const isLowMarker = marker.y > LOW_MARKER_THRESHOLD;
+
 const label = placeLabel(palenque);
 const altText =
   alt ??
@@ -126,7 +144,11 @@ const altText =
       aria-hidden="true"
       style={`left:${markerLeft};top:${markerTop}`}></span>
     <span
-      class:list={['lot-map__label', `is-${palenque.data.labelPlacement}`]}
+      class:list={[
+        'lot-map__label',
+        `is-${palenque.data.labelPlacement}`,
+        isLowMarker && 'is-low',
+      ]}
       aria-hidden="true"
       style={`--x:${markerLeft};top:${markerTop}`}
     >
@@ -222,16 +244,31 @@ const altText =
     line-height: var(--lh-flat);
     letter-spacing: var(--track-sm);
     color: var(--ink);
+    /* A caption placed above its pin crosses the coastline and, on the Oaxaca
+       lots, the Guerrero context dots. The same paper halo the pin carries
+       keeps it readable over them, in either mode. */
+    text-shadow:
+      0 0 4px var(--paper-halo),
+      0 0 4px var(--paper-halo);
   }
 
-  /* Matches the design's translate(-50%,-260%) / (-50%,220%); the horizontal
-     half of that is handled by the padding above. */
+  /* Matches the design's translate(-50%,-260%) / (-50%,220%) — but measured in
+     *line boxes* rather than in percentages of the label's own height, which is
+     what those percentages resolved against. For the one-line caption the
+     design was drawn with the two are identical (-260% = -100% - 1.6 lines,
+     220% = 2.2 lines); for a caption that wraps to two lines the percentage
+     version doubled the gap and threw the label clear of the map, so the
+     distance from the pin now stays put as the caption grows. */
+  .lot-map__label {
+    --label-line: calc(1em * var(--lh-flat));
+  }
+
   .lot-map__label.is-above {
-    transform: translateY(-260%);
+    transform: translateY(calc(-100% - 1.6 * var(--label-line)));
   }
 
   .lot-map__label.is-below {
-    transform: translateY(220%);
+    transform: translateY(calc(2.2 * var(--label-line)));
   }
 
   /* Below the two-column breakpoint the map is narrow enough that a long
@@ -240,6 +277,14 @@ const altText =
     .lot-map__label {
       white-space: normal;
       text-wrap: balance;
+    }
+
+    /* ...and narrow enough that a caption hung below a low marker would land on
+       top of the credit line. `.is-low` is set at build time (see above) for
+       exactly the markers where that happens; those flip above the pin, growing
+       into the map rather than out of it. */
+    .lot-map__label.is-below.is-low {
+      transform: translateY(calc(-100% - 1.6 * var(--label-line)));
     }
   }
 
