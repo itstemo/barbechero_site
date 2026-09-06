@@ -1,40 +1,43 @@
 // Small helpers that keep derived values out of content files.
 //
-// Lot codes (`GRO·EM·26`) are always computed from parts — the *distillation*
-// place's stateAbbr, a lot's codeAgave, and a lot's harvestYear — never
-// authored as a single string. This is the one place that assembles them, so
-// the separator/format only needs to change once.
+// Lot codes (`GRO·EM·1`) are always computed from parts — the *distillation*
+// place's stateAbbr, a lot's codeAgave, and its codeNumber — never authored
+// as a single string. This is the one place that assembles them, so the
+// separator/format only needs to change once.
 import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
 import type { Locale } from '../i18n/routes';
 
 const CODE_SEPARATOR = '·'; // "·" MIDDLE DOT
 
-/** Two-digit year, e.g. 2026 -> "26". */
-export function yy(year: number): string {
-  return String(year % 100).padStart(2, '0');
-}
-
 /**
- * Assemble the display lot code from its parts.
+ * Assemble the display lot code from its parts: the distillation state, the
+ * agave, and the lot's number *within that state* (`codeNumber`).
  *
- * @example lotCode('GRO', 'EM', 2026) // "GRO·EM·26"
+ * The final segment used to be the two-digit harvest year, which made the
+ * code restate a fact the COSECHA row already shows, and made the espadín
+ * lot render "GRO·EM·23" under the URL `/lote/gro-em-26/`. Numbering the lot
+ * per state instead gives each palenque its own run — GRO·EM·1, GRO·CP·2,
+ * OAX·CY·1, OAX·MX·2 — and leaves the vintage to the one row that states it.
+ *
+ * @example lotCode('GRO', 'EM', 1) // "GRO·EM·1"
  */
-export function lotCode(stateAbbr: string, codeAgave: string, harvestYear: number): string {
-  return [stateAbbr, codeAgave, yy(harvestYear)].join(CODE_SEPARATOR);
+export function lotCode(stateAbbr: string, codeAgave: string, codeNumber: number): string {
+  return [stateAbbr, codeAgave, String(codeNumber)].join(CODE_SEPARATOR);
 }
 
 /**
  * Convenience overload that resolves a lot code straight from a lot entry.
  * Sources the STATE segment from `palenque` (the distillation site) — that's
- * what "GRO·EM·26" denotes — not from `origin` (where the agave grew), which
- * can be a different place entirely.
+ * what "GRO·EM·1" denotes — not from `origin` (where the agave grew), which
+ * can be a different place entirely. `codeNumber` is scoped to that same
+ * state, so it is authored per lot rather than derived here.
  */
 export async function lotCodeForEntry(lot: CollectionEntry<'lots'>): Promise<string> {
   const palenque = await getEntry(lot.data.palenque);
   if (!palenque) {
     throw new Error(`Lot "${lot.id}" references a palenque (distillation place) that could not be resolved.`);
   }
-  return lotCode(palenque.data.stateAbbr, lot.data.codeAgave, lot.data.harvestYear);
+  return lotCode(palenque.data.stateAbbr, lot.data.codeAgave, lot.data.codeNumber);
 }
 
 /**

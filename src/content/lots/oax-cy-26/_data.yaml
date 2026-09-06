@@ -6,6 +6,8 @@
 # pass here wrongly pointed both refs at Palo Grande.)
 number: 3
 codeAgave: CY
+# Lot 1 of its state (Guerrero and Oaxaca are numbered separately).
+codeNumber: 1
 accentHue: 115
 harvestYear: 2026
 agave: coyote

@@ -56,7 +56,7 @@ export const getStaticPaths = (async () => {
         const card: CardSpec = {
           kind: 'lot',
           eyebrow: t(ui.lot.microlot, locale, lot.data.number),
-          code: lotCode(palenque.data.stateAbbr, lot.data.codeAgave, lot.data.harvestYear),
+          code: lotCode(palenque.data.stateAbbr, lot.data.codeAgave, lot.data.codeNumber),
           name: agave.data.commonName,
           locality: locality.toUpperCase(),
           harvest: t(ui.lot.harvestYear, locale, lot.data.harvestYear),

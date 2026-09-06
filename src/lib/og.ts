@@ -193,7 +193,7 @@ export interface LotCard {
   kind: 'lot';
   /** "MICROLOTE 01" */
   eyebrow: string;
-  /** "GRO·EM·26" */
+  /** "GRO·EM·1" */
   code: string;
   /** "Espadín — Mexicano" */
   name: string;
