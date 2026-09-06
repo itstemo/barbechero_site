@@ -210,5 +210,46 @@ for (const path of PAGE_PATHS) {
         ).toEqual([]);
       });
     }
+
+    for (const width of VIEWPORTS) {
+      /*
+       * The map's pin caption is absolutely positioned against the marker, so
+       * nothing in the layout stops it leaving the frame: a low marker plus a
+       * caption long enough to wrap put "PALO GRANDE · LA CHAGA, MIAHUATLÁN,
+       * OAXACA" straight through the Natural Earth credit line on both Oaxaca
+       * lots, at every width up to 768px. Vertical collisions are invisible to
+       * the overflow test above — it only ever looked sideways.
+       */
+      test(`the map caption stays inside its frame at ${width}px`, async ({ page }) => {
+        await page.setViewportSize({ width, height: VIEWPORT_HEIGHT });
+        await page.goto(path);
+
+        const escapes = await page.evaluate(() => {
+          const failures: { edge: string; by: number; text: string }[] = [];
+
+          for (const label of document.querySelectorAll<HTMLElement>('[class*="lot-map__label"]')) {
+            const frame = label.parentElement;
+            if (!frame) continue;
+            const l = label.getBoundingClientRect();
+            const f = frame.getBoundingClientRect();
+            const text = (label.textContent ?? '').trim();
+            const over = (edge: string, by: number) => {
+              if (by > 0.5) failures.push({ edge, by: Math.round(by * 10) / 10, text });
+            };
+            over('top', f.top - l.top);
+            over('bottom', l.bottom - f.bottom);
+            over('left', f.left - l.left);
+            over('right', l.right - f.right);
+          }
+          return failures;
+        });
+
+        expect(
+          escapes,
+          `Map captions rendered outside the map:\n` +
+            escapes.map((e) => `  ${e.by}px past the ${e.edge} — "${e.text}"`).join('\n'),
+        ).toEqual([]);
+      });
+    }
   });
 }
