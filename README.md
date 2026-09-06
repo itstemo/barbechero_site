@@ -20,7 +20,15 @@ npm run dev      # http://localhost:4321
 | `npm run dev` | dev server with live reload |
 | `npm run build` | production build to `dist/` |
 | `npm run preview` | serve the built output |
-| `npm run verify` | build + typecheck + the full Playwright suite |
+| `npm test` | run the Playwright suite against the built output |
+| `npm run verify` | build + typecheck + the Playwright invariants suite; this is what CI runs before deploy, not the dev loop |
+
+### Verifying a change
+
+The local loop is `npm run build`, then `npx astro check`, then a look at the
+affected pages in a browser at a few widths. The Playwright suite is the CI
+gate, not something to run after every edit - see `CLAUDE.md` for the full
+verification policy, including when it is worth running locally.
 
 ## Adding a lot
 

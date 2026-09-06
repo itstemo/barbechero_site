@@ -47,7 +47,10 @@ test('every page has a unique title and description', async ({ page }) => {
 
 for (const path of PAGE_PATHS) {
   test.describe(`${path}`, () => {
-    test('declares its language, a canonical URL and a viewport', async ({ page }) => {
+    test('head: lang, canonical, viewport, hreflang, Open Graph and Twitter card', async ({
+      page,
+      request,
+    }) => {
       await page.goto(path);
       await expect(page.locator('html')).toHaveAttribute('lang', localeOf(path));
       await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
@@ -58,10 +61,6 @@ for (const path of PAGE_PATHS) {
         'content',
         /width=device-width/,
       );
-    });
-
-    test('advertises both localizations, with x-default on Spanish', async ({ page }) => {
-      await page.goto(path);
 
       const spanish = localeOf(path) === 'es' ? path : counterpartOf(path);
       const english = localeOf(path) === 'en' ? path : counterpartOf(path);
@@ -81,10 +80,6 @@ for (const path of PAGE_PATHS) {
       await expect(
         page.locator('link[rel="alternate"][hreflang="x-default"]'),
       ).toHaveAttribute('href', `${SITE}${spanish}`);
-    });
-
-    test('carries a complete Open Graph and Twitter card', async ({ page, request }) => {
-      await page.goto(path);
 
       const title = await page.title();
       const description = await page
@@ -144,58 +139,61 @@ test('the sitemap lists every page at the production origin', async ({ request }
   expect(locations.sort()).toEqual(PAGE_PATHS.map((path) => `${SITE}${path}`).sort());
 });
 
-test('the landing page carries Organization structured data and no commerce claims', async ({
-  page,
-}) => {
-  await page.goto('/');
-  const raw = await page.locator('script[type="application/ld+json"]').textContent();
-  expect(raw, 'the landing page has JSON-LD').toBeTruthy();
-
-  const data = JSON.parse(raw!);
-  expect(data['@type']).toBe('Organization');
-  expect(data.name).toBe('Barbechero');
-  expect(data.url).toBe(`${SITE}/`);
-
-  /*
-   * This is an alcohol brand with no shop. Nothing in the structured data may
-   * suggest a purchase path — no Product, no Offer, no price, no availability.
-   */
-  const serialized = JSON.stringify(data);
-  for (const forbidden of ['Offer', 'price', 'availability', 'Product', 'sku']) {
-    expect(serialized, `structured data must not mention "${forbidden}"`).not.toContain(
-      forbidden,
-    );
-  }
-});
-
-test('lot pages ship no structured data implying a purchase', async ({ page }) => {
-  for (const path of PAGE_PATHS.filter((candidate) => candidate !== '/')) {
-    await page.goto(path);
-    const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
-    for (const block of blocks) {
-      expect(block, `${path}: no Offer in structured data`).not.toContain('Offer');
-      expect(block, `${path}: no Product in structured data`).not.toContain('Product');
-    }
-  }
-});
-
 /*
- * This used to assert zero <script> elements outright. The theme toggle broke
- * that: a theme chosen on the last visit has to be on <html> before the first
- * paint or every navigation flashes the wrong palette, and no stylesheet can
- * do that. So the budget moved from "no scripts" to "no script *requests*" —
- * what the assertion was really protecting. Both of the site's scripts are
- * inline; nothing is fetched, bundled or parsed as a module.
+ * One walk of the site for the three budgets that are about what every page
+ * ships rather than about a single page: no fetched JavaScript, no structured
+ * data implying a purchase, and — on the landing page — the Organization block
+ * itself.
+ *
+ * The script rule used to assert zero <script> elements outright. The theme
+ * toggle broke that: a theme chosen on the last visit has to be on <html>
+ * before the first paint or every navigation flashes the wrong palette, and no
+ * stylesheet can do that. So the budget moved from "no scripts" to "no script
+ * *requests*" — what the assertion was really protecting. Both of the site's
+ * scripts are inline; nothing is fetched, bundled or parsed as a module.
  */
-test('the shipped site fetches no JavaScript', async ({ page }) => {
+test('the site fetches no JavaScript and claims no commerce', async ({ page }) => {
   const external: string[] = [];
+
   for (const path of PAGE_PATHS) {
     await page.goto(path);
+
     external.push(
       ...(await page.$$eval('script[src]', (nodes) =>
         nodes.map((node) => node.getAttribute('src') ?? ''),
       )),
     );
+
+    const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
+    for (const block of blocks) {
+      expect(block, `${path}: no Offer in structured data`).not.toContain('Offer');
+      expect(block, `${path}: no Product in structured data`).not.toContain('Product');
+    }
+
+    if (path === '/') {
+      /* Exactly one block, as the strict locator this replaced required. */
+      expect(blocks, 'the landing page has a single JSON-LD block').toHaveLength(1);
+      const raw = blocks[0];
+      expect(raw, 'the landing page has JSON-LD').toBeTruthy();
+
+      const data = JSON.parse(raw!);
+      expect(data['@type']).toBe('Organization');
+      expect(data.name).toBe('Barbechero');
+      expect(data.url).toBe(`${SITE}/`);
+
+      /*
+       * This is an alcohol brand with no shop. Nothing in the structured data
+       * may suggest a purchase path — no Product, no Offer, no price, no
+       * availability.
+       */
+      const serialized = JSON.stringify(data);
+      for (const forbidden of ['Offer', 'price', 'availability', 'Product', 'sku']) {
+        expect(serialized, `structured data must not mention "${forbidden}"`).not.toContain(
+          forbidden,
+        );
+      }
+    }
   }
+
   expect(external, 'every script on the site is inline; none is fetched').toEqual([]);
 });

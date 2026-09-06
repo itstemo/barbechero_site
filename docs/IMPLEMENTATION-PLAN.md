@@ -341,6 +341,14 @@ Mobile correctness is asserted, not eyeballed: a Playwright pass at 360/375/390/
 any tap target under 44px, and on computed font sizes below the mobile floor.
 Lighthouse mobile budget: performance ≥ 95, accessibility 100.
 
+**2026-09-05 update.** The Playwright pass is the CI gate (deploy.yml), not
+the local edit loop. Locally a change is verified with build + `astro check`
++ a look at the affected pages in the browser, including the widths between
+the listed breakpoints; the three layout bugs that shipped were found that
+way and none was caught by the suite. The suite was collapsed to one page
+load per page per width (360/768/1280) on the same date. Policy lives in
+CLAUDE.md.
+
 ## 7. Routes
 
 ```

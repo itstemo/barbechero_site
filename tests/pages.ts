@@ -52,10 +52,15 @@ export function counterpartOf(path: string): string {
 }
 
 /**
- * Plan §6b: 360 (common Android), 375 (iPhone SE/mini), 390 (modern iPhone),
- * 768 (tablet) and 1280 (desktop).
+ * 360 (common Android), 768 (tablet) and 1280 (desktop).
+ *
+ * Plan §6b listed five. 375 (iPhone SE/mini) and 390 (modern iPhone) were
+ * dropped on 2026-09-05: 360 is the tighter bracket, so anything that fits
+ * there fits both, and the suite now runs one page load per page per width —
+ * two extra phone widths cost three full loads a page and caught nothing 360
+ * did not.
  */
-export const VIEWPORTS = [360, 375, 390, 768, 1280] as const;
+export const VIEWPORTS = [360, 768, 1280] as const;
 
 /** Widths at which the mobile type floor applies (plan §6b item 7). */
 export const MOBILE_WIDTHS = VIEWPORTS.filter((width) => width <= 390);
