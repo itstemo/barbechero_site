@@ -20,9 +20,12 @@ test('both languages are published, page for page', () => {
 
 for (const path of PAGE_PATHS) {
   test.describe(`${path}`, () => {
-    test('the language toggle links to this same page in the other language', async ({
-      page,
-    }) => {
+    /*
+     * One load: the toggle links and the foreign-text check both need the
+     * page as loaded, so they run first; the round trip navigates away and
+     * back afterwards.
+     */
+    test('language toggle: links, round trip, no cross-language text', async ({ page }) => {
       await page.goto(path);
 
       const group = page.locator('[role="group"]').filter({ hasText: /ES/ }).first();
@@ -43,23 +46,7 @@ for (const path of PAGE_PATHS) {
       const current = group.locator('a[aria-current="true"]');
       await expect(current).toHaveCount(1);
       await expect(current).toHaveAttribute('href', path);
-    });
 
-    test('the toggle round-trips to the counterpart page and back', async ({ page }) => {
-      const counterpart = counterpartOf(path);
-
-      await page.goto(path);
-      await page.locator(`[role="group"] a[href="${counterpart}"]`).click();
-      await expect(page).toHaveURL(new RegExp(`${counterpart.replace(/\//g, '\\/')}$`));
-      await expect(page.locator('html')).toHaveAttribute('lang', localeOf(counterpart));
-
-      await page.locator(`[role="group"] a[href="${path}"]`).click();
-      await expect(page).toHaveURL(new RegExp(`${path.replace(/\//g, '\\/')}$`));
-      await expect(page.locator('html')).toHaveAttribute('lang', localeOf(path));
-    });
-
-    test('carries no text from the other language', async ({ page }) => {
-      await page.goto(path);
       const text = (await page.locator('body').innerText()).toUpperCase();
 
       /* Spot-checks, not a translation audit: these are the strings that
@@ -73,6 +60,16 @@ for (const path of PAGE_PATHS) {
       for (const phrase of forbidden) {
         expect(text, `${path} should not contain "${phrase}"`).not.toContain(phrase);
       }
+
+      const counterpart = counterpartOf(path);
+
+      await page.locator(`[role="group"] a[href="${counterpart}"]`).click();
+      await expect(page).toHaveURL(new RegExp(`${counterpart.replace(/\//g, '\\/')}$`));
+      await expect(page.locator('html')).toHaveAttribute('lang', localeOf(counterpart));
+
+      await page.locator(`[role="group"] a[href="${path}"]`).click();
+      await expect(page).toHaveURL(new RegExp(`${path.replace(/\//g, '\\/')}$`));
+      await expect(page.locator('html')).toHaveAttribute('lang', localeOf(path));
     });
   });
 }

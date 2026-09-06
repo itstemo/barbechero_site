@@ -6,8 +6,8 @@ import { defineConfig, devices } from '@playwright/test';
  * `astro preview` over dist/ through this config.
  *
  * Viewports are not configured here — each test drives them itself
- * (360/375/390/768/1280, plan §6b), because most assertions have to be made at
- * every width rather than once per project.
+ * (360/768/1280, see tests/pages.ts), because most assertions have to be made
+ * at every width rather than once per project.
  */
 const PORT = 4321;
 
