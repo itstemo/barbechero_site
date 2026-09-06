@@ -61,7 +61,7 @@ const rows = await Promise.all(
       accentHue: lot.data.accentHue,
       locality: locality.toUpperCase(),
       maestro: `${maestro.data.honorific} ${maestro.data.name}`.toUpperCase(),
-      code: lotCode(palenque.data.stateAbbr, lot.data.codeAgave, lot.data.harvestYear),
+      code: lotCode(palenque.data.stateAbbr, lot.data.codeAgave, lot.data.codeNumber),
     };
   }),
 );

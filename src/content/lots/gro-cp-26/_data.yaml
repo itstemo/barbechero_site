@@ -4,6 +4,8 @@
 # docs/IMPLEMENTATION-PLAN.md §3b.
 number: 2
 codeAgave: CP
+# Lot 2 of its state (Guerrero and Oaxaca are numbered separately).
+codeNumber: 2
 accentHue: 250
 harvestYear: 2026
 agave: cupreata

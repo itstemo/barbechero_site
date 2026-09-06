@@ -5,6 +5,8 @@
 # model (origin: palo-grande vs. palenque: la-chaga).
 number: 4
 codeAgave: MX
+# Lot 2 of its state (Guerrero and Oaxaca are numbered separately).
+codeNumber: 2
 # Hue 180 (teal) — the largest gap in the existing accent set (40 espadín,
 # 115 coyote, 250 cupreata), so the landing rows stay distinguishable.
 accentHue: 180

@@ -90,7 +90,7 @@ if (data.nextLot) {
   };
 }
 
-const code = lotCode(palenque.data.stateAbbr, data.codeAgave, data.harvestYear);
+const code = lotCode(palenque.data.stateAbbr, data.codeAgave, data.codeNumber);
 const sameSite = isSameOriginAndPalenque(lot);
 const microlot = t(ui.lot.microlot, locale, data.number);
 

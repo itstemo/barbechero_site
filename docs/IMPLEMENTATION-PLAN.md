@@ -65,8 +65,16 @@ src/content/
 Adding a 2027 vintage from a known palenque and maestro is a new `_data.yaml`
 plus two prose files. Adding a new region adds one `palenques/*.yaml`.
 
-Lot codes follow `STATE·AGAVE·YY` (`GRO·EM·26`, `GRO·CP·26`, `OAX·CY·26`) —
-derive the display code from parts, don't hand-type it.
+Lot codes follow `STATE·AGAVE·N` (`GRO·EM·1`, `GRO·CP·2`, `OAX·CY·1`,
+`OAX·MX·2`) — derive the display code from parts, don't hand-type it.
+
+**REVISED (user, 2026-09-05):** the last segment was the two-digit harvest
+year. It restated what the COSECHA row already shows, and it made the espadín
+lot render `GRO·EM·23` under the URL `/lote/gro-em-26/`. It is now `codeNumber`
+— the lot's position *within its own state*, so Guerrero and Oaxaca each count
+from 1. Authored per lot rather than derived from `order`, because deriving it
+would renumber existing codes the day a lot is reordered, and a lot code is the
+kind of identifier that ends up printed on a label.
 
 ## 3b. Two locations per lot
 

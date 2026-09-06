@@ -149,12 +149,23 @@ const lots = defineCollection({
       /**
        * Lot-code AGAVE segment, e.g. "EM", "CP", "CY". Combined with the
        * *distillation* place's stateAbbr (`palenque`, not `origin` — see
-       * below) and harvestYear by `lotCode()` in src/lib/lot.ts to derive
-       * the display code — never store the assembled "GRO·EM·26".
+       * below) and `codeNumber` by `lotCode()` in src/lib/lot.ts to derive
+       * the display code — never store the assembled "GRO·EM·1".
        */
       codeAgave: z
         .string()
         .regex(/^[A-Z]{2,4}$/, 'codeAgave must be 2-4 uppercase letters (e.g. "EM")'),
+      /**
+       * Lot-code NUMBER segment: which lot this is *within its palenque's
+       * state*, so Guerrero and Oaxaca each run 1, 2, … independently. Kept
+       * separate from `number` (the site-wide "MICROLOTE 03" ordinal) on
+       * purpose: the two count different things and will diverge as soon as
+       * a third state appears. Authored rather than derived — deriving it
+       * would silently renumber every existing lot's code the day one is
+       * reordered or removed, and a lot code is the kind of identifier that
+       * ends up printed on a label.
+       */
+      codeNumber: z.number().int().positive(),
       /** Same lightness/chroma accent for every lot — only the hue varies. */
       accentHue: z.number().min(0).max(360),
       /** Full harvest year, e.g. 2026. YY for the lot code is derived from this. */
@@ -175,7 +186,7 @@ const lots = defineCollection({
       /**
        * Where the lot was distilled — the actual palenque. This is the
        * place `lotCode()` reads its STATE segment from, since that's what
-       * "GRO·EM·26" denotes (the code names the distillery's state, not
+       * "GRO·EM·1" denotes (the code names the distillery's state, not
        * necessarily the field's).
        */
       palenque: reference('places'),

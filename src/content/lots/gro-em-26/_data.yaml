@@ -5,6 +5,8 @@
 # unconfirmed coordinates.
 number: 1
 codeAgave: EM
+# Lot 1 of its state (Guerrero and Oaxaca are numbered separately).
+codeNumber: 1
 accentHue: 40
 harvestYear: 2023
 agave: espadin-mexicano
