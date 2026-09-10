@@ -9,6 +9,9 @@
      746px   the section grid collapses to one column below this; derived
              from --col-min and --gap-grid (2*330 + 0.05W > W - 48), not a
              declared number, so it moves if either token does
+     860px   header/nav goes from two rows (brand, then nav) to one; wider
+             than the other breakpoints because it has to fit three nav
+             links, the language toggle and the wordmark side by side
      900px   lot media switches to the full-column 4/5 slot above this
      1240px  page max-width
    ========================================================================= */
@@ -183,11 +186,18 @@
      Bilingual revision: the header now also carries the ES / EN toggle. At
      360px the bar has ~176px left for the nav after the brand, and
      INICIO / LOTES already needs ~163px of it, so a third group cannot share
-     that row. Below 640px the bar therefore wraps to two rows — brand, then
-     nav — and this token states the resulting height. Everything derived
-     from it (sticky offsets, the landing hero's `100svh -` subtrahend)
-     follows automatically, which is why the height is a token and not a
-     measurement. */
+     that row.
+
+     Nosotros revision: a third nav link joined INICIO / LOTES, pushing the
+     nav's own content wide enough that the wordmark (sized off viewport
+     width, not off the flex space actually left for it) started overlapping
+     it well past the old 640px cutoff — measured overlap up to ~750px,
+     clear again by 800px. The two-row layout therefore now holds through
+     860px, not 640px, and this token's breakpoint moved to match. Below it
+     the bar wraps to two rows — brand, then nav — and this token states the
+     resulting height. Everything derived from it (sticky offsets, the
+     landing hero's `100svh -` subtrahend) follows automatically, which is
+     why the height is a token and not a measurement. */
   --header-h: 100px;
   --sticky-top: calc(var(--header-h) + 40px);
 
@@ -202,6 +212,15 @@
 @media (min-width: 640px) {
   :root {
     --page-pad: 24px;
+  }
+}
+
+/* See the --header-h comment above: this is a separate, wider breakpoint
+   from --page-pad's because the header nav (now three links plus the
+   language toggle) needs more room than the rest of the page before a
+   single row fits without the wordmark overlapping it. */
+@media (min-width: 860px) {
+  :root {
     /* One row again: brand + nav + language toggle fit comfortably. */
     --header-h: 56px;
   }
