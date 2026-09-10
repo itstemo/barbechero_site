@@ -4,9 +4,10 @@
  *
  * Nav (plan §6 defect 2): the prototype hardcodes every lot as a top-level nav
  * item. That fits at three and wraps into a mess at eight. The nav here is
- * fixed-size — INICIO / LOTES (N) — and the lot list lives on the landing page,
- * so it costs the same width at 3 lots as at 30. The count is derived from the
- * collection, so a new lot changes the header without a template edit.
+ * fixed-size — INICIO / LOTES (N) / NOSOTROS — and the lot list lives on the
+ * landing page, so it costs the same width at 3 lots as at 30. The count is
+ * derived from the collection, so a new lot changes the header without a
+ * template edit.
  */
 import { getCollection } from 'astro:content';
 import Logo from '../components/Logo.astro';
@@ -35,7 +36,7 @@ interface Props {
    */
   page: PageRef;
   /** Which nav item is the current page. Lot pages are "lotes". */
-  nav?: 'inicio' | 'lotes';
+  nav?: 'inicio' | 'lotes' | 'nosotros';
   /**
    * Per-lot accent hue. Applied on <body>, so the header, footer and every
    * link on a lot page pick up that lot's colour. One number per lot — never
@@ -221,20 +222,35 @@ const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
         </a>
 
         <nav class="site-nav" aria-label={t(ui.nav.ariaMain, locale)}>
-          <a
-            class="site-nav__link"
-            href={homeHref}
-            aria-current={nav === 'inicio' ? 'page' : undefined}
-            >{t(ui.nav.home, locale)}</a
-          >
-          <span class="site-nav__divider" aria-hidden="true"></span>
-          <a
-            class="site-nav__link"
-            href={lotsHref}
-            aria-current={nav === 'lotes' ? 'page' : undefined}
-            >{t(ui.nav.lots, locale)}<span class="site-nav__count">{lotCount}</span></a
-          >
-          <span class="site-nav__divider" aria-hidden="true"></span>
+          {/*
+            Grouped so the three links wrap as a unit, separately from the
+            language toggle, on the narrowest screens (see the mobile rule
+            below) — three top-level items plus the toggle no longer fits one
+            row under ~380px now that "Nosotros" joined the nav.
+          */}
+          <div class="site-nav__primary">
+            <a
+              class="site-nav__link"
+              href={homeHref}
+              aria-current={nav === 'inicio' ? 'page' : undefined}
+              >{t(ui.nav.home, locale)}</a
+            >
+            <span class="site-nav__divider" aria-hidden="true"></span>
+            <a
+              class="site-nav__link"
+              href={lotsHref}
+              aria-current={nav === 'lotes' ? 'page' : undefined}
+              >{t(ui.nav.lots, locale)}<span class="site-nav__count">{lotCount}</span></a
+            >
+            <span class="site-nav__divider" aria-hidden="true"></span>
+            <a
+              class="site-nav__link"
+              href={aboutHref}
+              aria-current={nav === 'nosotros' ? 'page' : undefined}
+              >{t(ui.nav.about, locale)}</a
+            >
+          </div>
+          <span class="site-nav__divider site-nav__divider--lang" aria-hidden="true"></span>
 
           {/*
             The language toggle. Two plain <a href>, no script — a language
@@ -331,13 +347,6 @@ const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
         <div class="site-footer__brand">
           <Logo variant="word" label="Barbechero" class="site-footer__word" />
           <span class="site-footer__tagline">{t(ui.footer.tagline, locale)}</span>
-          {/*
-            Not in the header nav (plan §6b already tunes that row to the
-            edge of what fits at 360px with the language toggle in it — a
-            third item risks the exact horizontal-overflow class of bug this
-            site is built to catch). The footer has room to spare.
-          */}
-          <a class="site-footer__link u-mono" href={aboutHref}>{t(ui.footer.about, locale)}</a>
           {/* The Instagram glyph is drawn (not an <img>): one stroke weight,
               currentColor ink, no fill — it sits with the hairlines and mono
               type instead of importing the platform's gradient brand. The
@@ -505,7 +514,7 @@ const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
   }
 
   /* The bar's three groups. Explicit `order` because the toggle changes
-     rows at 640px — see the two-row rule at the bottom of this block — and
+     rows at 860px — see the two-row rule at the bottom of this block — and
      `order` is the only way to move it there without a second copy in the
      markup. `margin-left: auto` (not the bar's `space-between`, which would
      spread three children evenly) keeps the nav and the toggle together on
@@ -522,6 +531,16 @@ const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
     line-height: var(--lh-flat);
     letter-spacing: var(--track-md);
     flex: none;
+  }
+
+  /* The three top-level links move together (plan §6 defect 2 update: a
+     third item, "Nosotros", joined the fixed-size nav). Grouping them keeps
+     the mobile wrap rule below simple: the group wraps as a whole, never
+     splitting a link's label from its own divider. */
+  .site-nav__primary {
+    display: flex;
+    align-items: center;
+    gap: inherit;
   }
 
   /* Pad the control rather than enlarging the type (plan §6b item 6).
@@ -654,11 +673,14 @@ const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
     display: none;
   }
 
-  /* Two rows below 640px: brand, then nav. At 360px the bar has ~176px left
+  /* Two rows below 860px: brand, then nav. At 360px the bar has ~176px left
      after the brand and INICIO / LOTES alone needs ~163px of it, so the
-     toggle cannot share that row without overflowing. --header-h is set to
-     match in tokens.css, so the sticky offsets stay correct. */
-  @media (max-width: 639px) {
+     toggle cannot share that row without overflowing — and once NOSOTROS
+     joined the nav, the wordmark (sized off viewport width, not off the
+     flex space actually left for it) started overlapping the nav well past
+     the old 640px cutoff too, not clear again until ~800px. --header-h is
+     set to match in tokens.css, so the sticky offsets stay correct. */
+  @media (max-width: 859px) {
     .site-header__bar {
       flex-wrap: wrap;
       align-content: center;
@@ -671,6 +693,27 @@ const cardAlt = ogImageAlt ?? t(ui.meta.homeOgAlt, locale);
          can it come before the toggle. */
       order: 3;
       margin-left: 0;
+      /* Below ~380px, INICIO / LOTES / NOSOTROS plus the language toggle no
+         longer fit one line even at this size's tightened gap and type
+         scale. Wrapping lets the toggle drop to its own line instead of
+         overflowing — .site-nav__primary stays nowrap, so a link label is
+         never split from its own divider. Above that width there is room
+         to spare in this now full-width row, so in practice this only
+         wraps near the bottom of the range. */
+      flex-wrap: wrap;
+      row-gap: 6px;
+    }
+
+    /* Redundant once the toggle can fall to its own line below the primary
+       group; the row gap already separates them. */
+    .site-nav__divider--lang {
+      display: none;
+    }
+
+    /* Pins the toggle to the right edge of its own row once it wraps there;
+       harmless when it does not, since it already sits at the row's end. */
+    .site-lang {
+      margin-left: auto;
     }
 
     /* Up to the brand row. INICIO / LOTES / ES / EN already needs ~163px of

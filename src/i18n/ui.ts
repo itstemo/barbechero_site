@@ -46,6 +46,7 @@ export const ui = {
     skipToContent: { es: 'SALTAR AL CONTENIDO', en: 'SKIP TO CONTENT' },
     home: { es: 'INICIO', en: 'HOME' },
     lots: { es: 'LOTES', en: 'LOTS' },
+    about: { es: 'NOSOTROS', en: 'ABOUT' },
     ariaMain: { es: 'Principal', en: 'Main' },
     ariaBrand: { es: 'Barbechero — inicio', en: 'Barbechero — home' },
     ariaLanguage: { es: 'Idioma', en: 'Language' },
@@ -137,7 +138,6 @@ export const ui = {
       es: 'Barbecho: labrar la tierra y dejarla descansar.',
       en: 'Barbecho: to till the earth and let it rest.',
     },
-    about: { es: 'NOSOTROS', en: 'ABOUT' },
     /* The visible text is the handle itself — the same in both locales, so
        only the accessible name is translated. */
     instagramAria: { es: 'Barbechero en Instagram', en: 'Barbechero on Instagram' },
